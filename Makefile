@@ -6,11 +6,20 @@ SRCDIR = ./src/
 OBJDIR = ./obj/
 BINDIR = ./bin/
 
-SRCNAME = main.c
+SRCNAME = main.c \
+		usage.c \
+		setters.c \
+		functions.c \
+		col_grad_flag.c \
+		flags.c \
+		fractol.c \
+		mandelbrot.c \
+		deal_key.c \
+		mouse.c
 OBJNAME = $(SRCNAME:.c=.o)
 OBJ = $(addprefix $(OBJDIR),$(OBJNAME))
 
-LFTINIT = -I $(LIBFTDIR) -L $(LIBFTDIR) -lft
+LFTINIT = -I $(LFTDIR) -L $(LFTDIR) -lft
 MLXINIT = -I /usr/local/include -L /usr/local/lib -lmlx
 
 LINUX = -lXext -lX11 -lm
@@ -38,18 +47,10 @@ fclean: clean
 
 re: fclean all
 
-push: fclean
+git: fclean
 	git status
 	git add *
 	git status
 	git commit -m "fast commit"
-	git status
-	git push
-
-amend: fclean
-	git status
-	git add *
-	git status
-	git commit --amend
 	git status
 	git push
