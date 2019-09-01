@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 14:07:30 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/01 01:34:51 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/01 05:00:27 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int			error(char *err_msg)
 
 void		draw(t_frac *ftl)
 {
+	if (ftl->type == CNT_OF_TYPE)
+		ftl->type = MANDELBROT;
 	if (ftl->type == MANDELBROT)
 		mandelbrot(ftl);
 	mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr,

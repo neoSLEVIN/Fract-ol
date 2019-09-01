@@ -6,43 +6,47 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 17:33:38 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/01 01:05:49 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/01 04:51:39 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
+static void	init_mandelbrot(t_frac *ftl)
+{
+	double	num;
+
+	ftl->min = set_complex((-2.0 + ftl->cam.re) * ftl->zoom,
+							(-2.0 - ftl->cam.im) * ftl->zoom);
+	ftl->max = set_complex((2.0 + ftl->cam.re) * ftl->zoom,
+							(2.0 - ftl->cam.im) * ftl->zoom);
+	num = 4 * ftl->zoom / (ftl->size.x - 1);
+	ftl->step = set_complex(num, num);
+}
+
 void		mandelbrot(t_frac *ftl)
 {
-	t_complex	min;
-	t_complex	max;
-	t_complex	factor;
 	t_complex	c;
 	t_complex	z;
-	t_point		p;
-	double		t;
+	t_point		pos;
 	int			i;
 
-	min = set_complex(-2.0, -2.0);
-	max.re = 2.0;
-	max.im = min.im + (max.re - min.re) * ftl->size.x / ftl->size.y;
-	factor = set_complex((max.re - min.re) / (ftl->size.x - 1),
-						(max.im - min.im) / (ftl->size.y - 1));
-	p.y = -1;
-	while (++p.y < ftl->size.y)
+	init_mandelbrot(ftl);
+	pos.y = -1;
+	while (++pos.y < ftl->size.y)
 	{
-		c.im = max.im - p.y * factor.im;
-		p.x = -1;
-		while (++p.x < ftl->size.x)
+		c.im = ftl->max.im - pos.y * ftl->step.im;
+		pos.x = -1;
+		while (++pos.x < ftl->size.x)
 		{
-			c.re = min.re + p.x * factor.re;
+			c.re = ftl->min.re + pos.x * ftl->step.re;
 			z = set_complex(c.re, c.im);
 			i = -1;
 			while (pow(z.re, 2.0) + pow(z.im, 2.0) <= 4 && ++i < ftl->iter)
 				z = set_complex(pow(z.re, 2.0) - pow(z.im, 2.0) + c.re,
 								2.0 * z.re * z.im + c.im);
-			t = (double)i / (double)ftl->iter;
-			plot(ftl->img, get_grad_color(&ftl->grad, t), p);
+			plot(ftl->img, pos,
+				get_grad_color(&ftl->grad, 1.0 - (double)i / ftl->iter));
 		}
 	}
 }

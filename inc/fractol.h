@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 13:50:13 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/01 02:19:21 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/01 05:10:15 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # define WIN_SIZE 500
 # define MAX_ITER 100
+
+# define ZOOM 0.05
+# define SPEED 0.05
 
 # define ERR_EXIT 1
 # define COLOR 1
@@ -104,6 +107,10 @@ typedef struct		s_fractol
 	double			zoom;
 	int				iter;
 	t_flg			*flg;
+	t_complex		min;
+	t_complex		max;
+	t_complex		step;
+	t_complex		cam;
 }					t_frac;
 
 int					error(char *err_msg);
@@ -133,7 +140,7 @@ void				hex_to_rgb(char *hex, t_rgb *color);
 void				color(t_flg *flg, int ac, char **av, int i);
 void				gradient(t_flg *flg, int ac, char **av, int i);
 void				col_grad(t_flg *flg, int ac, char **av, int i);
-void				plot(t_img *img, t_rgb color, t_point coord);
+void				plot(t_img *img, t_point coord, t_rgb color);
 void				draw(t_frac *ftl);
 
 #endif

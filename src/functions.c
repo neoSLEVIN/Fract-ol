@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 19:34:46 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/01 00:41:09 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/01 02:41:24 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void		hex_to_rgb(char *hex, t_rgb *color)
 			set_rgb(atoi16(hex, 2), atoi16(&hex[2], 2), atoi16(&hex[4], 2));
 }
 
-void		plot(t_img *img, t_rgb color, t_point coord)
+void		plot(t_img *img, t_point coord, t_rgb color)
 {
 	int	*i;
 

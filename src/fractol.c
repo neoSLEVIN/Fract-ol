@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 17:30:24 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/01 01:34:36 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/01 05:06:17 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void		set_grad_colors(t_frac *ftl, t_flg *flg)
 {
 	int	i;
 
-	ftl->grad.col_cnt = flg->col_cnt;
+	ftl->grad.col_cnt = (flg->flag & (F_COL + F_GRD) ? flg->col_cnt : 3);
 	hex_to_rgb("f", &ftl->grad.col[0]);
 	hex_to_rgb("8", &ftl->grad.col[1]);
 	hex_to_rgb("0", &ftl->grad.col[2]);
@@ -92,4 +92,5 @@ void		init_fractol(t_frac *ftl, t_flg *flg)
 	ftl->iter = flg->iter;
 	ftl->zoom = 1;
 	ftl->flg = flg;
+	ftl->cam = set_complex(0, 0);
 }
