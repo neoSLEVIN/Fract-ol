@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 19:57:03 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/01 00:16:26 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/01 22:26:52 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,16 @@ void		gradient(t_flg *flg, int ac, char **av, int i)
 	if (flg->grad.range[1] < 1 || flg->grad.range[1] > 99 ||
 		(flg->grad.range[1] < 10 && len != 1) ||
 		(flg->grad.range[1] > 9 && len != 2))
-		err_usage("Range for gradient must be in [1...99]", av[0], flg->help);
+		err_usage("Range for gradient must be in [99...1]", av[0], flg->help);
 	flg->grad.range[1] = (double)flg->grad.range[1] / 100;
 }
 
-static void	valid_col_grad(t_flg *flg, char *arg, char *app_name, int type)
+static void	valid_col_grad(t_flg *flg, char *arg, char *app_name, int color)
 {
 	size_t	len;
 
 	len = ft_strlen(arg);
-	if (type == COLOR)
+	if (color)
 	{
 		if (len != 3 && len != 5 && len != 8)
 			err_usage("Incorrect use of the color argument of the -X flag",
@@ -81,7 +81,7 @@ static void	valid_col_grad(t_flg *flg, char *arg, char *app_name, int type)
 			err_usage("Incorrect use of the gradient argument of the -X flag",
 				app_name, flg->help);
 		if (arg[0] < '1' || arg[0] > '9' || (len == 2 && !ft_isdigit(arg[1])))
-			err_usage("Range for gradient argument must be in [1...99]",
+			err_usage("Range for gradient argument must be in [99...1]",
 				app_name, flg->help);
 	}
 }
@@ -93,19 +93,19 @@ static void	col_grad2(t_flg *flg, char **av, int i, int j)
 
 	col = -1;
 	grd = -1;
-	while (++j < flg->col_cnt * 2 - 2)
+	while (++j < flg->grad.col_cnt * 2 - 2)
 	{
-		if (!ft_strncmp(av[i + j], "0x", 2) && ++col < flg->col_cnt)
+		if (!ft_strncmp(av[i + j], "0x", 2) && ++col < flg->grad.col_cnt)
 		{
-			valid_col_grad(flg, av[i + j], av[0], COLOR);
+			valid_col_grad(flg, av[i + j], av[0], 1);
 			hex_to_rgb(&av[i + j][2], &flg->grad.col[col]);
 		}
-		else if (++grd < flg->col_cnt - 2)
+		else if (++grd < flg->grad.col_cnt - 2)
 		{
-			valid_col_grad(flg, av[i + j], av[0], INT);
+			valid_col_grad(flg, av[i + j], av[0], 0);
 			flg->grad.range[grd + 1] = (double)ft_atoi(av[i + j]) / 100;
-			if (grd != 0 && flg->grad.range[grd + 1] <= flg->grad.range[grd])
-				err_usage("Gradient arguments should be in ascending order",
+			if (grd != 0 && flg->grad.range[grd + 1] >= flg->grad.range[grd])
+				err_usage("Gradient arguments should be in descending order",
 					av[0], flg->help);
 		}
 		else
@@ -128,12 +128,13 @@ void		col_grad(t_flg *flg, int ac, char **av, int i)
 	if (len > 2 || av[i + 1][0] < '1' || av[i + 1][0] > '9' ||
 		(len == 2 && !ft_isdigit(av[i + 1][1])))
 		err_usage("Incorrect main argument for the -X flag", av[0], flg->help);
-	flg->col_cnt = ft_atoi(av[i + 1]);
-	if (flg->col_cnt < 2 || flg->col_cnt > 11)
+	flg->grad.col_cnt = ft_atoi(av[i + 1]);
+	if (flg->grad.col_cnt < 2 || flg->grad.col_cnt > 11)
 		err_usage("Range for main argument of -X flag must be in [2...11]",
 			av[0], flg->help);
-	flg->args += 2 * flg->col_cnt;
-	(i >= ac - (2 * flg->col_cnt)) ?
+	flg->args += 2 * flg->grad.col_cnt;
+	(i >= ac - (2 * flg->grad.col_cnt)) ?
 		err_usage("Incorrect use of the -X flag", av[0], flg->help) : 0;
 	col_grad2(flg, av, i + 2, -1);
+	flg->grad.range[flg->grad.col_cnt - 1] = 0;
 }

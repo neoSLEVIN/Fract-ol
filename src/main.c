@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 14:07:30 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/01 05:00:27 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/01 22:31:55 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int			error(char *err_msg)
 		ft_putstr("Error: ");
 		ft_putendl(err_msg);
 	}
-	exit(ERR_EXIT);
+	exit(1);
 }
 
 void		draw(t_frac *ftl)

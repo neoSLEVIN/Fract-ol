@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 22:58:33 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/01 04:21:58 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/01 13:05:03 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	mouse_click(int button, int x, int y, void *param)
 	++x;
 	++y;
 	if (button == 4)
-		ftl->zoom += ZOOM;
+		ftl->zoom *= ZOOM;
 	if (button == 5)
-		ftl->zoom -= ZOOM;
-	ftl->zoom < ZOOM ? ftl->zoom = ZOOM : 0;
+		ftl->zoom /= ZOOM;
+	ftl->zoom < 0.05 ? ftl->zoom = 0.05 : 0;
 	draw(ftl);
 	return (0);
 }

@@ -6,27 +6,23 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 13:50:13 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/01 05:10:15 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/01 23:01:31 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# define WIN_SIZE 500
-# define MAX_ITER 100
-
-# define ZOOM 0.05
+# define ZOOM 1.1
 # define SPEED 0.05
 
-# define ERR_EXIT 1
-# define COLOR 1
-# define INT 2
-
-# define F_COL 1
-# define F_GRD 2
-# define F_SIZ 4
-# define F_MIT 8
+# define F_COL (1 << 0)
+# define F_GRD (1 << 1)
+# define F_SIZ (1 << 2)
+# define F_MIT (1 << 3)
+# define F_ZOM (1 << 4)
+# define F_REC (1 << 5)
+# define F_IMC (1 << 6)
 
 # include <mlx.h>
 # include <math.h>
@@ -84,6 +80,12 @@ typedef struct		s_img
 	t_point			size;
 }					t_img;
 
+typedef struct		s_mem
+{
+	double			zoom;
+	t_complex		cam;
+}					t_mem;
+
 typedef struct		s_flag
 {
 	t_type			type;
@@ -91,8 +93,9 @@ typedef struct		s_flag
 	int				args;
 	int				size;
 	int				iter;
-	int				col_cnt;
+	double			zoom;
 	t_grad			grad;
+	t_complex		comp;
 	_Bool			help;
 }					t_flg;
 
@@ -111,6 +114,7 @@ typedef struct		s_fractol
 	t_complex		max;
 	t_complex		step;
 	t_complex		cam;
+	t_mem			mem;
 }					t_frac;
 
 int					error(char *err_msg);
@@ -137,10 +141,18 @@ int					red_x_button(void *param);
 int					deal_key(int key, void *param);
 int					mouse_click(int button, int x, int y, void *param);
 void				hex_to_rgb(char *hex, t_rgb *color);
+void				size(t_flg *flg, int ac, char **av, int i);
 void				color(t_flg *flg, int ac, char **av, int i);
+void				complex(t_flg *flg, int ac, char **av, int i);
 void				gradient(t_flg *flg, int ac, char **av, int i);
+void				max_iter(t_flg *flg, int ac, char **av, int i);
 void				col_grad(t_flg *flg, int ac, char **av, int i);
+void				zoom_exp(t_flg *flg, int ac, char **av, int i);
 void				plot(t_img *img, t_point coord, t_rgb color);
 void				draw(t_frac *ftl);
+
+
+
+void print_info(t_frac *ftl, t_flg *flg);
 
 #endif

@@ -6,11 +6,44 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 17:30:24 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/01 05:06:17 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/01 23:27:59 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+void print_info(t_frac *ftl, t_flg *flg)
+{
+	ft_putendl("FTL:");
+	ft_putnbr(ftl->grad.col_cnt);
+	ft_putendl("");
+	for (int i = 0; i < ftl->grad.col_cnt; ++i)
+	{
+		ft_putnbr(ftl->grad.col[i].r);
+		ft_putstr("\t");
+		ft_putnbr(ftl->grad.col[i].g);
+		ft_putstr("\t");
+		ft_putnbr(ftl->grad.col[i].b);
+		ft_putstr("\t");
+		ft_putnbr(ftl->grad.range[i] * 100);
+		ft_putendl("");
+	}
+	ft_putendl("FLG:");
+	ft_putnbr(flg->grad.col_cnt);
+	ft_putendl("");
+	for (int i = 0; i < flg->grad.col_cnt; ++i)
+	{
+		ft_putnbr(flg->grad.col[i].r);
+		ft_putstr("\t");
+		ft_putnbr(flg->grad.col[i].g);
+		ft_putstr("\t");
+		ft_putnbr(flg->grad.col[i].b);
+		ft_putstr("\t");
+		ft_putnbr(flg->grad.range[i] * 100);
+		ft_putendl("");
+	}
+	ft_putendl("");
+}
 
 t_rgb		get_grad_color(t_grad *grad, double t)
 {
@@ -18,25 +51,25 @@ t_rgb		get_grad_color(t_grad *grad, double t)
 	double	d_r;
 	int		part;
 
-	if (t <= 0)
+	if (t >= 1)
 		return (grad->col[0]);
-	else if (t >= 1)
+	else if (t <= 0)
 		return (grad->col[grad->col_cnt - 1]);
 	else
 	{
 		part = 0;
 		while (++part < grad->col_cnt - 1)
-			if (t >= grad->range[part - 1] && t < grad->range[part])
+			if (t < grad->range[part - 1] && t >= grad->range[part])
 				break ;
 	}
-	d_r = (t - grad->range[part - 1]) /
-		(grad->range[part] - grad->range[part - 1]);
-	color.r = grad->col[part - 1].r +
-		d_r * (grad->col[part].r - grad->col[part - 1].r);
-	color.g = grad->col[part - 1].g +
-		d_r * (grad->col[part].g - grad->col[part - 1].g);
-	color.b = grad->col[part - 1].b +
-		d_r * (grad->col[part].b - grad->col[part - 1].b);
+	d_r = (t - grad->range[part]) /
+		(grad->range[part - 1] - grad->range[part]);
+	color.r = grad->col[part].r +
+		d_r * (grad->col[part - 1].r - grad->col[part].r);
+	color.g = grad->col[part].g +
+		d_r * (grad->col[part - 1].g - grad->col[part].g);
+	color.b = grad->col[part].b +
+		d_r * (grad->col[part - 1].b - grad->col[part].b);
 	return (color);
 }
 
@@ -44,25 +77,26 @@ void		set_grad_colors(t_frac *ftl, t_flg *flg)
 {
 	int	i;
 
-	ftl->grad.col_cnt = (flg->flag & (F_COL + F_GRD) ? flg->col_cnt : 3);
-	hex_to_rgb("f", &ftl->grad.col[0]);
-	hex_to_rgb("8", &ftl->grad.col[1]);
-	hex_to_rgb("0", &ftl->grad.col[2]);
-	ftl->grad.range[0] = 0;
-	ftl->grad.range[1] = 0.5;
 	i = -1;
-	if (flg->flag & F_COL)
-		while (++i < flg->col_cnt)
+	ftl->grad.col_cnt = flg->grad.col_cnt;
+	if (!((flg->flag & F_COL) || (flg->flag & F_GRD)))
+	{
+		ftl->grad.col_cnt = 3;
+		hex_to_rgb("0", &ftl->grad.col[0]);
+		hex_to_rgb("8", &ftl->grad.col[1]);
+		hex_to_rgb("f", &ftl->grad.col[2]);
+		ftl->grad.range[0] = 1;
+		ftl->grad.range[1] = 0.5;
+		ftl->grad.range[2] = 0;
+	}
+	else
+		while (++i < flg->grad.col_cnt)
 		{
 			ftl->grad.col[i].r = flg->grad.col[i].r;
 			ftl->grad.col[i].g = flg->grad.col[i].g;
 			ftl->grad.col[i].b = flg->grad.col[i].b;
-		}
-	i = 0;
-	if (flg->flag & F_GRD)
-		while (++i < flg->col_cnt - 1)
 			ftl->grad.range[i] = flg->grad.range[i];
-	ftl->grad.range[flg->col_cnt - 1] = 1;
+		}
 }
 
 static void	new_image(t_frac *ftl, t_point size)
@@ -88,9 +122,13 @@ void		init_fractol(t_frac *ftl, t_flg *flg)
 		error("Failed to create a new window");
 	new_image(ftl, ftl->size);
 	set_grad_colors(ftl, flg);
+	flg->flag =
+		((flg->flag & F_COL) || (flg->flag & F_GRD)) ? (F_COL + F_GRD) : 0;
 	ftl->type = flg->type;
 	ftl->iter = flg->iter;
-	ftl->zoom = 1;
+	ftl->zoom = flg->zoom;
+	ftl->mem.zoom = 1;
 	ftl->flg = flg;
-	ftl->cam = set_complex(0, 0);
+	ftl->cam = set_complex(flg->comp.re, flg->comp.im);
+	ftl->mem.cam = ftl->cam;
 }

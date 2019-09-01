@@ -11,6 +11,7 @@ SRCNAME = main.c \
 		setters.c \
 		functions.c \
 		col_grad_flag.c \
+		validator.c \
 		flags.c \
 		fractol.c \
 		mandelbrot.c \
