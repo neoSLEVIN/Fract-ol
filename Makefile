@@ -32,7 +32,7 @@ all: $(BINDIR)$(NAME)
 $(BINDIR)$(NAME): $(OBJ)
 	$(MAKE) -C $(LFTDIR)
 	@mkdir -p $(BINDIR)
-	gcc $(WFLAGS) $(OBJ) $(MLXINIT) $(LINUX) $(LFTINIT) -I $(INCDIR) -o $(BINDIR)$(NAME)
+	gcc $(WFLAGS) $(OBJ) $(MLXINIT) $(MACOS) $(LFTINIT) -I $(INCDIR) -o $(BINDIR)$(NAME)
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	@mkdir -p $(OBJDIR)

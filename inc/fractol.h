@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 13:50:13 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/01 23:01:31 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/04 23:10:44 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,11 @@
 # include <math.h>
 # include "../libft/libft.h"
 
-# include "linuxkeys.h"
-//# include "macoskeys.h"
+//# include "linuxkeys.h"
+#include <stdio.h>
+
+
+# include "macoskeys.h"
 
 typedef enum		e_type
 {
