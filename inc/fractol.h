@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 13:50:13 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/04 23:10:44 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/05 22:53:31 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ typedef struct		s_fractol
 {
 	void			*mlx_ptr;
 	void			*win_ptr;
-	t_point			size;
+	int				size;
 	t_img			*img;
 	t_type			type;
 	t_grad			grad;

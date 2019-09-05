@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 17:30:24 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/01 23:27:59 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/05 22:55:46 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,12 @@ void		init_fractol(t_frac *ftl, t_flg *flg)
 {
 	if (!(ftl->mlx_ptr = mlx_init()))
 		error("Failed to set up the connection to the X server");
-	ftl->size = set_point(flg->size, flg->size);
+	ftl->size = flg->size;
 	ftl->win_ptr =
-		mlx_new_window(ftl->mlx_ptr, ftl->size.x, ftl->size.y, "fract'ol");
+		mlx_new_window(ftl->mlx_ptr, ftl->size, ftl->size, "fract'ol");
 	if (!ftl->win_ptr)
 		error("Failed to create a new window");
-	new_image(ftl, ftl->size);
+	new_image(ftl, set_point(ftl->size, ftl->size));
 	set_grad_colors(ftl, flg);
 	flg->flag =
 		((flg->flag & F_COL) || (flg->flag & F_GRD)) ? (F_COL + F_GRD) : 0;

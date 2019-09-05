@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 22:26:06 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/04 22:28:18 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/05 22:28:32 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	move_std(t_frac *ftl, int key)
 static void	zoom_camera(t_frac *ftl, int key)
 {
 	if (key == MINUS || key == PLUS)
-		ftl->zoom *= (key == MINUS ? 1 : ZOOM);
+		ftl->zoom *= (key == MINUS ? (1 / ZOOM) : ZOOM);
 	else
 		ftl->zoom *= (key == DIV) ? 1 / (10 * ZOOM) : (10 * ZOOM);
 	ftl->zoom < 0.05 ? ftl->zoom = 0.05 : 0;
@@ -72,6 +72,7 @@ static void	move_camera(t_frac *ftl, int key)
 		ftl->cam.im -= ((key == UP) ? SPEED : (4 * SPEED)) / ftl->zoom;
 	if (key == DOWN || key == TWO_NUM)
 		ftl->cam.im += ((key == DOWN) ? SPEED : (4 * SPEED)) / ftl->zoom;
+	printf("%f\t%f\n", ftl->cam.re, ftl->cam.im);
 }
 
 static void	change_color(t_frac *ftl, int key)
