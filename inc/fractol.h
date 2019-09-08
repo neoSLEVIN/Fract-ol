@@ -16,6 +16,7 @@
 # define ZOOM 1.1
 # define SPEED 0.05
 # define COLOR 8
+# define RANGE 0.03
 
 # define F_COL (1 << 0)
 # define F_GRD (1 << 1)
@@ -82,8 +83,10 @@ typedef struct	s_mem
 {
 	double		zoom;
 	t_complex	cam;
-	_Bool		mouse_hook;
 	int			color;
+	_Bool		mouse_hook;
+	_Bool		center;
+	_Bool		ui;
 }				t_mem;
 
 typedef struct	s_flag
@@ -93,6 +96,7 @@ typedef struct	s_flag
 	int			args;
 	int			size;
 	int			iter;
+	char		*app;
 	double		zoom;
 	t_grad		grad;
 	t_complex	cam;
@@ -157,8 +161,14 @@ void			zoom_std(t_frac *ftl, int key);
 void			move_std(t_frac *ftl, int key);
 void			zoom_camera(t_frac *ftl, int key);
 void			move_camera(t_frac *ftl, int key);
+void			choose_number(t_frac *ftl, int key);
+void			choose_gradient(t_frac *ftl, int key);
 void			plot(t_img *img, t_point coord, t_rgb color);
 void			draw(t_frac *ftl);
+void			print_cmd(t_frac *ftl);
+void			print_double(double num);
+void			print_fractol(t_type type);
+void			print_info(t_frac *ftl, int i);
 long long		ft_atoll(char * num, size_t len);
 
 #endif

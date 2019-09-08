@@ -23,20 +23,21 @@ static void	change_color(t_frac *ftl, int key)
 	int	i;
 	int	max;
 
-	i = ftl->mem.color > 0 ? -1;
-	while (++i < ftl->grad.col_cnt)
+	i = ftl->mem.color > 0 ? ftl->mem.color - 2 : -1;
+	max = ftl->mem.color > 0 ? ftl->mem.color : ftl->grad.col_cnt;
+	while (++i < max)
 	{
 		if (key == Q_KEY || key == R_SHIFT)
 			ftl->grad.col[i].r = (ftl->grad.col[i].r + COLOR) % 512;
-		else if (key == W_KEY || key == R_SHIFT)
+		if (key == W_KEY || key == R_SHIFT)
 			ftl->grad.col[i].g = (ftl->grad.col[i].g + COLOR) % 512;
-		else if (key == E_KEY || key == R_SHIFT)
+		if (key == E_KEY || key == R_SHIFT)
 			ftl->grad.col[i].b = (ftl->grad.col[i].b + COLOR) % 512;
-		else if (key == A_KEY || key == R_CTRL)
+		if (key == A_KEY || key == R_CTRL)
 			ftl->grad.col[i].r = (512 - COLOR + ftl->grad.col[i].r) % 512;
-		else if (key == S_KEY || key == R_CTRL)
+		if (key == S_KEY || key == R_CTRL)
 			ftl->grad.col[i].g = (512 - COLOR + ftl->grad.col[i].g) % 512;
-		else if (key == D_KEY || key == R_CTRL)
+		if (key == D_KEY || key == R_CTRL)
 			ftl->grad.col[i].b = (512 - COLOR + ftl->grad.col[i].b) % 512;
 	}
 }
@@ -66,8 +67,26 @@ static void	shift_color(t_frac *ftl, int key)
 
 static void	deal_key2(t_frac *ftl, int key)
 {
-	if (key == F_KEY)
-		++ftl->type;
+	if (key == C_KEY || key == DOT)
+	{
+		ftl->flg->flag ^= F_COL + F_GRD;
+		set_grad_colors(ftl, ftl->flg);
+	}
+	else if (key == SPACE)
+		ftl->mem.center ^= 1;
+	else if (key == I_KEY)
+		print_info(ftl, -1);
+/*	else if (key == O_KEY)
+		print_cmd(ftl);*/
+	else if (ftl->mem.color == 0 && (key == L_BRACKET || key == R_BRACKET))
+	{
+		ftl->iter += (key == L_BRACKET ? -10 : 10);
+		ftl->iter < 2 ? ftl->iter = 2 : 0;
+	}
+	else if (ftl->mem.color != 0 && (key == L_BRACKET || key == R_BRACKET))
+		choose_gradient(ftl, key);
+	else
+		choose_number(ftl, key);
 //	printf("%f\t%f\n", ftl->cam.re, ftl->cam.im);
 }
 
@@ -90,12 +109,12 @@ int			deal_key(int key, void *param)
 		change_color(ftl, key);
 	else if (key == L_SHIFT || key == L_CTRL)
 		shift_color(ftl, key);
-	else if (key == C_KEY || key == DOT)
-	{
-		ftl->flg->flag ^= F_COL + F_GRD;
-		set_grad_colors(ftl, ftl->flg);
-	}
-	deal_key2(ftl, key);
+	else if (key == F_KEY)
+		++ftl->type;
+	else if (key == TAB)
+		ftl->mem.ui ^= 1;
+	else
+		deal_key2(ftl, key);
 	draw(ftl);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 17:38:25 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/08 01:53:50 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/08 21:55:15 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,5 @@ void		init_flg(t_flg *flg, int ac, char **av)
 	flg->k = set_complex(-0.79, 0.15);
 	valid_stdin(flg, ac, av);
 	fractal(flg, av[ac - 1], av[0]);
+	flg->app = av[0];
 }

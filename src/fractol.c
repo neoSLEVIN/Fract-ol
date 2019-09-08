@@ -94,11 +94,13 @@ void		init_fractol(t_frac *ftl, t_flg *flg)
 	ftl->type = flg->type;
 	ftl->iter = flg->iter;
 	ftl->zoom = flg->zoom;
-	ftl->mem.zoom = 1;
 	ftl->cam = flg->cam;
+	ftl->mem.zoom = 1;
 	ftl->mem.cam = set_complex(0, 0);
 	ftl->mem.mouse_hook = 0;
 	ftl->mem.color = 0;
+	ftl->mem.center = 0;
+	ftl->mem.ui = 0;
 	ftl->k = flg->k;
 	ftl->flg = flg;
 }

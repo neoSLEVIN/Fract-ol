@@ -19,7 +19,10 @@ SRCNAME = main.c \
 		julia.c \
 		deal_key.c \
 		actions.c \
-		mouse.c
+		choose.c \
+		mouse.c \
+		print.c \
+		print_cmd.c
 OBJNAME = $(SRCNAME:.c=.o)
 OBJ = $(addprefix $(OBJDIR),$(OBJNAME))
 
