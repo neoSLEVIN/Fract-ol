@@ -12,39 +12,6 @@
 
 #include "fractol.h"
 
-void print_info(t_frac *ftl, t_flg *flg)
-{
-	ft_putendl("FTL:");
-	ft_putnbr(ftl->grad.col_cnt);
-	ft_putendl("");
-	for (int i = 0; i < ftl->grad.col_cnt; ++i)
-	{
-		ft_putnbr(ftl->grad.col[i].r);
-		ft_putstr("\t");
-		ft_putnbr(ftl->grad.col[i].g);
-		ft_putstr("\t");
-		ft_putnbr(ftl->grad.col[i].b);
-		ft_putstr("\t");
-		ft_putnbr(ftl->grad.range[i] * 100);
-		ft_putendl("");
-	}
-	ft_putendl("FLG:");
-	ft_putnbr(flg->grad.col_cnt);
-	ft_putendl("");
-	for (int i = 0; i < flg->grad.col_cnt; ++i)
-	{
-		ft_putnbr(flg->grad.col[i].r);
-		ft_putstr("\t");
-		ft_putnbr(flg->grad.col[i].g);
-		ft_putstr("\t");
-		ft_putnbr(flg->grad.col[i].b);
-		ft_putstr("\t");
-		ft_putnbr(flg->grad.range[i] * 100);
-		ft_putendl("");
-	}
-	ft_putendl("");
-}
-
 t_rgb		get_grad_color(t_grad *grad, double t)
 {
 	t_rgb	color;
@@ -128,7 +95,8 @@ void		init_fractol(t_frac *ftl, t_flg *flg)
 	ftl->iter = flg->iter;
 	ftl->zoom = flg->zoom;
 	ftl->mem.zoom = 1;
+	ftl->cam = flg->cam;
+	ftl->mem.cam = set_complex(0, 0);
+	ftl->k = flg->k;
 	ftl->flg = flg;
-	ftl->cam = set_complex(flg->comp.re, flg->comp.im);
-	ftl->mem.cam = ftl->cam;
 }

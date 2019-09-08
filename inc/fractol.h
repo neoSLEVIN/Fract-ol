@@ -23,139 +23,137 @@
 # define F_ZOM (1 << 4)
 # define F_REC (1 << 5)
 # define F_IMC (1 << 6)
+# define F_REK (1 << 7)
+# define F_IMK (1 << 8)
 
 # include <mlx.h>
 # include <math.h>
 # include "../libft/libft.h"
 
-//# include "linuxkeys.h"
+# include "linuxkeys.h"
 #include <stdio.h>
+//# include "macoskeys.h"
 
-
-# include "macoskeys.h"
-
-typedef enum		e_type
+typedef enum	e_type
 {
 	MANDELBROT,
 	JULIA,
 	CNT_OF_TYPE
-}					t_type;
+}				t_type;
 
-typedef struct		s_rgb
+typedef struct	s_rgb
 {
-	unsigned char	r;
-	unsigned char	g;
-	unsigned char	b;
-}					t_rgb;
+	short		r;
+	short		g;
+	short		b;
+}				t_rgb;
 
-typedef struct		s_point
+typedef struct	s_point
 {
-	int				x;
-	int				y;
-}					t_point;
+	int			x;
+	int			y;
+}				t_point;
 
-typedef struct		s_dpoint
+typedef struct	s_complex
 {
-	double			x;
-	double			y;
-}					t_dpoint;
+	double		re;
+	double		im;
+}				t_complex;
 
-typedef struct		s_complex
+typedef struct	s_gradient
 {
-	double			re;
-	double			im;
-}					t_complex;
+	int			col_cnt;
+	t_rgb		col[9];
+	double		range[9];
+}				t_grad;
 
-typedef struct		s_gradient
+typedef struct	s_img
 {
-	int				col_cnt;
-	t_rgb			col[11];
-	double			range[11];
-}					t_grad;
+	void		*img_ptr;
+	char		*data;
+	int			bpp;
+	int			size_line;
+	int			endian;
+	t_point		size;
+}				t_img;
 
-typedef struct		s_img
+typedef struct	s_mem
 {
-	void			*img_ptr;
-	char			*data;
-	int				bpp;
-	int				size_line;
-	int				endian;
-	t_point			size;
-}					t_img;
+	double		zoom;
+	t_complex	cam;
+}				t_mem;
 
-typedef struct		s_mem
+typedef struct	s_flag
 {
-	double			zoom;
-	t_complex		cam;
-}					t_mem;
+	t_type		type;
+	int			flag;
+	int			args;
+	int			size;
+	int			iter;
+	double		zoom;
+	t_grad		grad;
+	t_complex	cam;
+	t_complex	k;
+	_Bool		help;
+}				t_flg;
 
-typedef struct		s_flag
+typedef struct	s_fractol
 {
-	t_type			type;
-	int				flag;
-	int				args;
-	int				size;
-	int				iter;
-	double			zoom;
-	t_grad			grad;
-	t_complex		comp;
-	_Bool			help;
-}					t_flg;
+	void		*mlx_ptr;
+	void		*win_ptr;
+	int			size;
+	t_img		*img;
+	t_type		type;
+	t_grad		grad;
+	double		zoom;
+	int			iter;
+	t_flg		*flg;
+	t_complex	min;
+	t_complex	max;
+	t_complex	step;
+	t_complex	cam;
+	t_complex	k;
+	t_mem		mem;
+}				t_frac;
 
-typedef struct		s_fractol
-{
-	void			*mlx_ptr;
-	void			*win_ptr;
-	int				size;
-	t_img			*img;
-	t_type			type;
-	t_grad			grad;
-	double			zoom;
-	int				iter;
-	t_flg			*flg;
-	t_complex		min;
-	t_complex		max;
-	t_complex		step;
-	t_complex		cam;
-	t_mem			mem;
-}					t_frac;
+int				error(char *err_msg);
+int				usage(char *app_name);
+int				lite_usage(char *app_name, _Bool list_of_frac);
+int				err_usage(char *err_msg, char *app_name, _Bool full);
 
-int					error(char *err_msg);
-int					usage(char *app_name);
-int					lite_usage(char *app_name, _Bool list_of_frac);
-int					err_usage(char *err_msg, char *app_name, _Bool full);
+t_point			set_point(int x, int y);
+t_rgb			set_rgb(int red, int green, int blue);
+t_complex		set_complex(double re, double im);
 
-t_point				set_point(int x, int y);
-t_dpoint			set_dpoint(double x, double y);
-t_rgb				set_rgb(int red, int green, int blue);
-t_complex			set_complex(double re, double im);
+void			set_grad_colors(t_frac *ftl, t_flg *flg);
+t_rgb			get_grad_color(t_grad *grad, double t);
 
-void				set_grad_colors(t_frac *ftl, t_flg *flg);
-t_rgb				get_grad_color(t_grad *grad, double t);
+void			init_fractol(t_frac *ftl, t_flg *flg);
+void			init_flg(t_flg *flg, int ac, char **av);
 
-void				init_fractol(t_frac *ftl, t_flg *flg);
-void				init_flg(t_flg *flg, int ac, char **av);
+void			mandelbrot(t_frac *ftl);
+void			julia(t_frac *ftl);
 
-void				mandelbrot(t_frac *ftl);
-
-int					is_hex(char *hex);
-int					is_fractal(char *fractal);
-int					red_x_button(void *param);
-int					deal_key(int key, void *param);
-int					mouse_click(int button, int x, int y, void *param);
-void				hex_to_rgb(char *hex, t_rgb *color);
-void				size(t_flg *flg, int ac, char **av, int i);
-void				color(t_flg *flg, int ac, char **av, int i);
-void				complex(t_flg *flg, int ac, char **av, int i);
-void				gradient(t_flg *flg, int ac, char **av, int i);
-void				max_iter(t_flg *flg, int ac, char **av, int i);
-void				col_grad(t_flg *flg, int ac, char **av, int i);
-void				zoom_exp(t_flg *flg, int ac, char **av, int i);
-void				plot(t_img *img, t_point coord, t_rgb color);
-void				draw(t_frac *ftl);
-
-
-
-void print_info(t_frac *ftl, t_flg *flg);
+int				is_move(int key);
+int				is_hex(char *hex);
+int				is_fractal(char *fractal);
+int				red_x_button(void *param);
+int				deal_key(int key, void *param);
+int				mouse_click(int button, int x, int y, void *param);
+void			hex_to_rgb(char *hex, t_rgb *color);
+void			size(t_flg *flg, int ac, char **av, int i);
+void			color(t_flg *flg, int ac, char **av, int i);
+void			complex(t_flg *flg, int ac, char **av, int i);
+void			gradient(t_flg *flg, int ac, char **av, int i);
+void			max_iter(t_flg *flg, int ac, char **av, int i);
+void			col_grad(t_flg *flg, int ac, char **av, int i);
+void			zoom_exp(t_flg *flg, int ac, char **av, int i);
+void			zoom_std(t_frac *ftl, int key);
+void			move_std(t_frac *ftl, int key);
+void			zoom_camera(t_frac *ftl, int key);
+void			move_camera(t_frac *ftl, int key);
+void			plot(t_img *img, t_point coord, t_rgb color);
+void			draw(t_frac *ftl);
+long long		ft_atoll(char * num, size_t len);
 
 #endif

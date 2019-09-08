@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 17:38:25 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/01 22:18:55 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/08 01:53:50 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ static void	flags(t_flg *flg, int ac, char **av)
 			zoom_exp(flg, ac, av, i);
 		else if (!ft_strcmp(av[i], "-Re") || !ft_strcmp(av[i], "-Im"))
 			complex(flg, ac, av, i);
+		else if (!ft_strcmp(av[i], "-k-Re") || !ft_strcmp(av[i], "-k-Im"))
+			complex(flg, ac, av, i);
 	}
 }
 
@@ -83,9 +85,9 @@ void		init_flg(t_flg *flg, int ac, char **av)
 	hex_to_rgb("f", &flg->grad.col[0]);
 	hex_to_rgb("8", &flg->grad.col[1]);
 	hex_to_rgb("0", &flg->grad.col[2]);
-	flg->comp.re = 0;
-	flg->comp.im = 0;
+	flg->cam = set_complex(0, 0);
 	flg->zoom = 1;
+	flg->k = set_complex(-0.79, 0.15);
 	valid_stdin(flg, ac, av);
 	fractal(flg, av[ac - 1], av[0]);
 }

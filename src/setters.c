@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 14:51:38 by cschoen           #+#    #+#             */
-/*   Updated: 2019/08/31 21:45:27 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/07 18:49:26 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,6 @@ t_point		set_point(int x, int y)
 	point.x = x;
 	point.y = y;
 	return (point);
-}
-
-t_dpoint	set_dpoint(double x, double y)
-{
-	t_dpoint	dpoint;
-
-	dpoint.x = x;
-	dpoint.y = y;
-	return (dpoint);
 }
 
 t_rgb		set_rgb(int red, int green, int blue)

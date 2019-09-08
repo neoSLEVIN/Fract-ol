@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/01 16:42:53 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/01 20:54:35 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/08 06:43:31 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,16 @@ void			zoom_exp(t_flg *flg, int ac, char **av, int i)
 	flg->zoom = pow(10.0, flg->zoom);
 }
 
-static double	set_value(t_flg *flg, char **av, int i)
+static double	set_value(t_flg *flg, char **av, int i, size_t len)
 {
-	t_point	value;
-	size_t	len;
-	size_t	j;
-	int		neg;
+	int			neg;
+	int			value;
+	long long	rest;
+	size_t		j;
 
 	len = ft_strlen(av[i + 1]);
+	if (len < 1 || len > 18)
+		err_usage("Incorrect use of the complex number flag", av[0], flg->help);
 	neg = (av[i + 1][0] == '-') ? 1 : 0;
 	neg ? --len : 0;
 	if (!len || (len == 1 && !ft_isdigit(av[i + 1][0 + neg])))
@@ -94,36 +96,40 @@ static double	set_value(t_flg *flg, char **av, int i)
 	if (len == 1)
 		return ((av[i + 1][0 + neg] - '0') * (neg ? -1 : 1));
 	--len;
-	if (av[i + 1][1 + neg] != '.' || (--len == 0) || len > 6)
+	if (av[i + 1][1 + neg] != '.' || (--len == 0) || len > 15)
 		err_usage("Incorrect complex number value", av[0], flg->help);
 	j = -1;
 	while (++j < len)
 		if (!ft_isdigit(av[i + 1][j + 2 + neg]))
 			err_usage("Incorrect complex number value", av[0], flg->help);
-	value.x = (av[i + 1][0 + neg] - '0') * (neg ? -1 : 1);
-	value.y = ft_atoi(&av[i + 1][2 + neg]);
-	return (value.x + (double)value.y / (int)pow(10, len));
+	value = (av[i + 1][0 + neg] - '0');
+	rest = ft_atoll(&av[i + 1][2 + neg], len);
+	return ((value + (double)rest / (long long)pow(10, len)) * (neg ? -1 : 1));
 }
 
 void			complex(t_flg *flg, int ac, char **av, int i)
 {
-	size_t	len;
-
-	if (av[i][1] == 'R')
-		flg->flag & F_REC ?
-			err_usage("More than 1 -Re flag", av[0], flg->help) : 0;
-	else
-		flg->flag & F_IMC ?
-			err_usage("More than 1 -Im flag", av[0], flg->help) : 0;
-	flg->flag |= (av[i][1] == 'R') ? F_REC : F_IMC;
+	if (av[i][1] == 'R' && flg->flag & F_REC)
+		err_usage("More than 1 -Re flag", av[0], flg->help);
+	else if (av[i][1] == 'I' && flg->flag & F_IMC)
+		err_usage("More than 1 -Im flag", av[0], flg->help);
+	else if (av[i][3] == 'R' && flg->flag & F_REK)
+		err_usage("More than 1 -k-Re flag", av[0], flg->help);
+	else if (av[i][3] == 'I' && flg->flag & F_IMK)
+		err_usage("More than 1 -k-Im flag", av[0], flg->help);
+	flg->flag |= (av[i][1] == 'R') ? F_REC : 0;
+	flg->flag |= (av[i][1] == 'I') ? F_IMC : 0;
+	flg->flag |= (av[i][3] == 'R') ? F_REK : 0;
+	flg->flag |= (av[i][3] == 'I') ? F_IMK : 0;
 	flg->args += 2;
 	i >= ac - 2 ? err_usage("Incorrect use of the complex number flag",
 							av[0], flg->help) : 0;
-	len = ft_strlen(av[i + 1]);
-	if (len < 1 || len > 9)
-		err_usage("Incorrect use of the complex number flag", av[0], flg->help);
 	if (av[i][1] == 'R')
-		flg->comp.re = set_value(flg, av, i);
-	else
-		flg->comp.im = set_value(flg, av, i);
+		flg->cam.re = set_value(flg, av, i, ft_strlen(av[i + 1]));
+	else if (av[i][1] == 'I')
+		flg->cam.im = set_value(flg, av, i, ft_strlen(av[i + 1]));
+	else if (av[i][3] == 'R')
+		flg->k.re = set_value(flg, av, i, ft_strlen(av[i + 1]));
+	else if (av[i][3] == 'I')
+		flg->k.im = set_value(flg, av, i, ft_strlen(av[i + 1]));
 }

@@ -6,30 +6,29 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 14:07:30 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/01 22:31:55 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/08 02:49:02 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int			error(char *err_msg)
-{
-	if (err_msg)
-	{
-		ft_putstr("Error: ");
-		ft_putendl(err_msg);
-	}
-	exit(1);
-}
-
-void		draw(t_frac *ftl)
+static void	init_type(t_frac *ftl)
 {
 	if (ftl->type == CNT_OF_TYPE)
 		ftl->type = MANDELBROT;
 	if (ftl->type == MANDELBROT)
 		mandelbrot(ftl);
+	else if (ftl->type == JULIA)
+		julia(ftl);
+}
+
+void		draw(t_frac *ftl)
+{
+	init_type(ftl);
 	mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr,
 							ftl->img->img_ptr, 0, 0);
+	mlx_pixel_put(ftl->mlx_ptr, ftl->win_ptr, (double)ftl->size / 2,
+				(double)ftl->size / 2, (255 << 16));
 }
 
 static void	input_hook(t_frac *ftl)

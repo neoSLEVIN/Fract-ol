@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 19:57:03 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/01 22:26:52 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/08 07:06:15 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,14 @@ void		gradient(t_flg *flg, int ac, char **av, int i)
 			av[0], flg->help) : 0;
 	len = ft_strlen(av[i + 1]);
 	if (len < 1 || len > 3)
-		err_usage("Incorrect use of the gradient flag", av[0], flg->help);
+		err_usage("Range for gradient must be in [999...1]", av[0], flg->help);
 	flg->grad.range[1] = ft_atoi(av[i + 1]);
-	if (flg->grad.range[1] < 1 || flg->grad.range[1] > 99 ||
+	if (flg->grad.range[1] < 1 || flg->grad.range[1] > 999 ||
 		(flg->grad.range[1] < 10 && len != 1) ||
-		(flg->grad.range[1] > 9 && len != 2))
-		err_usage("Range for gradient must be in [99...1]", av[0], flg->help);
-	flg->grad.range[1] = (double)flg->grad.range[1] / 100;
+		(flg->grad.range[1] > 9 && flg->grad.range[1] < 100 && len != 2) ||
+		(flg->grad.range[1] > 99 && len != 3))
+		err_usage("Incorrect use of the gradient flag", av[0], flg->help);
+	flg->grad.range[1] = (double)flg->grad.range[1] / 1000;
 }
 
 static void	valid_col_grad(t_flg *flg, char *arg, char *app_name, int color)
@@ -77,11 +78,12 @@ static void	valid_col_grad(t_flg *flg, char *arg, char *app_name, int color)
 	}
 	else
 	{
-		if (len < 1 || len > 2)
+		if (len < 1 || len > 3)
 			err_usage("Incorrect use of the gradient argument of the -X flag",
 				app_name, flg->help);
-		if (arg[0] < '1' || arg[0] > '9' || (len == 2 && !ft_isdigit(arg[1])))
-			err_usage("Range for gradient argument must be in [99...1]",
+		if (arg[0] < '1' || arg[0] > '9' || (len > 1 && !ft_isdigit(arg[1]))
+			|| (len == 3 && !ft_isdigit(arg[2])))
+			err_usage("Range for gradient argument must be in [999...1]",
 				app_name, flg->help);
 	}
 }
@@ -103,7 +105,7 @@ static void	col_grad2(t_flg *flg, char **av, int i, int j)
 		else if (++grd < flg->grad.col_cnt - 2)
 		{
 			valid_col_grad(flg, av[i + j], av[0], 0);
-			flg->grad.range[grd + 1] = (double)ft_atoi(av[i + j]) / 100;
+			flg->grad.range[grd + 1] = (double)ft_atoi(av[i + j]) / 1000;
 			if (grd != 0 && flg->grad.range[grd + 1] >= flg->grad.range[grd])
 				err_usage("Gradient arguments should be in descending order",
 					av[0], flg->help);
@@ -129,8 +131,8 @@ void		col_grad(t_flg *flg, int ac, char **av, int i)
 		(len == 2 && !ft_isdigit(av[i + 1][1])))
 		err_usage("Incorrect main argument for the -X flag", av[0], flg->help);
 	flg->grad.col_cnt = ft_atoi(av[i + 1]);
-	if (flg->grad.col_cnt < 2 || flg->grad.col_cnt > 11)
-		err_usage("Range for main argument of -X flag must be in [2...11]",
+	if (flg->grad.col_cnt < 2 || flg->grad.col_cnt > 9)
+		err_usage("Range for main argument of -X flag must be in [2...9]",
 			av[0], flg->help);
 	flg->args += 2 * flg->grad.col_cnt;
 	(i >= ac - (2 * flg->grad.col_cnt)) ?

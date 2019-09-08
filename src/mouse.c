@@ -16,27 +16,25 @@ int	mouse_click(int button, int x, int y, void *param)
 {
 	t_frac		*ftl;
 	t_complex	edge;
-	double		temp;
+	double		zoom;
 
 	ftl = (t_frac*)param;
-	edge.re = (double)x - ((double)ftl->size / 2);
-	edge.im = (double)y - ((double)ftl->size / 2);
-	edge = set_complex(edge.re / (ftl->size - 1), edge.im / (ftl->size - 1));
-	temp = 4.0 / ftl->zoom;
-	edge = set_complex(edge.re / temp, edge.im / temp);
-	if (button == 4)
+	zoom = ZOOM * 1.5;
+	edge.re = ((double)x - ((double)ftl->size / 2)) / ftl->size;
+	edge.im = ((double)y - ((double)ftl->size / 2)) / ftl->size;
+	edge.re *= ftl->max.re - ftl->min.re;
+	edge.im *= ftl->max.re - ftl->min.re;
+	if (button == 1)
+		ftl->cam = set_complex(ftl->cam.re + edge.re, ftl->cam.im - edge.im);
+	else if (ftl->type != JULIA &&
+		(button == 4 || (button == 5 && ftl->zoom / zoom > 0.05)))
 	{
-		ftl->cam.re += edge.re * (1.0 - 1.0 / ZOOM);
-		ftl->cam.im += edge.im * (1.0 - 1.0 / ZOOM);
-		ftl->zoom *= ZOOM;
+		ftl->cam.re += edge.re * (1.0 - ((button == 4) ? (1.0 / zoom) : zoom));
+		ftl->cam.im -= edge.im * (1.0 - ((button == 4) ? (1.0 / zoom) : zoom));
+		ftl->zoom *= (button == 4) ? zoom : (1.0 / zoom);
 	}
-	else if (button == 5)
-	{
-		ftl->cam.re += edge.re * (1.0 - ZOOM);
-		ftl->cam.im += edge.im * (1.0 - ZOOM);
-		ftl->zoom /= ZOOM;
-	}
-	ftl->zoom < 0.05 ? ftl->zoom = 0.05 : 0;
+	else if (ftl->type == JULIA && (button == 4 || button == 5))
+		ftl->k = set_complex(ftl->cam.re + edge.re, ftl->cam.im - edge.im);
 	draw(ftl);
 	return (0);
 }

@@ -27,13 +27,13 @@ void		mandelbrot(t_frac *ftl)
 	t_complex	c;
 	t_complex	z;
 	t_point		pos;
-	int			i;
+	double		i;
 
 	init_mandelbrot(ftl);
 	pos.y = -1;
 	while (++pos.y < ftl->size)
 	{
-		c.im = ftl->max.im - pos.y * ftl->step.im - ftl->cam.im;
+		c.im = ftl->max.im - pos.y * ftl->step.im + ftl->cam.im;
 		pos.x = -1;
 		while (++pos.x < ftl->size)
 		{
@@ -43,8 +43,7 @@ void		mandelbrot(t_frac *ftl)
 			while (pow(z.re, 2.0) + pow(z.im, 2.0) <= 4 && ++i < ftl->iter)
 				z = set_complex(pow(z.re, 2.0) - pow(z.im, 2.0) + c.re,
 								2.0 * z.re * z.im + c.im);
-			plot(ftl->img, pos,
-				get_grad_color(&ftl->grad, (double)i / ftl->iter));
+			plot(ftl->img, pos, get_grad_color(&ftl->grad, i / ftl->iter));
 		}
 	}
 }

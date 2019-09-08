@@ -7,15 +7,18 @@ OBJDIR = ./obj/
 BINDIR = ./bin/
 
 SRCNAME = main.c \
+		error.c \
 		usage.c \
 		setters.c \
 		functions.c \
-		col_grad_flag.c \
 		validator.c \
 		flags.c \
 		fractol.c \
+		col_grad_flag.c \
 		mandelbrot.c \
+		julia.c \
 		deal_key.c \
+		actions.c \
 		mouse.c
 OBJNAME = $(SRCNAME:.c=.o)
 OBJ = $(addprefix $(OBJDIR),$(OBJNAME))
@@ -32,7 +35,7 @@ all: $(BINDIR)$(NAME)
 $(BINDIR)$(NAME): $(OBJ)
 	$(MAKE) -C $(LFTDIR)
 	@mkdir -p $(BINDIR)
-	gcc $(WFLAGS) $(OBJ) $(MLXINIT) $(MACOS) $(LFTINIT) -I $(INCDIR) -o $(BINDIR)$(NAME)
+	gcc $(WFLAGS) $(OBJ) $(MLXINIT) $(LINUX) $(LFTINIT) -I $(INCDIR) -o $(BINDIR)$(NAME)
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	@mkdir -p $(OBJDIR)
