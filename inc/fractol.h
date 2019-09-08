@@ -15,6 +15,7 @@
 
 # define ZOOM 1.1
 # define SPEED 0.05
+# define COLOR 8
 
 # define F_COL (1 << 0)
 # define F_GRD (1 << 1)
@@ -30,9 +31,9 @@
 # include <math.h>
 # include "../libft/libft.h"
 
-# include "linuxkeys.h"
+//# include "linuxkeys.h"
 #include <stdio.h>
-//# include "macoskeys.h"
+# include "macoskeys.h"
 
 typedef enum	e_type
 {
@@ -81,6 +82,8 @@ typedef struct	s_mem
 {
 	double		zoom;
 	t_complex	cam;
+	_Bool		mouse_hook;
+	int			color;
 }				t_mem;
 
 typedef struct	s_flag
@@ -130,6 +133,7 @@ t_rgb			get_grad_color(t_grad *grad, double t);
 
 void			init_fractol(t_frac *ftl, t_flg *flg);
 void			init_flg(t_flg *flg, int ac, char **av);
+void			init_edge(t_frac *ftl);
 
 void			mandelbrot(t_frac *ftl);
 void			julia(t_frac *ftl);
@@ -140,6 +144,7 @@ int				is_fractal(char *fractal);
 int				red_x_button(void *param);
 int				deal_key(int key, void *param);
 int				mouse_click(int button, int x, int y, void *param);
+int				mouse_move(int x, int y, void *param);
 void			hex_to_rgb(char *hex, t_rgb *color);
 void			size(t_flg *flg, int ac, char **av, int i);
 void			color(t_flg *flg, int ac, char **av, int i);

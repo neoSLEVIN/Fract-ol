@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 17:35:54 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/08 05:30:09 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/08 18:29:44 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ static void	usage2(char *app_name)
 {
 	ft_putstr("  -X, --col-grad\tChange the custom colors and the values of ");
 	ft_putendl("the gradient.");
-	ft_putendl("\t\t\tMAIN ARG(1): integer in range [2...11] inclusive. Must");
+	ft_putendl("\t\t\tMAIN ARG(1): integer in range [2...9] inclusive. Must");
 	ft_putendl("\t\t\t  be first among the arguments of -X flag.");
 	ft_putstr("\t\t\tSIDE ARGS(X): list of HEX colors that starts with 0x and");
-	ft_putendl("\n\t\t\t  integers in range [99...1] inclusive in descending");
+	ft_putendl("\n\t\t\t  integers in range [999...1] inclusive in descending");
 	ft_putendl("\t\t\t  order. X is the sum of the color and gradient");
 	ft_putendl("\t\t\t  arguments reduced by 2. This means that COUNT of");
 	ft_putendl("\t\t\t  color's arguments is equal to value of the main");

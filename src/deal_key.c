@@ -21,22 +21,23 @@ static int	is_color(int key)
 static void	change_color(t_frac *ftl, int key)
 {
 	int	i;
+	int	max;
 
-	i = -1;
+	i = ftl->mem.color > 0 ? -1;
 	while (++i < ftl->grad.col_cnt)
 	{
 		if (key == Q_KEY || key == R_SHIFT)
-			ftl->grad.col[i].r = (ftl->grad.col[i].r + 8) % 512;
+			ftl->grad.col[i].r = (ftl->grad.col[i].r + COLOR) % 512;
 		else if (key == W_KEY || key == R_SHIFT)
-			ftl->grad.col[i].g = (ftl->grad.col[i].g + 8) % 512;
+			ftl->grad.col[i].g = (ftl->grad.col[i].g + COLOR) % 512;
 		else if (key == E_KEY || key == R_SHIFT)
-			ftl->grad.col[i].b = (ftl->grad.col[i].b + 8) % 512;
+			ftl->grad.col[i].b = (ftl->grad.col[i].b + COLOR) % 512;
 		else if (key == A_KEY || key == R_CTRL)
-			ftl->grad.col[i].r = (504 + ftl->grad.col[i].r) % 512;
+			ftl->grad.col[i].r = (512 - COLOR + ftl->grad.col[i].r) % 512;
 		else if (key == S_KEY || key == R_CTRL)
-			ftl->grad.col[i].g = (504 + ftl->grad.col[i].g) % 512;
+			ftl->grad.col[i].g = (512 - COLOR + ftl->grad.col[i].g) % 512;
 		else if (key == D_KEY || key == R_CTRL)
-			ftl->grad.col[i].b = (504 + ftl->grad.col[i].b) % 512;
+			ftl->grad.col[i].b = (512 - COLOR + ftl->grad.col[i].b) % 512;
 	}
 }
 
@@ -67,7 +68,7 @@ static void	deal_key2(t_frac *ftl, int key)
 {
 	if (key == F_KEY)
 		++ftl->type;
-	printf("%f\t%f\n", ftl->cam.re, ftl->cam.im);
+//	printf("%f\t%f\n", ftl->cam.re, ftl->cam.im);
 }
 
 int			deal_key(int key, void *param)

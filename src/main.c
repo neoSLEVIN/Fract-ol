@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 14:07:30 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/08 02:49:02 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/08 19:27:34 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,22 @@ void		draw(t_frac *ftl)
 				(double)ftl->size / 2, (255 << 16));
 }
 
+void		init_edge(t_frac *ftl)
+{
+	double	step;
+
+	ftl->min = set_complex((-2.0 / ftl->zoom), (-2.0 / ftl->zoom));
+	ftl->max = set_complex((2.0 / ftl->zoom), (2.0 / ftl->zoom));
+	step = 4.0 / ftl->zoom / (ftl->size - 1);
+	ftl->step = set_complex(step, step);
+}
+
 static void	input_hook(t_frac *ftl)
 {
 	mlx_mouse_hook(ftl->win_ptr, mouse_click, ftl);
 	mlx_hook(ftl->win_ptr, 17, 1, red_x_button, (void *)0);
 	mlx_hook(ftl->win_ptr, 2, 3, deal_key, ftl);
+	mlx_hook(ftl->win_ptr, 6, 0, mouse_move, ftl);
 }
 
 int			main(int argc, char **argv)

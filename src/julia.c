@@ -6,21 +6,11 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 00:11:25 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/08 05:44:15 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/08 19:35:04 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
-static void	init_julia(t_frac *ftl)
-{
-	double	step;
-
-	ftl->min = set_complex((-2.0 / ftl->zoom), (-2.0 / ftl->zoom));
-	ftl->max = set_complex((2.0 / ftl->zoom), (2.0 / ftl->zoom));
-	step = 4.0 / ftl->zoom / (ftl->size - 1);
-	ftl->step = set_complex(step, step);
-}
 
 void		julia(t_frac *ftl)
 {
@@ -29,7 +19,7 @@ void		julia(t_frac *ftl)
 	t_point		pos;
 	double		i;
 
-	init_julia(ftl);
+	init_edge(ftl);
 	pos.y = -1;
 	while (++pos.y < ftl->size)
 	{

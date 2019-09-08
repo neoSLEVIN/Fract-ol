@@ -12,16 +12,6 @@
 
 #include "fractol.h"
 
-static void	init_mandelbrot(t_frac *ftl)
-{
-	double	step;
-
-	ftl->min = set_complex((-2.0 / ftl->zoom), (-2.0 / ftl->zoom));
-	ftl->max = set_complex((2.0 / ftl->zoom), (2.0 / ftl->zoom));
-	step = 4.0 / ftl->zoom / (ftl->size - 1);
-	ftl->step = set_complex(step, step);
-}
-
 void		mandelbrot(t_frac *ftl)
 {
 	t_complex	c;
@@ -29,7 +19,7 @@ void		mandelbrot(t_frac *ftl)
 	t_point		pos;
 	double		i;
 
-	init_mandelbrot(ftl);
+	init_edge(ftl);
 	pos.y = -1;
 	while (++pos.y < ftl->size)
 	{

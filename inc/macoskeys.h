@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 13:28:17 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/04 21:52:11 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/08 14:06:58 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 # define ESC 53
 # define TAB 48
 # define ENTER 36
+# define L_SHIFT 257
+# define R_SHIFT 258
+# define L_CTRL 256
+# define R_CTRL 259
 # define W_KEY 13
 # define A_KEY 0
 # define S_KEY 1
