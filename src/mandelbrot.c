@@ -33,7 +33,7 @@ void		mandelbrot(t_frac *ftl)
 			while (pow(z.re, 2.0) + pow(z.im, 2.0) <= 4 && ++i < ftl->iter)
 				z = set_complex(pow(z.re, 2.0) - pow(z.im, 2.0) + c.re,
 								2.0 * z.re * z.im + c.im);
-			plot(ftl->img, pos, get_grad_color(&ftl->grad, i / ftl->iter));
+			plot(ftl->img, pos, get_grad_color(ftl, i / ftl->iter));
 		}
 	}
 }

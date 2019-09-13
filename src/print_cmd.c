@@ -6,22 +6,23 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 23:44:35 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/09 00:07:42 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/13 02:21:47 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
+/*
 static void	print_hex(int num)
 {
-
+	num++;
 }
-
+*/
 static void	print_hex_colors(t_grad *grad)
 {
 	int	i;
 
 	i = -1;
+	if (grad)
 	while (++i < 3)
 	{
 		ft_putstr("0x");

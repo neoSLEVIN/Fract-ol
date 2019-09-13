@@ -78,6 +78,8 @@ static void	deal_key2(t_frac *ftl, int key)
 		print_info(ftl, -1);
 /*	else if (key == O_KEY)
 		print_cmd(ftl);*/
+	else if (key == P_KEY)
+		ftl->mem.psycho ^= 1;
 	else if (ftl->mem.color == 0 && (key == L_BRACKET || key == R_BRACKET))
 	{
 		ftl->iter += (key == L_BRACKET ? -10 : 10);

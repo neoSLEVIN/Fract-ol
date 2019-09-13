@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 00:11:25 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/08 19:35:04 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/13 03:08:23 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void		julia(t_frac *ftl)
 			while (pow(z.re, 2.0) + pow(z.im, 2.0) <= 4 && ++i < ftl->iter)
 				z = set_complex(pow(z.re, 2.0) - pow(z.im, 2.0) + ftl->k.re,
 								2.0 * z.re * z.im + ftl->k.im);
-			plot(ftl->img, pos, get_grad_color(&ftl->grad, i / ftl->iter));
+			plot(ftl->img, pos, get_grad_color(ftl, i / ftl->iter));
 		}
 	}
 }

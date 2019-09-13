@@ -12,35 +12,53 @@
 
 #include "fractol.h"
 
-t_rgb		get_grad_color(t_grad *grad, double t)
+static t_rgb	classic_psycho(t_grad *grad, double d_r, int part, int psycho)
 {
 	t_rgb	color;
+
+	if (psycho)
+	{
+		color.r = (int)(grad->col[part].r *
+			d_r * (grad->col[part - 1].r - grad->col[part].r)) % 512;
+		color.g = (int)(grad->col[part].g *
+			d_r * (grad->col[part - 1].g - grad->col[part].g)) % 512;
+		color.b = (int)(grad->col[part].b *
+			d_r * (grad->col[part - 1].b - grad->col[part].b)) % 512;
+	}
+	else
+	{
+		color.r = grad->col[part].r +
+			d_r * (grad->col[part - 1].r - grad->col[part].r);
+		color.g = grad->col[part].g +
+			d_r * (grad->col[part - 1].g - grad->col[part].g);
+		color.b = grad->col[part].b +
+			d_r * (grad->col[part - 1].b - grad->col[part].b);
+	}
+	return (color);
+}
+
+t_rgb			get_grad_color(t_frac *ftl, double t)
+{
 	double	d_r;
 	int		part;
 
 	if (t >= 1)
-		return (grad->col[0]);
+		return (ftl->grad.col[0]);
 	else if (t <= 0)
-		return (grad->col[grad->col_cnt - 1]);
+		return (ftl->grad.col[ftl->grad.col_cnt - 1]);
 	else
 	{
 		part = 0;
-		while (++part < grad->col_cnt - 1)
-			if (t < grad->range[part - 1] && t >= grad->range[part])
+		while (++part < ftl->grad.col_cnt - 1)
+			if (t < ftl->grad.range[part - 1] && t >= ftl->grad.range[part])
 				break ;
 	}
-	d_r = (t - grad->range[part]) /
-		(grad->range[part - 1] - grad->range[part]);
-	color.r = grad->col[part].r +
-		d_r * (grad->col[part - 1].r - grad->col[part].r);
-	color.g = grad->col[part].g +
-		d_r * (grad->col[part - 1].g - grad->col[part].g);
-	color.b = grad->col[part].b +
-		d_r * (grad->col[part - 1].b - grad->col[part].b);
-	return (color);
+	d_r = (t - ftl->grad.range[part]) /
+		(ftl->grad.range[part - 1] - ftl->grad.range[part]);
+	return (classic_psycho(&ftl->grad, d_r, part, ftl->mem.psycho));
 }
 
-void		set_grad_colors(t_frac *ftl, t_flg *flg)
+void			set_grad_colors(t_frac *ftl, t_flg *flg)
 {
 	int	i;
 
@@ -66,7 +84,7 @@ void		set_grad_colors(t_frac *ftl, t_flg *flg)
 		}
 }
 
-static void	new_image(t_frac *ftl, t_point size)
+static void		new_image(t_frac *ftl, t_point size)
 {
 	if (!(ftl->img = (t_img*)malloc(sizeof(t_img))))
 		error("No memory allocated for new image");
@@ -78,7 +96,7 @@ static void	new_image(t_frac *ftl, t_point size)
 	ftl->img->size.y = size.y;
 }
 
-void		init_fractol(t_frac *ftl, t_flg *flg)
+void			init_fractol(t_frac *ftl, t_flg *flg)
 {
 	if (!(ftl->mlx_ptr = mlx_init()))
 		error("Failed to set up the connection to the X server");
@@ -98,6 +116,7 @@ void		init_fractol(t_frac *ftl, t_flg *flg)
 	ftl->mem.zoom = 1;
 	ftl->mem.cam = set_complex(0, 0);
 	ftl->mem.mouse_hook = 0;
+	ftl->mem.psycho = 0;
 	ftl->mem.color = 0;
 	ftl->mem.center = 0;
 	ftl->mem.ui = 0;

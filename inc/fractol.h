@@ -31,10 +31,11 @@
 # include <mlx.h>
 # include <math.h>
 # include "../libft/libft.h"
-
-//# include "linuxkeys.h"
-#include <stdio.h>
+/*
 # include "macoskeys.h"
+*/
+# include "linuxkeys.h"
+#include <stdio.h>
 
 typedef enum	e_type
 {
@@ -85,6 +86,7 @@ typedef struct	s_mem
 	t_complex	cam;
 	int			color;
 	_Bool		mouse_hook;
+	_Bool		psycho;
 	_Bool		center;
 	_Bool		ui;
 }				t_mem;
@@ -133,7 +135,7 @@ t_rgb			set_rgb(int red, int green, int blue);
 t_complex		set_complex(double re, double im);
 
 void			set_grad_colors(t_frac *ftl, t_flg *flg);
-t_rgb			get_grad_color(t_grad *grad, double t);
+t_rgb			get_grad_color(t_frac *ftl, double t);
 
 void			init_fractol(t_frac *ftl, t_flg *flg);
 void			init_flg(t_flg *flg, int ac, char **av);

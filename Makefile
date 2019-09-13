@@ -1,3 +1,5 @@
+OS = LINUX
+COM = fast commit
 NAME = fractol
 
 LFTDIR = ./libft/
@@ -38,7 +40,7 @@ all: $(BINDIR)$(NAME)
 $(BINDIR)$(NAME): $(OBJ)
 	$(MAKE) -C $(LFTDIR)
 	@mkdir -p $(BINDIR)
-	gcc $(WFLAGS) $(OBJ) $(MLXINIT) $(MACOS) $(LFTINIT) \
+	gcc $(WFLAGS) $(OBJ) $(MLXINIT) $($(OS)) $(LFTINIT) \
 		-I $(INCDIR) -o $(BINDIR)$(NAME)
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
@@ -59,6 +61,6 @@ git: fclean
 	git status
 	git add *
 	git status
-	git commit -m "fast commit"
+	git commit -m "$(COM)"
 	git status
 	git push
