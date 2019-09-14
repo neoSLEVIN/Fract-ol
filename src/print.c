@@ -6,18 +6,24 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 21:40:25 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/08 23:46:42 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/14 23:01:48 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void		print_fractol(t_type type)
+void		print_fractol(t_type type, char *pre_string, char *post_string)
 {
+	if (pre_string != NULL)
+		ft_putstr(pre_string);
 	if (type == MANDELBROT)
 		ft_putendl("Mandelbrot");
 	else if (type == JULIA)
 		ft_putendl("Julia");
+	else if (type == BURNING_SHIP)
+		ft_putendl("Burning_Ship");
+	if (post_string != NULL)
+		ft_putstr(post_string);
 }
 
 static void	print_color(t_rgb *color)
@@ -61,7 +67,7 @@ void		print_double(double num)
 
 void		print_info(t_frac *ftl, int i)
 {
-	print_fractol(ftl->type);
+	print_fractol(ftl->type, NULL, NULL);
 	ft_putendl("  Grad:\tColor:");
 	while (++i < ftl->grad.col_cnt)
 	{

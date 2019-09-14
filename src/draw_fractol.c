@@ -12,7 +12,30 @@
 
 #include "fractol.h"
 
-void		mandelbrot(t_frac *ftl)
+static t_complex	init_z(t_frac *ftl, t_complex z, t_complex c)
+{
+	if (ftl->type == JULIA)
+		return (set_complex(pow(z.re, 2.0) - pow(z.im, 2.0) + ftl->k.re,
+							2.0 * z.re * z.im + ftl->k.im));
+	else if (ftl->type == BURNING_SHIP)
+		return (set_complex(pow(z.re, 2.0) - pow(z.im, 2.0) + c.re,
+							-fabs(2.0 * z.re * z.im) + c.im));
+	else
+		return (set_complex(pow(z.re, 2.0) - pow(z.im, 2.0) + c.re,
+							2.0 * z.re * z.im + c.im));
+}
+
+static void			init_edge(t_frac *ftl)
+{
+	double	step;
+
+	ftl->min = set_complex((-2.0 / ftl->zoom), (-2.0 / ftl->zoom));
+	ftl->max = set_complex((2.0 / ftl->zoom), (2.0 / ftl->zoom));
+	step = 4.0 / ftl->zoom / (ftl->size - 1);
+	ftl->step = set_complex(step, step);
+}
+
+void				draw_fractol(t_frac *ftl)
 {
 	t_complex	c;
 	t_complex	z;
@@ -31,8 +54,7 @@ void		mandelbrot(t_frac *ftl)
 			z = set_complex(c.re, c.im);
 			i = -1;
 			while (pow(z.re, 2.0) + pow(z.im, 2.0) <= 4 && ++i < ftl->iter)
-				z = set_complex(pow(z.re, 2.0) - pow(z.im, 2.0) + c.re,
-								2.0 * z.re * z.im + c.im);
+				z = init_z(ftl, z, c);
 			plot(ftl->img, pos, get_grad_color(ftl, i / ftl->iter));
 		}
 	}

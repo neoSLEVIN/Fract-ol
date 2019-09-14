@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 17:38:25 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/08 21:55:15 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/14 23:00:58 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static void	fractal(t_flg *flg, char *fractal, char *app_name)
 		flg->type = MANDELBROT;
 	else if (!ft_strcmp(fractal, "julia"))
 		flg->type = JULIA;
+	else if (!ft_strcmp(fractal, "burning_ship"))
+		flg->type = BURNING_SHIP;
 	else
 		lite_usage(app_name, 1);
 }

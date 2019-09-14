@@ -19,7 +19,7 @@ static t_complex	init_shift(t_frac *ftl, int x, int y)
 	shift.re = ((double)x - ((double)ftl->size / 2)) / ftl->size;
 	shift.im = ((double)y - ((double)ftl->size / 2)) / ftl->size;
 	shift.re *= ftl->max.re - ftl->min.re;
-	shift.im *= ftl->max.re - ftl->min.re;
+	shift.im *= ftl->min.im - ftl->max.im;
 	return (shift);
 }
 
@@ -31,20 +31,23 @@ int					mouse_click(int button, int x, int y, void *param)
 
 	ftl = (t_frac*)param;
 	zoom = ZOOM * 1.5;
-	shift = init_shift(ftl, x, y);
+	if (button != 2 && button != 3)
+		shift = init_shift(ftl, x, y);
 	if (button == 1)
-		ftl->cam = set_complex(ftl->cam.re + shift.re, ftl->cam.im - shift.im);
-	else if (ftl->type != JULIA &&
-		(button == 4 || (button == 5 && ftl->zoom / zoom > 0.05)))
+		ftl->cam = set_complex(ftl->cam.re + shift.re, ftl->cam.im + shift.im);
+	else if (button == 2)
+		ftl->mem.mouse_hook ^= 1;
+	else if (button == 3)
+		ftl->mem.mouse_zoom ^= 1;
+	else if ((button == 4 || (button == 5 && ftl->zoom / zoom > 0.05)) &&
+		(ftl->type != JULIA || ftl->mem.mouse_zoom))
 	{
 		ftl->cam.re += shift.re * (1.0 - ((button == 4) ? (1.0 / zoom) : zoom));
-		ftl->cam.im -= shift.im * (1.0 - ((button == 4) ? (1.0 / zoom) : zoom));
+		ftl->cam.im += shift.im * (1.0 - ((button == 4) ? (1.0 / zoom) : zoom));
 		ftl->zoom *= (button == 4) ? zoom : (1.0 / zoom);
 	}
-	else if (ftl->type == JULIA && (button == 4 || button == 5))
-		ftl->k = set_complex(ftl->cam.re + shift.re, ftl->cam.im - shift.im);
-	else if (ftl->type == JULIA && button == 2)
-		ftl->mem.mouse_hook ^= 1;
+	else if ((button == 4 || button == 5) && ftl->type == JULIA)
+		ftl->k = set_complex(ftl->cam.re + shift.re, ftl->cam.im + shift.im);
 	draw(ftl);
 	return (0);
 }
@@ -55,10 +58,10 @@ int					mouse_move(int x, int y, void *param)
 	t_complex	shift;
 
 	ftl = (t_frac *)param;
-	if (ftl->mem.mouse_hook)
+	if (ftl->mem.mouse_hook && ftl->type == JULIA)
 	{
 		shift = init_shift(ftl, x, y);
-		ftl->k = set_complex(ftl->cam.re + shift.re, ftl->cam.im - shift.im);
+		ftl->k = set_complex(ftl->cam.re + shift.re, ftl->cam.im + shift.im);
 		draw(ftl);
 	}
 	return (0);

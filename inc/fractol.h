@@ -32,16 +32,17 @@
 # include <math.h>
 # include "../libft/libft.h"
 /*
-# include "macoskeys.h"
-*/
 # include "linuxkeys.h"
+*/
+# include "macoskeys.h"
 #include <stdio.h>
 
 typedef enum	e_type
 {
 	MANDELBROT,
 	JULIA,
-	CNT_OF_TYPE
+	BURNING_SHIP,
+	CNT_OF_TYPES
 }				t_type;
 
 typedef struct	s_rgb
@@ -86,7 +87,7 @@ typedef struct	s_mem
 	t_complex	cam;
 	int			color;
 	_Bool		mouse_hook;
-	_Bool		psycho;
+	_Bool		mouse_zoom;
 	_Bool		center;
 	_Bool		ui;
 }				t_mem;
@@ -129,6 +130,7 @@ int				error(char *err_msg);
 int				usage(char *app_name);
 int				lite_usage(char *app_name, _Bool list_of_frac);
 int				err_usage(char *err_msg, char *app_name, _Bool full);
+void			list_of_fractol(char *app_name);
 
 t_point			set_point(int x, int y);
 t_rgb			set_rgb(int red, int green, int blue);
@@ -139,10 +141,6 @@ t_rgb			get_grad_color(t_frac *ftl, double t);
 
 void			init_fractol(t_frac *ftl, t_flg *flg);
 void			init_flg(t_flg *flg, int ac, char **av);
-void			init_edge(t_frac *ftl);
-
-void			mandelbrot(t_frac *ftl);
-void			julia(t_frac *ftl);
 
 int				is_move(int key);
 int				is_hex(char *hex);
@@ -167,10 +165,12 @@ void			choose_number(t_frac *ftl, int key);
 void			choose_gradient(t_frac *ftl, int key);
 void			plot(t_img *img, t_point coord, t_rgb color);
 void			draw(t_frac *ftl);
+void			draw_fractol(t_frac *ftl);
 void			print_cmd(t_frac *ftl);
 void			print_double(double num);
-void			print_fractol(t_type type);
 void			print_info(t_frac *ftl, int i);
+void			print_itoa16(short num, _Bool full);
+void			print_fractol(t_type type, char *pre_string, char *post_string);
 long long		ft_atoll(char * num, size_t len);
 
 #endif

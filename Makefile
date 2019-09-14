@@ -1,4 +1,4 @@
-OS = LINUX
+OS = MACOS
 COM = fast commit
 NAME = fractol
 
@@ -17,8 +17,7 @@ SRCNAME = main.c \
 		flags.c \
 		fractol.c \
 		col_grad_flag.c \
-		mandelbrot.c \
-		julia.c \
+		draw_fractol.c \
 		deal_key.c \
 		actions.c \
 		choose.c \
@@ -38,22 +37,22 @@ WFLAGS = -Wall -Wextra -Werror
 all: $(BINDIR)$(NAME)
 
 $(BINDIR)$(NAME): $(OBJ)
-	$(MAKE) -C $(LFTDIR)
+	@$(MAKE) -C $(LFTDIR)
 	@mkdir -p $(BINDIR)
 	gcc $(WFLAGS) $(OBJ) $(MLXINIT) $($(OS)) $(LFTINIT) \
 		-I $(INCDIR) -o $(BINDIR)$(NAME)
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	@mkdir -p $(OBJDIR)
-	gcc $(WFLAGS) -I $(INCDIR) -o $@ -c $<
+	@gcc $(WFLAGS) -I $(INCDIR) -o $@ -c $<
 
 clean:
-	$(MAKE) -C $(LFTDIR) clean
-	rm -rf $(OBJDIR)
+	@$(MAKE) -C $(LFTDIR) clean
+	@rm -rf $(OBJDIR)
 
 fclean: clean
-	$(MAKE) -C $(LFTDIR) fclean
-	rm -rf $(BINDIR)
+	@$(MAKE) -C $(LFTDIR) fclean
+	@rm -rf $(BINDIR)
 
 re: fclean all
 

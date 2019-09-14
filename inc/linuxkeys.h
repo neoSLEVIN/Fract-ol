@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 13:27:25 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/13 03:13:22 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/14 19:13:01 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 # define E_KEY 101
 # define I_KEY 105
 # define O_KEY 111
-# define P_KEY 112
 # define F_KEY 102
 # define C_KEY 99
 # define X_KEY 120

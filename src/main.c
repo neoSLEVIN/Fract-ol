@@ -6,35 +6,30 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 14:07:30 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/08 21:42:49 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/14 22:45:21 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static void	init_type(t_frac *ftl)
+void		plot(t_img *img, t_point coord, t_rgb color)
 {
-	if (ftl->type == CNT_OF_TYPE)
-		ftl->type = MANDELBROT;
-	if (ftl->type == MANDELBROT)
-		mandelbrot(ftl);
-	else if (ftl->type == JULIA)
-		julia(ftl);
-}
+	int	*i;
 
-void		init_edge(t_frac *ftl)
-{
-	double	step;
-
-	ftl->min = set_complex((-2.0 / ftl->zoom), (-2.0 / ftl->zoom));
-	ftl->max = set_complex((2.0 / ftl->zoom), (2.0 / ftl->zoom));
-	step = 4.0 / ftl->zoom / (ftl->size - 1);
-	ftl->step = set_complex(step, step);
+	i = (int *)img->data;
+	color.r > 255 ? color.r = 511 - color.r : 0;
+	color.g > 255 ? color.g = 511 - color.g : 0;
+	color.b > 255 ? color.b = 511 - color.b : 0;
+	i[coord.y * img->size.x + coord.x] = color.r << 16 | color.g << 8 | color.b;
 }
 
 void		draw(t_frac *ftl)
 {
-	init_type(ftl);
+	if (ftl->type == CNT_OF_TYPES)
+		ftl->type = MANDELBROT;
+	if (ftl->type > CNT_OF_TYPES)
+		ftl->type = CNT_OF_TYPES - 1;
+	draw_fractol(ftl);
 	mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr,
 							ftl->img->img_ptr, 0, 0);
 	if (ftl->mem.center)

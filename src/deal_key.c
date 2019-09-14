@@ -76,10 +76,10 @@ static void	deal_key2(t_frac *ftl, int key)
 		ftl->mem.center ^= 1;
 	else if (key == I_KEY)
 		print_info(ftl, -1);
-/*	else if (key == O_KEY)
-		print_cmd(ftl);*/
-	else if (key == P_KEY)
-		ftl->mem.psycho ^= 1;
+	else if (key == O_KEY)
+		print_cmd(ftl);
+/*	else if (key == U_KEY)
+		print_ui(ftl);*/
 	else if (ftl->mem.color == 0 && (key == L_BRACKET || key == R_BRACKET))
 	{
 		ftl->iter += (key == L_BRACKET ? -10 : 10);
@@ -89,7 +89,6 @@ static void	deal_key2(t_frac *ftl, int key)
 		choose_gradient(ftl, key);
 	else
 		choose_number(ftl, key);
-//	printf("%f\t%f\n", ftl->cam.re, ftl->cam.im);
 }
 
 int			deal_key(int key, void *param)
@@ -111,8 +110,8 @@ int			deal_key(int key, void *param)
 		change_color(ftl, key);
 	else if (key == L_SHIFT || key == L_CTRL)
 		shift_color(ftl, key);
-	else if (key == F_KEY)
-		++ftl->type;
+	else if (key == F_KEY || key == G_KEY)
+		key == F_KEY ? ++ftl->type : --ftl->type;
 	else if (key == TAB)
 		ftl->mem.ui ^= 1;
 	else

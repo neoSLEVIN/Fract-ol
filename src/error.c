@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 02:44:31 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/08 06:39:36 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/14 23:09:09 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,7 @@ int	error(char *err_msg)
 int	lite_usage(char *app_name, _Bool list_of_frac)
 {
 	if (list_of_frac)
-	{
-		ft_putstr("Usage: ");
-		ft_putstr(app_name);
-		ft_putendl(" [OPTION ARGS]... FRACTOL\n");
-		ft_putendl("FRACTOL argument is case-INsensitive.");
-		ft_putendl("List of fractals:\n  Mandelbrot\n  Julia\n");
-	}
+		list_of_fractol(app_name);
 	ft_putstr("Try '");
 	ft_putstr(app_name);
 	ft_putendl(" --help' for more information.");

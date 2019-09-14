@@ -6,11 +6,21 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 17:35:54 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/08 18:29:44 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/14 23:07:48 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+void		list_of_fractol(char *app_name)
+{
+	ft_putstr("Usage: ");
+	ft_putstr(app_name);
+	ft_putendl(" [OPTION ARGS]... FRACTOL\n");
+	ft_putendl("FRACTOL argument is case-INsensitive.");
+	ft_putendl("List of fractals:\n  Mandelbrot\n  Julia\n  Burning_Ship");
+	ft_putendl("");
+}
 
 static void	usage4(char *app_name)
 {
@@ -88,11 +98,7 @@ static void	usage2(char *app_name)
 
 int			usage(char *app_name)
 {
-	ft_putstr("Usage: ");
-	ft_putstr(app_name);
-	ft_putendl(" [OPTION ARGS]... FRACTOL\n");
-	ft_putendl("FRACTOL argument is case-INsensitive.");
-	ft_putendl("List of fractals:\n  Mandelbrot\n  Julia\n");
+	list_of_fractol(app_name);
 	ft_putendl("Arguments to options are mandatory.");
 	ft_putendl("  -c, --color\t\tChange the custom colors.");
 	ft_putendl("\t\t\tARGS(3): HEX colors that starts with 0x.");

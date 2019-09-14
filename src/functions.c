@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 19:34:46 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/08 06:52:14 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/14 21:32:24 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,18 @@ void		hex_to_rgb(char *hex, t_rgb *color)
 			set_rgb(atoi16(hex, 2), atoi16(&hex[2], 2), atoi16(&hex[4], 2));
 }
 
-void		plot(t_img *img, t_point coord, t_rgb color)
+void		print_itoa16(short num, _Bool full)
 {
-	int		*i;
-
-	i = (int *)img->data;
-	color.r > 255 ? color.r = 511 - color.r : 0;
-	color.g > 255 ? color.g = 511 - color.g : 0;
-	color.b > 255 ? color.b = 511 - color.b : 0;
-	i[coord.y * img->size.x + coord.x] = color.r << 16 | color.g << 8 | color.b;
+	num > 255 ? num = 511 - num : 0;
+	if (num / 16 < 10)
+		ft_putnbr(num / 16);
+	else
+		ft_putchar(num / 16 + 87);
+	if (full)
+	{
+		if (num % 16 < 10)
+			ft_putnbr(num % 16);
+		else
+			ft_putchar(num % 16 + 87);
+	}
 }
