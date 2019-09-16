@@ -31,13 +31,13 @@ int					mouse_click(int button, int x, int y, void *param)
 
 	ftl = (t_frac*)param;
 	zoom = ZOOM * 1.5;
-	if (button != 2 && button != 3)
+	if (button != RIGHT_CLICK && button != SCROLL_CLICK)
 		shift = init_shift(ftl, x, y);
 	if (button == 1)
 		ftl->cam = set_complex(ftl->cam.re + shift.re, ftl->cam.im + shift.im);
-	else if (button == 2)
+	else if (button == RIGHT_CLICK)
 		ftl->mem.mouse_hook ^= 1;
-	else if (button == 3)
+	else if (button == SCROLL_CLICK)
 		ftl->mem.mouse_zoom ^= 1;
 	else if ((button == 4 || (button == 5 && ftl->zoom / zoom > 0.05)) &&
 		(ftl->type != JULIA || ftl->mem.mouse_zoom))

@@ -32,9 +32,9 @@
 # include <math.h>
 # include "../libft/libft.h"
 /*
-# include "linuxkeys.h"
-*/
 # include "macoskeys.h"
+*/
+# include "linuxkeys.h"
 #include <stdio.h>
 
 typedef enum	e_type
@@ -42,6 +42,9 @@ typedef enum	e_type
 	MANDELBROT,
 	JULIA,
 	BURNING_SHIP,
+	FRACTOL_4,
+	FRACTOL_5,
+	FRACTOL_6,
 	CNT_OF_TYPES
 }				t_type;
 
@@ -142,6 +145,13 @@ t_rgb			get_grad_color(t_frac *ftl, double t);
 void			init_fractol(t_frac *ftl, t_flg *flg);
 void			init_flg(t_flg *flg, int ac, char **av);
 
+void			mandelbrot(t_frac *ftl);
+void			julia(t_frac *ftl);
+void			burning_ship(t_frac *ftl);
+void			fractol_4(t_frac *ftl);
+void			fractol_5(t_frac *ftl);
+void			fractol_6(t_frac *ftl);
+
 int				is_move(int key);
 int				is_hex(char *hex);
 int				is_fractal(char *fractal);
@@ -165,7 +175,6 @@ void			choose_number(t_frac *ftl, int key);
 void			choose_gradient(t_frac *ftl, int key);
 void			plot(t_img *img, t_point coord, t_rgb color);
 void			draw(t_frac *ftl);
-void			draw_fractol(t_frac *ftl);
 void			print_cmd(t_frac *ftl);
 void			print_double(double num);
 void			print_info(t_frac *ftl, int i);

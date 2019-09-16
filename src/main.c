@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 14:07:30 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/14 22:45:21 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/16 01:02:08 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,35 @@ void		plot(t_img *img, t_point coord, t_rgb color)
 	i[coord.y * img->size.x + coord.x] = color.r << 16 | color.g << 8 | color.b;
 }
 
+static void	init_edge(t_frac *ftl)
+{
+	double	step;
+
+	ftl->min = set_complex((-2.0 / ftl->zoom), (-2.0 / ftl->zoom));
+	ftl->max = set_complex((2.0 / ftl->zoom), (2.0 / ftl->zoom));
+	step = 4.0 / ftl->zoom / (ftl->size - 1);
+	ftl->step = set_complex(step, step);
+}
+
 void		draw(t_frac *ftl)
 {
 	if (ftl->type == CNT_OF_TYPES)
 		ftl->type = MANDELBROT;
 	if (ftl->type > CNT_OF_TYPES)
 		ftl->type = CNT_OF_TYPES - 1;
-	draw_fractol(ftl);
+	init_edge(ftl);
+	if (ftl->type == JULIA)
+		julia(ftl);
+	else if (ftl->type == BURNING_SHIP)
+		burning_ship(ftl);
+	else if (ftl->type == FRACTOL_4)
+		fractol_4(ftl);
+	else if (ftl->type == FRACTOL_5)
+		fractol_5(ftl);
+	else if (ftl->type == FRACTOL_6)
+		fractol_6(ftl);
+	else
+		mandelbrot(ftl);
 	mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr,
 							ftl->img->img_ptr, 0, 0);
 	if (ftl->mem.center)
@@ -42,7 +64,7 @@ static void	input_hook(t_frac *ftl)
 	mlx_mouse_hook(ftl->win_ptr, mouse_click, ftl);
 	mlx_hook(ftl->win_ptr, 17, 1, red_x_button, (void *)0);
 	mlx_hook(ftl->win_ptr, 2, 3, deal_key, ftl);
-	mlx_hook(ftl->win_ptr, 6, 0, mouse_move, ftl);
+	mlx_hook(ftl->win_ptr, 6, (1L << 6), mouse_move, ftl);
 }
 
 int			main(int argc, char **argv)

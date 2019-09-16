@@ -111,7 +111,7 @@ int			deal_key(int key, void *param)
 	else if (key == L_SHIFT || key == L_CTRL)
 		shift_color(ftl, key);
 	else if (key == F_KEY || key == G_KEY)
-		key == F_KEY ? ++ftl->type : --ftl->type;
+		key == F_KEY ? --ftl->type : ++ftl->type;
 	else if (key == TAB)
 		ftl->mem.ui ^= 1;
 	else

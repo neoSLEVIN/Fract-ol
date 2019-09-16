@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 13:27:25 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/14 19:13:01 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/16 00:29:47 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,11 @@
 # define D_KEY 100
 # define Q_KEY 113
 # define E_KEY 101
+# define U_KEY 117
 # define I_KEY 105
 # define O_KEY 111
 # define F_KEY 102
+# define G_KEY 103
 # define C_KEY 99
 # define X_KEY 120
 # define Z_KEY 122
@@ -62,5 +64,8 @@
 # define UP 65362
 # define RIGHT 65363
 # define DOWN 65364
+
+# define RIGHT_CLICK 3
+# define SCROLL_CLICK 2
 
 #endif
