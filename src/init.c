@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 16:24:17 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/18 03:48:45 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/18 07:46:39 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,32 +34,49 @@ void		init_flg(t_flg *flg, int ac, char **av)
 	valid_stdin(flg, ac, av);
 }
 
-static void	init_root(t_root *root)
+void		init_root_pos(t_root *root, int cnt)
 {
-	root->cnt = 5;
-	root->damping = set_complex(1, 0);
-	root->roots[0] = set_complex(0, 0);
-	root->roots[1] = set_complex(0.5444, 0.736);
-	root->roots[2] = set_complex(-0.5444, 0.736);
-	root->roots[3] = set_complex(0.5444, -0.736);
-	root->roots[4] = set_complex(-0.5444, -0.736);
-	root->cols[0] = set_rgb(113, 162, 201);
-	root->cols[1] = set_rgb(0, 112, 201);
-	root->cols[2] = set_rgb(235, 222, 87);
-	root->cols[3] = set_rgb(235, 213, 0);
-	root->cols[4] = set_rgb(138, 255, 192);
+	root->roots[0] = set_complex(0.0, 0.0);
+	if (cnt == 2)
+	{
+		root->roots[0] = set_complex(-0.9, 0.9);
+		root->roots[1] = set_complex(0.9, -0.9);
+	}
+	else if (cnt == 3)
+	{
+		root->roots[1] = set_complex(0.0, 0.5);
+		root->roots[2] = set_complex(0.0, -0.5);
+	}
+	else if (cnt == 4)
+	{
+		root->roots[1] = set_complex(0.0, 0.3);
+		root->roots[2] = set_complex(0.75, -0.5);
+		root->roots[3] = set_complex(-0.75, -0.5);
+	}
+	else
+	{
+		root->roots[1] = set_complex(-0.5444, 0.736);
+		root->roots[2] = set_complex(0.5444, 0.736);
+		root->roots[3] = set_complex(0.5444, -0.736);
+		root->roots[4] = set_complex(-0.5444, -0.736);
+	}
 }
 
-static void	new_image(t_frac *ftl, int size)
+static void	init_root(t_root *root, int	cnt, t_grad *grad)
 {
-	if (!(ftl->img = (t_img*)malloc(sizeof(t_img))))
-		error("No memory allocated for new image");
-	if (!(ftl->img->img_ptr = mlx_new_image(ftl->mlx_ptr, size, size)))
-		error("Failed to create a new image");
-	ftl->img->data = mlx_get_data_addr(ftl->img->img_ptr, &ftl->img->bpp,
-									&ftl->img->size_line, &ftl->img->endian);
-	ftl->img->size.x = size;
-	ftl->img->size.y = size;
+	int	i;
+
+	i = -1;
+	root->cnt = cnt;
+	root->damping = set_complex(0.534675346, 0);
+	hex_to_rgb("0ff", &root->cols[0]);
+	hex_to_rgb("0", &root->cols[1]);
+	hex_to_rgb("ff0", &root->cols[2]);
+	hex_to_rgb("00f", &root->cols[3]);
+	hex_to_rgb("f00", &root->cols[4]);
+	while (++i < grad->col_cnt && i < 5)
+		root->cols[i] = grad->col[i];
+	init_root_pos(root, cnt);
 }
 
 void		set_grad_colors(t_frac *ftl, t_flg *flg)
@@ -114,5 +131,5 @@ void		init_fractol(t_frac *ftl, t_flg *flg)
 	ftl->mem.center = 0;
 	ftl->mem.ui = 0;
 	ftl->k = flg->k;
-	init_root(&ftl->root);
+	init_root(&ftl->root, flg->pow, &ftl->grad);
 }

@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 17:35:54 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/18 04:26:20 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/18 08:20:15 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,22 @@ static void	usage4(char *app_name)
 	ft_putendl("follow their options.");
 	ft_putendl("FRACTOL should be the last parameter.\n");
 	ft_putendl("Recommendation from the author:");
-	ft_putstr("  Try: ");
+	ft_putstr("  Try:\n    ");
 	ft_putstr(app_name);
 	ft_putstr(" -p 5 -X 9 0x32d2ba 809 0x060131 649 0x200737 519 0xf890bf 479");
 	ft_putstr(" 0x775fc8 470 0xb9de91 460 0x0552f2 450 0x9b8c33 0x8c2373 -m");
-	ft_putendl(" 180 -Re 0.000294206994828 -Im 1.183454787247950 Burning_Ship");
-	ft_putstr("   or: ");
+	ft_putstr(" 180 -Re 0.000294206994828 -Im 1.183454787247950 -z 14 ");
+	ft_putstr("Burning_Ship\n\n    ");
 	ft_putstr(app_name);
-	ft_putstr(" -X 9 0x0a221a 900 0x330c33 800 0x44449b 700 0x1d1d1d 600");
-	ft_putstr(" 0x363636 500 0x47af77 400 0x6858a8 300 0x070807 0x113911");
-	ft_putendl(" -m 140 -Re 0.025999529691096 -Im -0.834258872948031 Julia");
-	ft_putstr("   or: ");
+	ft_putstr(" -X 9 0x0a221a 900 0x330c33 800 0x44449b 700 0x1d1d1d 600 ");
+	ft_putstr("0x363636 500 0x47af77 400 0x6858a8 300 0x070807 0x0e110e ");
+	ft_putstr("-m 140 -Re 0.025999529691095 -Im -0.834258872948030 ");
+	ft_putstr("Julia\n\n    ");
 	ft_putstr(app_name);
 	ft_putstr(" -p 5 -X 9 0x0e190e 900 0x0a221a 800 0x330c33 700 0x44449b 600");
 	ft_putstr(" 0x1d1d1d 500 0x363636 400 0x47af77 300 0x6858a8 0x070807 ");
-	ft_putendl("-m 140 -Re -0.964484040910812 -Im 0.636821781468433 Mandelbar");
+	ft_putstr("-m 140 -Re -0.964484040910812 -Im 0.636821781468433 -z 7 ");
+	ft_putendl("Mandelbar");
 }
 
 static void	usage3(char *app_name)

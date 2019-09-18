@@ -23,6 +23,7 @@ SRCNAME = main.c \
 		fractol.c \
 		newton.c \
 		deal_key.c \
+		deal_key2.c \
 		actions.c \
 		mouse.c \
 		print.c \

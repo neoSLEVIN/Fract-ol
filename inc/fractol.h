@@ -84,7 +84,9 @@ typedef struct	s_fractol
 
 void			init_flg(t_flg *flg, int ac, char **av);
 void			init_fractol(t_frac *ftl, t_flg *flg);
+void			init_root_pos(t_root *root, int cnt);
 void			set_grad_colors(t_frac *ftl, t_flg *flg);
+void			new_image(t_frac *ftl, int size);
 
 void			mandelbrot(t_frac *ftl);
 void			julia(t_frac *ftl);
@@ -96,9 +98,9 @@ void			newton(t_frac *ftl);
 int				is_move(int key);
 int				is_hex(char *hex);
 int				deal_key(int key, void *param);
+void			deal_key2(t_frac *ftl, int key);
 int				mouse_click(int button, int x, int y, void *param);
 int				mouse_move(int x, int y, void *param);
-void			choose_number(t_frac *ftl, int key);
 void			zoom_std(t_frac *ftl, int key);
 void			move_std(t_frac *ftl, int key);
 void			zoom_camera(t_frac *ftl, int key);

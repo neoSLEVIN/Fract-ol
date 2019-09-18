@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 21:40:25 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/18 04:16:04 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/18 07:52:55 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void		print_double(double num)
 
 static void	print_info2(t_frac *ftl, int i)
 {
-	if (ftl->type != NEWTON || ftl->flg->flag & F_COL)
+	if (ftl->type != NEWTON)
 	{
 		ft_putendl("  Grad:\tColor:");
 		while (++i < ftl->grad.col_cnt)
@@ -80,7 +80,7 @@ static void	print_info2(t_frac *ftl, int i)
 			print_color(&ftl->grad.col[i]);
 		}
 	}
-	if (ftl->type == NEWTON && !(ftl->flg->flag & F_COL))
+	else
 		while (++i < ftl->root.cnt)
 		{
 			ft_putstr("  ");

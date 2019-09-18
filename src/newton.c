@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 23:15:58 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/18 04:08:56 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/18 07:53:53 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,7 @@
 
 t_rgb	get_root_color(t_rgb *roots, int r, double f)
 {
-	t_rgb	color;
-
-	color.r = 238 - f * (238 - roots[r].r);
-	color.g = 238 - f * (238 - roots[r].g);
-	color.b = 238 - f * (238 - roots[r].b);
-	return (color);
+	return (set_rgb(f * roots[r].r, f * roots[r].g, f * roots[r].b));
 }
 
 static void	func(t_complex z, t_complex *f, t_complex *df, t_root *root)
@@ -48,15 +43,17 @@ static void	newton_iter(t_frac *ftl, t_complex *z, t_point pos, double i)
 	int			r;
 
 	r = -1;
+	ftl->pow > 5 ? ftl->pow = 5 : 0;
+	ftl->root.cnt = ftl->pow;
+	init_root_pos(&ftl->root, ftl->root.cnt);
 	func(*z, &f, &df, &ftl->root);
 	z0 = c_minus(*z, c_divide(c_mult(ftl->root.damping, f), df));
-	if (c_abs_sq(c_minus(z0, *z)) < 1e-6)
+	if (c_abs_sq(c_minus(z0, *z)) < 1e-4)
 		while (++r < ftl->root.cnt)
 		{
-			if (c_abs_sq(c_minus(z0, ftl->root.roots[r])) < 1e-6)
+			if (c_abs_sq(c_minus(z0, ftl->root.roots[r])) < 1e-4)
 			{
-				plot(ftl->img, pos, ftl->flg->flag & F_COL ?
-					get_grad_color(&ftl->grad, i / ftl->iter) :
+				plot(ftl->img, pos,
 					get_root_color(ftl->root.cols, r, i / ftl->iter));
 				return ;
 			}
