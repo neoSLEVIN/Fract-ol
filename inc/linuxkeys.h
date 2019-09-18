@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 13:27:25 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/16 00:29:47 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/18 00:38:04 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@
 # define SEVEN_KEY 55
 # define EIGHT_KEY 56
 # define NINE_KEY 57
+# define PLUS_KEY 61
+# define MINUS_KEY 45
 # define ZERO_NUM 65438
 # define ONE_NUM 65436
 # define TWO_NUM 65433

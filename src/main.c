@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 14:07:30 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/16 01:02:08 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/18 00:17:19 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ void		draw(t_frac *ftl)
 		julia(ftl);
 	else if (ftl->type == BURNING_SHIP)
 		burning_ship(ftl);
-	else if (ftl->type == FRACTOL_4)
-		fractol_4(ftl);
-	else if (ftl->type == FRACTOL_5)
-		fractol_5(ftl);
-	else if (ftl->type == FRACTOL_6)
-		fractol_6(ftl);
+	else if (ftl->type == MANDELBAR)
+		mandelbar(ftl);
+	else if (ftl->type == CELTIC)
+		celtic(ftl);
+	else if (ftl->type == NEWTON)
+		newton(ftl);
 	else
 		mandelbrot(ftl);
 	mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr,
@@ -70,16 +70,15 @@ static void	input_hook(t_frac *ftl)
 int			main(int argc, char **argv)
 {
 	t_frac	*ftl;
-	t_flg	*flg;
 
 	if (argc == 1)
 		usage(argv[0]);
-	if (!(flg = (t_flg*)malloc(sizeof(t_flg))))
-		error("No memory allocated for FLAGS");
 	if (!(ftl = (t_frac*)malloc(sizeof(t_frac))))
 		error("No memory allocated for FRACTOL");
-	init_flg(flg, argc, argv);
-	init_fractol(ftl, flg);
+	if (!(ftl->flg = (t_flg*)malloc(sizeof(t_flg))))
+		error("No memory allocated for FLAGS");
+	init_flg(ftl->flg, argc, argv);
+	init_fractol(ftl, ftl->flg);
 	draw(ftl);
 	input_hook(ftl);
 	mlx_loop(ftl->mlx_ptr);

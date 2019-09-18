@@ -34,7 +34,7 @@ int					mouse_click(int button, int x, int y, void *param)
 	if (button != RIGHT_CLICK && button != SCROLL_CLICK)
 		shift = init_shift(ftl, x, y);
 	if (button == 1)
-		ftl->cam = set_complex(ftl->cam.re + shift.re, ftl->cam.im + shift.im);
+		ftl->cam = c_plus(ftl->cam, shift);
 	else if (button == RIGHT_CLICK)
 		ftl->mem.mouse_hook ^= 1;
 	else if (button == SCROLL_CLICK)
@@ -47,7 +47,7 @@ int					mouse_click(int button, int x, int y, void *param)
 		ftl->zoom *= (button == 4) ? zoom : (1.0 / zoom);
 	}
 	else if ((button == 4 || button == 5) && ftl->type == JULIA)
-		ftl->k = set_complex(ftl->cam.re + shift.re, ftl->cam.im + shift.im);
+		ftl->k = c_plus(ftl->cam, shift);
 	draw(ftl);
 	return (0);
 }
@@ -56,12 +56,22 @@ int					mouse_move(int x, int y, void *param)
 {
 	t_frac		*ftl;
 	t_complex	shift;
+	t_complex	new_pos;
 
 	ftl = (t_frac *)param;
 	if (ftl->mem.mouse_hook && ftl->type == JULIA)
 	{
 		shift = init_shift(ftl, x, y);
-		ftl->k = set_complex(ftl->cam.re + shift.re, ftl->cam.im + shift.im);
+		ftl->k = c_plus(ftl->cam, shift);
+		draw(ftl);
+	}
+	else if (ftl->mem.mouse_hook && ftl->type == NEWTON &&
+			ftl->mem.color > 0 && ftl->mem.color < ftl->root.cnt)
+	{
+		shift = init_shift(ftl, x, y);
+		new_pos = set_complex((ftl->max.re + ftl->min.re) / 2 + shift.re,
+							(ftl->max.im + ftl->min.im) / 2 + shift.im);
+		ftl->root.roots[ftl->mem.color - 1] = new_pos;
 		draw(ftl);
 	}
 	return (0);

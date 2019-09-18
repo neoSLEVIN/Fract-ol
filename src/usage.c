@@ -6,11 +6,11 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 17:35:54 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/14 23:07:48 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/18 04:26:20 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "err_usg.h"
 
 void		list_of_fractol(char *app_name)
 {
@@ -19,7 +19,7 @@ void		list_of_fractol(char *app_name)
 	ft_putendl(" [OPTION ARGS]... FRACTOL\n");
 	ft_putendl("FRACTOL argument is case-INsensitive.");
 	ft_putendl("List of fractals:\n  Mandelbrot\n  Julia\n  Burning_Ship");
-	ft_putendl("");
+	ft_putendl("  Mandelbar\n  Celtic\n  Newton");
 }
 
 static void	usage4(char *app_name)
@@ -31,14 +31,19 @@ static void	usage4(char *app_name)
 	ft_putendl("Recommendation from the author:");
 	ft_putstr("  Try: ");
 	ft_putstr(app_name);
-	ft_putendl(" -X 9 0xf 90 0x0f0 80 0x00f 70 0xf00 60 0xff0 50 0xf0f 40 0x0ff 30 0x0 0x4 julia");
+	ft_putstr(" -p 5 -X 9 0x32d2ba 809 0x060131 649 0x200737 519 0xf890bf 479");
+	ft_putstr(" 0x775fc8 470 0xb9de91 460 0x0552f2 450 0x9b8c33 0x8c2373 -m");
+	ft_putendl(" 180 -Re 0.000294206994828 -Im 1.183454787247950 Burning_Ship");
 	ft_putstr("   or: ");
 	ft_putstr(app_name);
-	ft_putendl(" -c 0x8a4a4a 0x8a8a4a 0x4a8a8a 0x8a4a8a 0x8a4a4a FRACTOL");
+	ft_putstr(" -X 9 0x0a221a 900 0x330c33 800 0x44449b 700 0x1d1d1d 600");
+	ft_putstr(" 0x363636 500 0x47af77 400 0x6858a8 300 0x070807 0x113911");
+	ft_putendl(" -m 140 -Re 0.025999529691096 -Im -0.834258872948031 Julia");
 	ft_putstr("   or: ");
 	ft_putstr(app_name);
-	ft_putstr(" -X 6  0xf00  33 0xf00  34 0x00f  66 0x00f  67 0xfff  0xfff ");
-	ft_putendl("FRACTOL");
+	ft_putstr(" -p 5 -X 9 0x0e190e 900 0x0a221a 800 0x330c33 700 0x44449b 600");
+	ft_putstr(" 0x1d1d1d 500 0x363636 400 0x47af77 300 0x6858a8 0x070807 ");
+	ft_putendl("-m 140 -Re -0.964484040910812 -Im 0.636821781468433 Mandelbar");
 }
 
 static void	usage3(char *app_name)
@@ -110,6 +115,9 @@ int			usage(char *app_name)
 	ft_putendl("  -m, --max-iter\tChange the value of the max iterations.");
 	ft_putendl("\t\t\tARG(1): integer in range [2...2000] inclusive.");
 	ft_putendl("\t\t\tExample: --max-iter 100\n");
+	ft_putendl("  -p, --power\tChange the value of the z-power.");
+	ft_putendl("\t\t\tARG(1): integer in range [2...99] inclusive.");
+	ft_putendl("\t\t\tExample: --power 2\n");
 	ft_putendl("  -s, --size\t\tResize the window.");
 	ft_putendl("\t\t\tARG(1): integer in range [150...1500] inclusive, the");
 	ft_putendl("\t\t\t  argument is for width and height at the same time.");

@@ -75,18 +75,20 @@ static void	deal_key2(t_frac *ftl, int key)
 	else if (key == SPACE)
 		ftl->mem.center ^= 1;
 	else if (key == I_KEY)
-		print_info(ftl, -1);
+		print_info(ftl);
 	else if (key == O_KEY)
 		print_cmd(ftl);
 /*	else if (key == U_KEY)
 		print_ui(ftl);*/
+	else if (key == PLUS_KEY || (key == MINUS_KEY && ftl->pow > 2))
+		key == PLUS_KEY ? ++ftl->pow : --ftl->pow;
 	else if (ftl->mem.color == 0 && (key == L_BRACKET || key == R_BRACKET))
 	{
 		ftl->iter += (key == L_BRACKET ? -10 : 10);
 		ftl->iter < 2 ? ftl->iter = 2 : 0;
 	}
 	else if (ftl->mem.color != 0 && (key == L_BRACKET || key == R_BRACKET))
-		choose_gradient(ftl, key);
+		change_grad(&ftl->grad, ftl->mem.color - 1, key == L_BRACKET ? 1 : 0);
 	else
 		choose_number(ftl, key);
 }

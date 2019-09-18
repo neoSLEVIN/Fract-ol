@@ -9,18 +9,21 @@ OBJDIR = ./obj/
 BINDIR = ./bin/
 
 SRCNAME = main.c \
-		error.c \
+		rgb.c \
+		complex.c \
+		complex2.c \
+		grad.c \
 		usage.c \
-		setters.c \
+		error.c \
 		functions.c \
+		init.c \
 		validator.c \
 		flags.c \
+		flags2.c \
 		fractol.c \
-		col_grad_flag.c \
-		draw_fractol.c \
+		newton.c \
 		deal_key.c \
 		actions.c \
-		choose.c \
 		mouse.c \
 		print.c \
 		print_cmd.c
