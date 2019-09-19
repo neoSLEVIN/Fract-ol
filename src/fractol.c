@@ -27,11 +27,12 @@ void	mandelbrot(t_frac *ftl)
 		while (++pos.x < ftl->size)
 		{
 			c.re = ftl->min.re + pos.x * ftl->step.re + ftl->cam.re;
-			z = set_complex(c.re, c.im);
+			set_complex_p(c.re, c.im, &z);
 			i = -1;
-			while (c_abs_sq(z) <= 4 && ++i < ftl->iter)
-				z = c_plus(c_pow(z, ftl->pow), c);
-			plot(ftl->img, pos, get_grad_color(&ftl->grad, i / ftl->iter));
+			while (cp_abs_sq(&z) <= 4 && ++i < ftl->iter)
+				cp_plus(&c, cp_pow(&z, ftl->pow, &ftl->cp[0]), &z);
+			i = i / ftl->iter;
+			plot(ftl->img, &pos, get_grad_color(&ftl->grad, &i));
 		}
 	}
 }
@@ -51,11 +52,12 @@ void	julia(t_frac *ftl)
 		while (++pos.x < ftl->size)
 		{
 			c.re = ftl->min.re + pos.x * ftl->step.re + ftl->cam.re;
-			z = set_complex(c.re, c.im);
+			set_complex_p(c.re, c.im, &z);
 			i = -1;
-			while (c_abs_sq(z) <= 4 && ++i < ftl->iter)
-				z = c_plus(c_pow(z, ftl->pow), ftl->k);
-			plot(ftl->img, pos, get_grad_color(&ftl->grad, i / ftl->iter));
+			while (cp_abs_sq(&z) <= 4 && ++i < ftl->iter)
+				cp_plus(&ftl->k, cp_pow(&z, ftl->pow, &ftl->cp[0]), &z);
+			i = i / ftl->iter;
+			plot(ftl->img, &pos, get_grad_color(&ftl->grad, &i));
 		}
 	}
 }
@@ -75,11 +77,13 @@ void	burning_ship(t_frac *ftl)
 		while (++pos.x < ftl->size)
 		{
 			c.re = ftl->min.re + pos.x * ftl->step.re + ftl->cam.re;
-			z = set_complex(c.re, c.im);
+			set_complex_p(c.re, c.im, &z);
 			i = -1;
-			while (c_abs_sq(z) <= 4 && ++i < ftl->iter)
-				z = c_plus(c_rev_im(c_abs_im(c_pow(z, ftl->pow))), c);
-			plot(ftl->img, pos, get_grad_color(&ftl->grad, i / ftl->iter));
+			while (cp_abs_sq(&z) <= 4 && ++i < ftl->iter)
+				cp_plus(&c, cp_rev_im(cp_abs_im(cp_pow(&z, ftl->pow,
+					&ftl->cp[0]), &z), &z), &z);
+			i = i / ftl->iter;
+			plot(ftl->img, &pos, get_grad_color(&ftl->grad, &i));
 		}
 	}
 }
@@ -99,11 +103,13 @@ void	mandelbar(t_frac *ftl)
 		while (++pos.x < ftl->size)
 		{
 			c.re = ftl->min.re + pos.x * ftl->step.re + ftl->cam.re;
-			z = set_complex(c.re, c.im);
+			set_complex_p(c.re, c.im, &z);
 			i = -1;
-			while (c_abs_sq(z) <= 4 && ++i < ftl->iter)
-				z = c_plus(c_rev_im(c_pow(z, ftl->pow)), c);
-			plot(ftl->img, pos, get_grad_color(&ftl->grad, i / ftl->iter));
+			while (cp_abs_sq(&z) <= 4 && ++i < ftl->iter)
+				cp_plus(&c, cp_rev_im(cp_pow(&z, ftl->pow,
+							&ftl->cp[0]), &z), &z);
+			i = i / ftl->iter;
+			plot(ftl->img, &pos, get_grad_color(&ftl->grad, &i));
 		}
 	}
 }
@@ -123,11 +129,13 @@ void	celtic(t_frac *ftl)
 		while (++pos.x < ftl->size)
 		{
 			c.re = ftl->min.re + pos.x * ftl->step.re + ftl->cam.re;
-			z = set_complex(c.re, c.im);
+			set_complex_p(c.re, c.im, &z);
 			i = -1;
-			while (c_abs_sq(z) <= 4 && ++i < ftl->iter)
-				z = c_plus(c_rev_im(c_abs_re(c_pow(z, ftl->pow))), c);
-			plot(ftl->img, pos, get_grad_color(&ftl->grad, i / ftl->iter));
+			while (cp_abs_sq(&z) <= 4 && ++i < ftl->iter)
+				cp_plus(&c, cp_rev_im(cp_abs_re(cp_pow(&z, ftl->pow,
+					&ftl->cp[0]), &z), &z), &z);
+			i = i / ftl->iter;
+			plot(ftl->img, &pos, get_grad_color(&ftl->grad, &i));
 		}
 	}
 }

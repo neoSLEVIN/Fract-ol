@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 19:34:46 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/18 07:15:38 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/19 04:33:15 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,5 @@ void		new_image(t_frac *ftl, int size)
 		error("Failed to create a new image");
 	ftl->img->data = mlx_get_data_addr(ftl->img->img_ptr, &ftl->img->bpp,
 									&ftl->img->size_line, &ftl->img->endian);
-	ftl->img->size.x = size;
-	ftl->img->size.y = size;
+	ftl->img->size = size;
 }

@@ -65,7 +65,7 @@ int					mouse_move(int x, int y, void *param)
 		ftl->k = c_plus(ftl->cam, shift);
 		draw(ftl);
 	}
-	else if (ftl->mem.mouse_hook && ftl->type == NEWTON &&
+	else if (ftl->mem.mouse_hook && (ftl->type == NEWTON || ftl->type == P_MANDELBROT) &&
 			ftl->mem.color > 0 && ftl->mem.color < ftl->root.cnt)
 	{
 		shift = init_shift(ftl, x, y);

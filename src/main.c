@@ -6,21 +6,21 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 14:07:30 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/18 00:17:19 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/19 06:53:19 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void		plot(t_img *img, t_point coord, t_rgb color)
+void		plot(t_img *img, t_point *coord, t_rgb *color)
 {
 	int	*i;
 
 	i = (int *)img->data;
-	color.r > 255 ? color.r = 511 - color.r : 0;
-	color.g > 255 ? color.g = 511 - color.g : 0;
-	color.b > 255 ? color.b = 511 - color.b : 0;
-	i[coord.y * img->size.x + coord.x] = color.r << 16 | color.g << 8 | color.b;
+	i[coord->y * img->size + coord->x] =
+		(color->r > 255 ? 511 - color->r : color->r) << 16 |
+		(color->g > 255 ? 511 - color->g : color->g) << 8 |
+		(color->b > 255 ? 511 - color->b : color->b);
 }
 
 static void	init_edge(t_frac *ftl)
@@ -77,6 +77,8 @@ int			main(int argc, char **argv)
 		error("No memory allocated for FRACTOL");
 	if (!(ftl->flg = (t_flg*)malloc(sizeof(t_flg))))
 		error("No memory allocated for FLAGS");
+	if (!(ftl->cp = (t_complex*)malloc(sizeof(t_complex) * 2)))
+		error("No memory allocated for COMPLEX POINTERS");
 	init_flg(ftl->flg, argc, argv);
 	init_fractol(ftl, ftl->flg);
 	draw(ftl);

@@ -22,39 +22,37 @@ void			change_grad(t_grad *grad, int color, int left)
 		grad->range[color] += RANGE;
 }
 
-static t_rgb	true_color(t_rgb col1, t_rgb col2, double d_r)
+static t_rgb	*true_color(t_rgb col1, t_rgb col2, double *d_r, t_rgb *temp)
 {
-	t_rgb	color;
-
 	col1.r > 255 ? col1.r = 511 - col1.r : 0;
 	col1.g > 255 ? col1.g = 511 - col1.g : 0;
 	col1.b > 255 ? col1.b = 511 - col1.b : 0;
 	col2.r > 255 ? col2.r = 511 - col2.r : 0;
 	col2.g > 255 ? col2.g = 511 - col2.g : 0;
 	col2.b > 255 ? col2.b = 511 - col2.b : 0;
-	color.r = col1.r + d_r * (col2.r - col1.r);
-	color.g = col1.g + d_r * (col2.g - col1.g);
-	color.b = col1.b + d_r * (col2.b - col1.b);
-	return (color);
+	temp->r = col1.r + *d_r * (col2.r - col1.r);
+	temp->g = col1.g + *d_r * (col2.g - col1.g);
+	temp->b = col1.b + *d_r * (col2.b - col1.b);
+	return (temp);
 }
 
-t_rgb			get_grad_color(t_grad *grad, double t)
+t_rgb			*get_grad_color(t_grad *grad, double *t)
 {
 	double	d_r;
 	int		part;
 
-	if (t >= 1)
-		return (grad->col[0]);
-	else if (t <= 0)
-		return (grad->col[grad->col_cnt - 1]);
+	if (*t >= 1)
+		return (&grad->col[0]);
+	else if (*t <= 0)
+		return (&grad->col[grad->col_cnt - 1]);
 	else
 	{
 		part = 0;
 		while (++part < grad->col_cnt - 1)
-			if (t < grad->range[part - 1] && t >= grad->range[part])
+			if (*t < grad->range[part - 1] && *t >= grad->range[part])
 				break ;
 	}
-	d_r = (t - grad->range[part]) /
+	d_r = (*t - grad->range[part]) /
 		(grad->range[part - 1] - grad->range[part]);
-	return (true_color(grad->col[part], grad->col[part - 1], d_r));
+	return (true_color(grad->col[part], grad->col[part - 1], &d_r, &grad->tmp));
 }

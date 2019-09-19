@@ -6,36 +6,34 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 23:15:58 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/18 07:53:53 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/19 04:53:20 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-t_rgb	get_root_color(t_rgb *roots, int r, double f)
-{
-	return (set_rgb(f * roots[r].r, f * roots[r].g, f * roots[r].b));
-}
-
-static void	func(t_complex z, t_complex *f, t_complex *df, t_root *root)
+static void	func(t_complex *z, t_complex *f, t_complex *df, t_frac *ftl)
 {
 	t_complex	r;
 	t_complex	l;
 	int			i;
 
 	i = 0;
-	r = c_minus(z, root->roots[0]);
-	l = c_minus(z, root->roots[1]);
-	while (++i < root->cnt - 1)
+	cp_minus(z, &ftl->root.roots[0], &r);
+	cp_minus(z, &ftl->root.roots[1], &l);
+	while (++i < ftl->root.cnt - 1)
 	{
-		l = c_mult(c_minus(z, root->roots[i + 1]), c_plus(l, r));
-		r = c_mult(r, c_minus(z, root->roots[i]));
+		cp_mult(cp_minus(z, &ftl->root.roots[i + 1], &ftl->cp[0]),
+				cp_plus(&l, &r, &ftl->cp[1]), &l);
+		cp_mult(&r, cp_minus(z, &ftl->root.roots[i],
+					&ftl->cp[0]), &r);
 	}
-	*df = c_plus(l, r);
-	*f = c_mult(r, c_minus(z, root->roots[root->cnt - 1]));
+	cp_plus(&l, &r, df);
+	cp_minus(z, &ftl->root.roots[ftl->root.cnt - 1], f);
+	cp_mult(&r, f, f);
 }
 
-static void	newton_iter(t_frac *ftl, t_complex *z, t_point pos, double i)
+static void	newton_iter(t_frac *ftl, t_complex *z, t_point *pos)
 {
 	t_complex	f;
 	t_complex	df;
@@ -43,21 +41,13 @@ static void	newton_iter(t_frac *ftl, t_complex *z, t_point pos, double i)
 	int			r;
 
 	r = -1;
-	ftl->pow > 5 ? ftl->pow = 5 : 0;
-	ftl->root.cnt = ftl->pow;
-	init_root_pos(&ftl->root, ftl->root.cnt);
-	func(*z, &f, &df, &ftl->root);
-	z0 = c_minus(*z, c_divide(c_mult(ftl->root.damping, f), df));
-	if (c_abs_sq(c_minus(z0, *z)) < 1e-4)
+	func(z, &f, &df, ftl);
+	cp_minus(z, cp_divide(cp_mult(&ftl->root.damping, &f, &z0), &df, &z0), &z0);
+	if (cp_abs_sq(cp_minus(&z0, z, &ftl->cp[0])) < EPS)
 		while (++r < ftl->root.cnt)
-		{
-			if (c_abs_sq(c_minus(z0, ftl->root.roots[r])) < 1e-4)
-			{
-				plot(ftl->img, pos,
-					get_root_color(ftl->root.cols, r, i / ftl->iter));
-				return ;
-			}
-		}
+			if (cp_abs_sq(cp_minus(&z0, &ftl->root.roots[r],
+									&ftl->cp[0])) < EPS)
+				return (plot(ftl->img, pos, &ftl->root.cols[r]));
 	*z = z0;
 }
 
@@ -66,8 +56,14 @@ void	newton(t_frac *ftl)
 	t_complex	c;
 	t_complex	z;
 	t_point		pos;
-	double		i;
+	int			i;
 
+	if (ftl->pow != ftl->root.cnt)
+	{
+		ftl->pow > 5 ? ftl->pow = 5 : 0;
+		ftl->root.cnt = ftl->pow;
+		init_root_pos(&ftl->root, ftl->root.cnt);
+	}
 	pos.y = -1;
 	while (++pos.y < ftl->size)
 	{
@@ -76,10 +72,10 @@ void	newton(t_frac *ftl)
 		while (++pos.x < ftl->size)
 		{
 			c.re = ftl->min.re + pos.x * ftl->step.re + ftl->cam.re;
-			z = set_complex(c.re, c.im);
+			set_complex_p(c.re, c.im, &z);
 			i = -1;
 			while (++i < ftl->iter)
-				newton_iter(ftl, &z, pos, i);
+				newton_iter(ftl, &z, &pos);
 		}
 	}
 }

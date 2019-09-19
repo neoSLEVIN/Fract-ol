@@ -16,6 +16,7 @@
 # define ZOOM 1.1
 # define SPEED 0.05
 # define COLOR 8
+# define EPS 1e-4
 
 # include <mlx.h>
 # include <math.h>
@@ -25,6 +26,7 @@
 # include "macoskeys.h"
 */
 # include "linuxkeys.h"
+#include <stdio.h>
 
 typedef struct	s_point
 {
@@ -39,7 +41,7 @@ typedef struct	s_img
 	int			bpp;
 	int			size_line;
 	int			endian;
-	t_point		size;
+	int			size;
 }				t_img;
 
 typedef struct	s_mem
@@ -80,6 +82,7 @@ typedef struct	s_fractol
 	t_complex	cam;
 	t_complex	k;
 	t_mem		mem;
+	t_complex	*cp;
 }				t_frac;
 
 void			init_flg(t_flg *flg, int ac, char **av);
@@ -111,7 +114,7 @@ void			print_info(t_frac *ftl);
 void			print_double(double num);
 void			print_fractol(t_type type);
 void			print_itoa16(short num, _Bool full);
-void			plot(t_img *img, t_point coord, t_rgb color);
+void			plot(t_img *img, t_point *coord, t_rgb *color);
 long long		ft_atoll(char * num, size_t len);
 
 #endif

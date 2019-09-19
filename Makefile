@@ -12,6 +12,7 @@ SRCNAME = main.c \
 		rgb.c \
 		complex.c \
 		complex2.c \
+		complex_p.c \
 		grad.c \
 		usage.c \
 		error.c \
