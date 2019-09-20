@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 16:24:17 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/18 07:46:39 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/20 22:51:08 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void		set_grad_colors(t_frac *ftl, t_flg *flg)
 
 	i = -1;
 	ftl->grad.col_cnt = flg->grad.col_cnt;
-	if (!((flg->flag & F_COL) || (flg->flag & F_GRD)))
+	if (!flg->flag & F_COL)
 	{
 		ftl->grad.col_cnt = 3;
 		hex_to_rgb("0", &ftl->grad.col[0]);
@@ -115,9 +115,8 @@ void		init_fractol(t_frac *ftl, t_flg *flg)
 	if (!ftl->win_ptr)
 		error("Failed to create a new window");
 	new_image(ftl, ftl->size);
+	flg->flag = ((flg->flag & F_COL) || (flg->flag & F_GRD)) ? F_COL : 0;
 	set_grad_colors(ftl, flg);
-	flg->flag =
-		((flg->flag & F_COL) || (flg->flag & F_GRD)) ? (F_COL + F_GRD) : 0;
 	ftl->type = flg->type;
 	ftl->iter = flg->iter;
 	ftl->zoom = flg->zoom;
@@ -127,6 +126,7 @@ void		init_fractol(t_frac *ftl, t_flg *flg)
 	ftl->mem.cam = set_complex(0, 0);
 	ftl->mem.mouse_hook = 0;
 	ftl->mem.mouse_zoom = 0;
+	ftl->mem.no_hook = 0;
 	ftl->mem.color = 0;
 	ftl->mem.center = 0;
 	ftl->mem.ui = 0;

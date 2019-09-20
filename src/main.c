@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 14:07:30 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/19 06:53:19 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/20 22:28:10 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static void	input_hook(t_frac *ftl)
 	mlx_hook(ftl->win_ptr, 17, 1, red_x_button, (void *)0);
 	mlx_hook(ftl->win_ptr, 2, 3, deal_key, ftl);
 	mlx_hook(ftl->win_ptr, 6, (1L << 6), mouse_move, ftl);
+	mlx_loop_hook(ftl->mlx_ptr, no_hook, ftl);
 }
 
 int			main(int argc, char **argv)

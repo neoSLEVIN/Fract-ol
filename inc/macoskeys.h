@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 13:28:17 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/16 00:29:57 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/20 23:00:38 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define D_KEY 2
 # define Q_KEY 12
 # define E_KEY 14
-# define U_KEY 32
+# define N_KEY 32
 # define I_KEY 34
 # define O_KEY 31
 # define F_KEY 3
@@ -47,6 +47,8 @@
 # define SEVEN_KEY 26
 # define EIGHT_KEY 28
 # define NINE_KEY 25
+# define PLUS_KEY 24
+# define MINUS_KEY 27
 # define ZERO_NUM 82
 # define ONE_NUM 83
 # define TWO_NUM 84

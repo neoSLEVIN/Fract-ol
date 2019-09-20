@@ -12,13 +12,25 @@
 
 #include "fractol.h"
 
+int			no_hook(void *param)
+{
+	t_frac		*ftl;
+	t_complex	* //TODO COMPLEX SET
+
+	ftl = (t_frac*)param;
+	if (ftl->mem.no_hook)
+	{
+
+	}
+}
+
 static int	is_color(int key)
 {
 	return (key == A_KEY || key == W_KEY || key == D_KEY || key == S_KEY ||
 			key == Q_KEY || key == E_KEY || key == R_SHIFT || key == R_CTRL);
 }
 
-static void	change_color(t_rgb *colors, int cnt, int color, int key)
+static void change_color(t_rgb *colors, int color, int key, int cnt)
 {
 	int	i;
 	int	max;
@@ -42,7 +54,7 @@ static void	change_color(t_rgb *colors, int cnt, int color, int key)
 	}
 }
 
-static void	shift_color(t_rgb *colors, int cnt, int key)
+static void shift_color(t_rgb *colors, int key, int cnt)
 {
 	t_rgb	temp;
 	int		i;
@@ -80,14 +92,14 @@ int			deal_key(int key, void *param)
 		move_camera(ftl, key);
 	else if	(key == MINUS || key == PLUS || key == DIV || key == MULT)
 		zoom_camera(ftl, key);
-	else if (is_color(key) && ftl->type == NEWTON)
-		change_color(ftl->root.cols, ftl->root.cnt, ftl->mem.color, key);
 	else if (is_color(key))
-		change_color(ftl->grad.col, ftl->grad.col_cnt, ftl->mem.color, key);
-	else if ((key == L_SHIFT || key == L_CTRL) && ftl->type == NEWTON)
-		shift_color(ftl->root.cols, ftl->root.cnt, key);
+		change_color(ftl->root.cols, ftl->mem.color, key,
+			ftl->type == NEWTON ? ftl->root.cnt : ftl->grad.col_cnt);
 	else if (key == L_SHIFT || key == L_CTRL)
-		shift_color(ftl->grad.col, ftl->grad.col_cnt, key);
+		shift_color(ftl->root.cols, key,
+			ftl->type == NEWTON ? ftl->root.cnt : ftl->grad.col_cnt);
+	else if (key == N_KEY)
+		ftl->mem.no_hook ^= 1;
 	else
 		deal_key2(ftl, key);
 	draw(ftl);

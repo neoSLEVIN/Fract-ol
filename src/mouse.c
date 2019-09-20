@@ -23,6 +23,28 @@ static t_complex	init_shift(t_frac *ftl, int x, int y)
 	return (shift);
 }
 
+static void			scroll(t_frac *ftl, _Bool up, t_complex shift, double zoom)
+{
+	t_complex	new_pos;
+
+	if (((ftl->type != JULIA && ftl->type != NEWTON) || ftl->mem.mouse_zoom) &&
+		(up || (!up && ftl->zoom / zoom > 0.05)))
+	{
+		ftl->cam.re += shift.re * (1.0 - (up ? (1.0 / zoom) : zoom));
+		ftl->cam.im += shift.im * (1.0 - (up ? (1.0 / zoom) : zoom));
+		ftl->zoom *= up ? zoom : (1.0 / zoom);
+	}
+	else if (ftl->type == JULIA && !ftl->mem.mouse_zoom)
+		ftl->k = c_plus(ftl->cam, shift);
+	else if (ftl->type == NEWTON && !ftl->mem.mouse_zoom &&
+			ftl->mem.color > 0 && ftl->mem.color <= ftl->root.cnt)
+	{
+		new_pos = set_complex((ftl->max.re + ftl->min.re) / 2 + shift.re,
+							(ftl->max.im + ftl->min.im) / 2 + shift.im);
+		ftl->root.roots[ftl->mem.color - 1] = new_pos;
+	}
+}
+
 int					mouse_click(int button, int x, int y, void *param)
 {
 	t_frac		*ftl;
@@ -39,15 +61,8 @@ int					mouse_click(int button, int x, int y, void *param)
 		ftl->mem.mouse_hook ^= 1;
 	else if (button == SCROLL_CLICK)
 		ftl->mem.mouse_zoom ^= 1;
-	else if ((button == 4 || (button == 5 && ftl->zoom / zoom > 0.05)) &&
-		(ftl->type != JULIA || ftl->mem.mouse_zoom))
-	{
-		ftl->cam.re += shift.re * (1.0 - ((button == 4) ? (1.0 / zoom) : zoom));
-		ftl->cam.im += shift.im * (1.0 - ((button == 4) ? (1.0 / zoom) : zoom));
-		ftl->zoom *= (button == 4) ? zoom : (1.0 / zoom);
-	}
-	else if ((button == 4 || button == 5) && ftl->type == JULIA)
-		ftl->k = c_plus(ftl->cam, shift);
+	else if (button == 4 || button == 5)
+		scroll(ftl, (button == 4), shift, zoom);
 	draw(ftl);
 	return (0);
 }
@@ -65,8 +80,8 @@ int					mouse_move(int x, int y, void *param)
 		ftl->k = c_plus(ftl->cam, shift);
 		draw(ftl);
 	}
-	else if (ftl->mem.mouse_hook && (ftl->type == NEWTON || ftl->type == P_MANDELBROT) &&
-			ftl->mem.color > 0 && ftl->mem.color < ftl->root.cnt)
+	else if (ftl->mem.mouse_hook && ftl->type == NEWTON &&
+			ftl->mem.color > 0 && ftl->mem.color <= ftl->root.cnt)
 	{
 		shift = init_shift(ftl, x, y);
 		new_pos = set_complex((ftl->max.re + ftl->min.re) / 2 + shift.re,

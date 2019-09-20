@@ -23,9 +23,9 @@
 # include "flag.h"
 # include "err_usg.h"
 /*
-# include "macoskeys.h"
-*/
 # include "linuxkeys.h"
+*/
+# include "macoskeys.h"
 #include <stdio.h>
 
 typedef struct	s_point
@@ -51,6 +51,7 @@ typedef struct	s_mem
 	int			color;
 	_Bool		mouse_hook;
 	_Bool		mouse_zoom;
+	_Bool		no_hook;
 	_Bool		center;
 	_Bool		ui;
 }				t_mem;

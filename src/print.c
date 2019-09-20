@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 21:40:25 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/18 07:52:55 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/20 21:04:11 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void		print_double(double num)
 			error("No memory allocated for print info.");
 	}
 	if (ft_strlen(s) == 1 || *s == '0')
-		return ;
+		return (ft_strdel(&s));
 	(int)num == 0 ? ft_putstr(".") : 0;
 	write(1, "00000000", (size_t)(((int)num == 0 ? 8 : 7) - ft_strlen(s)));
 	ft_putstr(s);

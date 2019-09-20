@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 07:09:12 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/19 06:52:11 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/20 22:50:01 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	switch_color(t_frac *ftl)
 {
-	ftl->flg->flag ^= F_COL + F_GRD;
+	ftl->flg->flag ^= F_COL;
 	set_grad_colors(ftl, ftl->flg);
 }
 
