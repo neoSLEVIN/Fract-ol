@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 23:15:58 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/19 04:53:20 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/21 17:23:18 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	func(t_complex *z, t_complex *f, t_complex *df, t_frac *ftl)
 	cp_mult(&r, f, f);
 }
 
-static void	newton_iter(t_frac *ftl, t_complex *z, t_point *pos)
+static void	newton_iter(t_frac *ftl, t_complex *z, t_point *pos, t_img *img)
 {
 	t_complex	f;
 	t_complex	df;
@@ -47,11 +47,11 @@ static void	newton_iter(t_frac *ftl, t_complex *z, t_point *pos)
 		while (++r < ftl->root.cnt)
 			if (cp_abs_sq(cp_minus(&z0, &ftl->root.roots[r],
 									&ftl->cp[0])) < EPS)
-				return (plot(ftl->img, pos, &ftl->root.cols[r]));
+				return (plot(img, pos, &ftl->root.cols[r]));
 	*z = z0;
 }
 
-void	newton(t_frac *ftl)
+void	newton(t_frac *ftl, t_img *img)
 {
 	t_complex	c;
 	t_complex	z;
@@ -65,17 +65,17 @@ void	newton(t_frac *ftl)
 		init_root_pos(&ftl->root, ftl->root.cnt);
 	}
 	pos.y = -1;
-	while (++pos.y < ftl->size)
+	while (++pos.y < img->size)
 	{
 		c.im = ftl->max.im - pos.y * ftl->step.im + ftl->cam.im;
 		pos.x = -1;
-		while (++pos.x < ftl->size)
+		while (++pos.x < img->size)
 		{
 			c.re = ftl->min.re + pos.x * ftl->step.re + ftl->cam.re;
 			set_complex_p(c.re, c.im, &z);
 			i = -1;
 			while (++i < ftl->iter)
-				newton_iter(ftl, &z, &pos);
+				newton_iter(ftl, &z, &pos, img);
 		}
 	}
 }

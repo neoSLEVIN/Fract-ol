@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 19:34:46 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/19 04:33:15 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/21 20:26:36 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,4 @@ int			is_hex(char *hex)
 				(*(hex + i) >= 'a' && *(hex + i) <= 'f')))
 			return (0);
 	return ((!*(hex + i) && (i == 8 || i == 5 || i == 3)) ? 1 : 0);
-}
-
-void		new_image(t_frac *ftl, int size)
-{
-	if (!(ftl->img = (t_img*)malloc(sizeof(t_img))))
-		error("No memory allocated for new image");
-	if (!(ftl->img->img_ptr = mlx_new_image(ftl->mlx_ptr, size, size)))
-		error("Failed to create a new image");
-	ftl->img->data = mlx_get_data_addr(ftl->img->img_ptr, &ftl->img->bpp,
-									&ftl->img->size_line, &ftl->img->endian);
-	ftl->img->size = size;
 }

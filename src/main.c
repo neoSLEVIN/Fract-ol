@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 14:07:30 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/20 22:28:10 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/21 20:28:58 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,40 +23,30 @@ void		plot(t_img *img, t_point *coord, t_rgb *color)
 		(color->b > 255 ? 511 - color->b : color->b);
 }
 
-static void	init_edge(t_frac *ftl)
+void		set_grad_colors(t_frac *ftl, t_flg *flg)
 {
-	double	step;
+	int	i;
 
-	ftl->min = set_complex((-2.0 / ftl->zoom), (-2.0 / ftl->zoom));
-	ftl->max = set_complex((2.0 / ftl->zoom), (2.0 / ftl->zoom));
-	step = 4.0 / ftl->zoom / (ftl->size - 1);
-	ftl->step = set_complex(step, step);
-}
-
-void		draw(t_frac *ftl)
-{
-	if (ftl->type == CNT_OF_TYPES)
-		ftl->type = MANDELBROT;
-	if (ftl->type > CNT_OF_TYPES)
-		ftl->type = CNT_OF_TYPES - 1;
-	init_edge(ftl);
-	if (ftl->type == JULIA)
-		julia(ftl);
-	else if (ftl->type == BURNING_SHIP)
-		burning_ship(ftl);
-	else if (ftl->type == MANDELBAR)
-		mandelbar(ftl);
-	else if (ftl->type == CELTIC)
-		celtic(ftl);
-	else if (ftl->type == NEWTON)
-		newton(ftl);
+	i = -1;
+	ftl->grad.col_cnt = flg->grad.col_cnt;
+	if (!(flg->flag & F_COL))
+	{
+		ftl->grad.col_cnt = 3;
+		hex_to_rgb("0", &ftl->grad.col[0]);
+		hex_to_rgb("8", &ftl->grad.col[1]);
+		hex_to_rgb("f", &ftl->grad.col[2]);
+		ftl->grad.range[0] = 1;
+		ftl->grad.range[1] = 0.5;
+		ftl->grad.range[2] = 0;
+	}
 	else
-		mandelbrot(ftl);
-	mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr,
-							ftl->img->img_ptr, 0, 0);
-	if (ftl->mem.center)
-		mlx_pixel_put(ftl->mlx_ptr, ftl->win_ptr, (double)ftl->size / 2,
-			(double)ftl->size / 2, (255 << 16));
+		while (++i < flg->grad.col_cnt)
+		{
+			ftl->grad.col[i].r = flg->grad.col[i].r;
+			ftl->grad.col[i].g = flg->grad.col[i].g;
+			ftl->grad.col[i].b = flg->grad.col[i].b;
+			ftl->grad.range[i] = flg->grad.range[i];
+		}
 }
 
 static void	input_hook(t_frac *ftl)
@@ -82,7 +72,7 @@ int			main(int argc, char **argv)
 		error("No memory allocated for COMPLEX POINTERS");
 	init_flg(ftl->flg, argc, argv);
 	init_fractol(ftl, ftl->flg);
-	draw(ftl);
+	draw(ftl, -1);
 	input_hook(ftl);
 	mlx_loop(ftl->mlx_ptr);
 	return (0);

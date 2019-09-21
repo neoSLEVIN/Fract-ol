@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 16:24:17 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/20 22:51:08 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/21 20:51:27 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,19 @@ void		init_flg(t_flg *flg, int ac, char **av)
 	flg->zoom = 1;
 	flg->k = set_complex(-0.79, 0.15);
 	valid_stdin(flg, ac, av);
+}
+
+static void	init_mem(t_mem *mem)
+{
+	mem->zoom = 1;
+	mem->cam = set_complex(0, 0);
+	mem->mouse_hook = 0;
+	mem->mouse_zoom = 0;
+	mem->no_hook = 0;
+	mem->center = 0;
+	mem->color = 0;
+	mem->side = 1;
+	mem->ui = 0;
 }
 
 void		init_root_pos(t_root *root, int cnt)
@@ -79,57 +92,24 @@ static void	init_root(t_root *root, int	cnt, t_grad *grad)
 	init_root_pos(root, cnt);
 }
 
-void		set_grad_colors(t_frac *ftl, t_flg *flg)
-{
-	int	i;
-
-	i = -1;
-	ftl->grad.col_cnt = flg->grad.col_cnt;
-	if (!flg->flag & F_COL)
-	{
-		ftl->grad.col_cnt = 3;
-		hex_to_rgb("0", &ftl->grad.col[0]);
-		hex_to_rgb("8", &ftl->grad.col[1]);
-		hex_to_rgb("f", &ftl->grad.col[2]);
-		ftl->grad.range[0] = 1;
-		ftl->grad.range[1] = 0.5;
-		ftl->grad.range[2] = 0;
-	}
-	else
-		while (++i < flg->grad.col_cnt)
-		{
-			ftl->grad.col[i].r = flg->grad.col[i].r;
-			ftl->grad.col[i].g = flg->grad.col[i].g;
-			ftl->grad.col[i].b = flg->grad.col[i].b;
-			ftl->grad.range[i] = flg->grad.range[i];
-		}
-}
-
 void		init_fractol(t_frac *ftl, t_flg *flg)
 {
 	if (!(ftl->mlx_ptr = mlx_init()))
 		error("Failed to set up the connection to the X server");
 	ftl->size = flg->size;
-	ftl->win_ptr =
-		mlx_new_window(ftl->mlx_ptr, ftl->size, ftl->size, "fract'ol");
-	if (!ftl->win_ptr)
-		error("Failed to create a new window");
+	ftl->win_ptr = mlx_new_window(ftl->mlx_ptr, 1000, 600, "fract'ol");
+	!ftl->win_ptr ? error("Failed to create a new window") : 0;
+	ftl->type = flg->type;
 	new_image(ftl, ftl->size);
+	new_black_image(ftl);
+	new_side_image(ftl, 100);
 	flg->flag = ((flg->flag & F_COL) || (flg->flag & F_GRD)) ? F_COL : 0;
 	set_grad_colors(ftl, flg);
-	ftl->type = flg->type;
 	ftl->iter = flg->iter;
 	ftl->zoom = flg->zoom;
 	ftl->cam = flg->cam;
 	ftl->pow = flg->pow;
-	ftl->mem.zoom = 1;
-	ftl->mem.cam = set_complex(0, 0);
-	ftl->mem.mouse_hook = 0;
-	ftl->mem.mouse_zoom = 0;
-	ftl->mem.no_hook = 0;
-	ftl->mem.color = 0;
-	ftl->mem.center = 0;
-	ftl->mem.ui = 0;
 	ftl->k = flg->k;
+	init_mem(&ftl->mem);
 	init_root(&ftl->root, flg->pow, &ftl->grad);
 }

@@ -17,6 +17,7 @@
 # define SPEED 0.05
 # define COLOR 8
 # define EPS 1e-4
+# define SCREEN 500
 
 # include <mlx.h>
 # include <math.h>
@@ -42,6 +43,8 @@ typedef struct	s_img
 	int			size_line;
 	int			endian;
 	int			size;
+	t_point		pos;
+	t_type		type;
 }				t_img;
 
 typedef struct	s_mem
@@ -53,6 +56,7 @@ typedef struct	s_mem
 	_Bool		mouse_zoom;
 	_Bool		no_hook;
 	_Bool		center;
+	_Bool		side;
 	_Bool		ui;
 }				t_mem;
 
@@ -70,6 +74,8 @@ typedef struct	s_fractol
 	void		*win_ptr;
 	int			size;
 	t_img		*img;
+	t_img		*black_img;
+	t_img		*side_imgs;
 	t_type		type;
 	t_grad		grad;
 	t_root		root;
@@ -90,17 +96,21 @@ void			init_flg(t_flg *flg, int ac, char **av);
 void			init_fractol(t_frac *ftl, t_flg *flg);
 void			init_root_pos(t_root *root, int cnt);
 void			set_grad_colors(t_frac *ftl, t_flg *flg);
-void			new_image(t_frac *ftl, int size);
 
-void			mandelbrot(t_frac *ftl);
-void			julia(t_frac *ftl);
-void			burning_ship(t_frac *ftl);
-void			mandelbar(t_frac *ftl);
-void			celtic(t_frac *ftl);
-void			newton(t_frac *ftl);
+void			new_image(t_frac *ftl, int size);
+void			new_black_image(t_frac *ftl);
+void			new_side_image(t_frac *ftl, int size);
+
+void			mandelbrot(t_frac *ftl, t_img *img);
+void			julia(t_frac *ftl, t_img *img);
+void			burning_ship(t_frac *ftl, t_img *img);
+void			mandelbar(t_frac *ftl, t_img *img);
+void			celtic(t_frac *ftl, t_img *img);
+void			newton(t_frac *ftl, t_img *img);
 
 int				is_move(int key);
 int				is_hex(char *hex);
+int				no_hook(void *param);
 int				deal_key(int key, void *param);
 void			deal_key2(t_frac *ftl, int key);
 int				mouse_click(int button, int x, int y, void *param);
@@ -109,7 +119,7 @@ void			zoom_std(t_frac *ftl, int key);
 void			move_std(t_frac *ftl, int key);
 void			zoom_camera(t_frac *ftl, int key);
 void			move_camera(t_frac *ftl, int key);
-void			draw(t_frac *ftl);
+void			draw(t_frac *ftl, int key);
 void			print_cmd(t_frac *ftl);
 void			print_info(t_frac *ftl);
 void			print_double(double num);

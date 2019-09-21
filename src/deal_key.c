@@ -14,14 +14,26 @@
 
 int			no_hook(void *param)
 {
-	t_frac		*ftl;
-	t_complex	* //TODO COMPLEX SET
+	t_frac	*ftl;
+	t_rgb	*colors;
+	int		cnt;
+	int		i;
 
 	ftl = (t_frac*)param;
 	if (ftl->mem.no_hook)
 	{
-
+		i = -1;
+		colors = ftl->type == NEWTON ? ftl->root.cols : ftl->grad.col;
+		cnt = ftl->type == NEWTON ? ftl->root.cnt : ftl->grad.col_cnt;
+		while (++i < cnt)
+		{
+			colors[i].r = (int)(1.1 * colors[i].r) % 512;
+			colors[i].g = (int)(1.1 * colors[i].g) % 512;
+			colors[i].b = (int)(1.1 * colors[i].b) % 512;
+		}
+		draw(ftl, -1);
 	}
+	return (0);
 }
 
 static int	is_color(int key)
@@ -30,7 +42,7 @@ static int	is_color(int key)
 			key == Q_KEY || key == E_KEY || key == R_SHIFT || key == R_CTRL);
 }
 
-static void change_color(t_rgb *colors, int color, int key, int cnt)
+static void change_color(t_rgb *colors, int cnt, int color, int key)
 {
 	int	i;
 	int	max;
@@ -54,7 +66,7 @@ static void change_color(t_rgb *colors, int color, int key, int cnt)
 	}
 }
 
-static void shift_color(t_rgb *colors, int key, int cnt)
+static void shift_color(t_rgb *colors, int cnt, int key)
 {
 	t_rgb	temp;
 	int		i;
@@ -84,24 +96,24 @@ int			deal_key(int key, void *param)
 	ftl = (t_frac*)param;
 	if (key == ESC)
 		red_x_button(ftl);
-	if (key == X_KEY || key == FIVE_NUM || key == ENTER_NUM || key == ENTER)
-		move_std(ftl, key);
-	else if (key == Z_KEY || key == ZERO_NUM || key == ONE_NUM)
-		zoom_std(ftl, key);
-	else if (is_move(key))
-		move_camera(ftl, key);
-	else if	(key == MINUS || key == PLUS || key == DIV || key == MULT)
-		zoom_camera(ftl, key);
-	else if (is_color(key))
-		change_color(ftl->root.cols, ftl->mem.color, key,
-			ftl->type == NEWTON ? ftl->root.cnt : ftl->grad.col_cnt);
+	if (key == N_KEY || key == M_KEY)
+		(key == N_KEY) ? (ftl->mem.no_hook ^= 1) : (ftl->mem.side ^= 1);
+	else if (key == SPACE)
+		ftl->mem.center ^= 1;
 	else if (key == L_SHIFT || key == L_CTRL)
-		shift_color(ftl->root.cols, key,
-			ftl->type == NEWTON ? ftl->root.cnt : ftl->grad.col_cnt);
-	else if (key == N_KEY)
-		ftl->mem.no_hook ^= 1;
+		shift_color(ftl->type == NEWTON ? ftl->root.cols : ftl->grad.col,
+			ftl->type == NEWTON ? ftl->root.cnt : ftl->grad.col_cnt, key);
+	else if (key == O_KEY)
+		print_cmd(ftl);
+	else if (key == PLUS_KEY || (key == MINUS_KEY && ftl->pow > 2))
+		key == PLUS_KEY ? ++ftl->pow : --ftl->pow;
+	else if (is_color(key) && ftl->type == NEWTON)
+		change_color(ftl->root.cols, ftl->root.cnt, ftl->mem.color, key);
+	else if (is_color(key))
+		change_color(ftl->grad.col, ftl->grad.col_cnt, ftl->mem.color, key);
 	else
 		deal_key2(ftl, key);
-	draw(ftl);
+	if (key != O_KEY)
+		draw(ftl, key);
 	return (0);
 }

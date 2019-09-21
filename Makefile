@@ -17,10 +17,12 @@ SRCNAME = main.c \
 		usage.c \
 		error.c \
 		functions.c \
-		init.c \
 		validator.c \
 		flags.c \
 		flags2.c \
+		image.c \
+		init.c \
+		draw.c \
 		fractol.c \
 		newton.c \
 		deal_key.c \
