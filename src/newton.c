@@ -6,11 +6,28 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 23:15:58 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/21 17:23:18 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/21 23:03:32 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+static void	clean_image(t_img *img)
+{
+	int	x;
+	int	y;
+	int	*data;
+
+	data = (int*)img->data;
+	y = -1;
+	while (++y < img->size)
+	{
+		x = -1;
+		while (++x < img->size)
+			data[y * img->size + x] = 0;
+	}
+
+}
 
 static void	func(t_complex *z, t_complex *f, t_complex *df, t_frac *ftl)
 {
@@ -25,8 +42,7 @@ static void	func(t_complex *z, t_complex *f, t_complex *df, t_frac *ftl)
 	{
 		cp_mult(cp_minus(z, &ftl->root.roots[i + 1], &ftl->cp[0]),
 				cp_plus(&l, &r, &ftl->cp[1]), &l);
-		cp_mult(&r, cp_minus(z, &ftl->root.roots[i],
-					&ftl->cp[0]), &r);
+		cp_mult(&r, cp_minus(z, &ftl->root.roots[i], &ftl->cp[0]), &r);
 	}
 	cp_plus(&l, &r, df);
 	cp_minus(z, &ftl->root.roots[ftl->root.cnt - 1], f);
@@ -58,10 +74,10 @@ void	newton(t_frac *ftl, t_img *img)
 	t_point		pos;
 	int			i;
 
-	if (ftl->pow != ftl->root.cnt)
+	clean_image(img);
+	if (ftl->pow != ftl->root.cnt && ftl->pow <= 5)
 	{
-		ftl->pow > 5 ? ftl->pow = 5 : 0;
-		ftl->root.cnt = ftl->pow;
+		ftl->root.cnt = ftl->pow > 5 ? 5 : ftl->pow;
 		init_root_pos(&ftl->root, ftl->root.cnt);
 	}
 	pos.y = -1;
@@ -74,7 +90,7 @@ void	newton(t_frac *ftl, t_img *img)
 			c.re = ftl->min.re + pos.x * ftl->step.re + ftl->cam.re;
 			set_complex_p(c.re, c.im, &z);
 			i = -1;
-			while (++i < ftl->iter)
+			while (++i < 100)
 				newton_iter(ftl, &z, &pos, img);
 		}
 	}

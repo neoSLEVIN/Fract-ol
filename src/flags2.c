@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 19:57:03 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/17 21:35:30 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/21 21:43:35 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void		gradient(t_flg *flg, int ac, char **av, int i)
 	flg->flag |= F_GRD;
 	flg->args += 2;
 	i >= ac - 2 ?
-		err_usage("Incorrect use of the gradient flag\nTry '--gradient 50'",
+		err_usage("Incorrect use of the gradient flag\nTry '--gradient 500'",
 			av[0], flg->help) : 0;
 	len = ft_strlen(av[i + 1]);
 	if (len < 1 || len > 3)

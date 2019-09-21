@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 07:09:12 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/21 21:13:06 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/21 23:38:38 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,15 @@ static void	deal_key3(t_frac *ftl, int key)
 {
 	t_img	*temp;
 
-	if ((key == INC_IMG && ftl->size != 500) ||
+	if (key == X_KEY || key == FIVE_NUM || key == ENTER_NUM || key == ENTER)
+		move_std(ftl, key);
+	else if (key == Z_KEY || key == ZERO_NUM || key == ONE_NUM)
+		zoom_std(ftl, key);
+	else if (is_move(key))
+		move_camera(ftl, key);
+	else if (key == MINUS || key == PLUS || key == DIV || key == MULT)
+		zoom_camera(ftl, key);
+	else if ((key == INC_IMG && ftl->size != 500) ||
 		(key == DEC_IMG && ftl->size != 100))
 	{
 		temp = ftl->img;
@@ -95,26 +103,22 @@ static void	deal_key3(t_frac *ftl, int key)
 
 void		deal_key2(t_frac *ftl, int key)
 {
-	if (key == X_KEY || key == FIVE_NUM || key == ENTER_NUM || key == ENTER)
-		move_std(ftl, key);
-	else if (key == Z_KEY || key == ZERO_NUM || key == ONE_NUM)
-		zoom_std(ftl, key);
-	else if (key == TAB)
+	if (key == TAB)
 		ftl->mem.ui ^= 1;
 	else if (key == C_KEY || key == DOT)
 		switch_color(ftl);
-	else if (key == I_KEY)
-		print_info(ftl);
 	else if (key == F_KEY || key == G_KEY)
 		shift_fractol(ftl, key);
-	else if (is_move(key))
-		move_camera(ftl, key);
-	else if (key == MINUS || key == PLUS || key == DIV || key == MULT)
-		zoom_camera(ftl, key);
+	else if ((key == L_BRACKET || key == R_BRACKET) && ftl->type == NEWTON)
+	{
+		ftl->root.damping.re += key == L_BRACKET ? -0.05 : 0.05;
+		ftl->root.damping.re < 0.6 ? ftl->root.damping.re = 0.6 : 0;
+		ftl->root.damping.re > 1.9 ? ftl->root.damping.re = 1.9 : 0;
+	}
 	else if (ftl->mem.color == 0 && (key == L_BRACKET || key == R_BRACKET))
 	{
 		ftl->iter += (key == L_BRACKET ? -10 : 10);
-		ftl->iter < 2 ? ftl->iter = 2 : 0;
+		ftl->iter < 20 ? ftl->iter = 20 : 0;
 	}
 	else if (ftl->mem.color != 0 && (key == L_BRACKET || key == R_BRACKET))
 		change_grad(&ftl->grad, ftl->mem.color - 1, key == L_BRACKET ? 1 : 0);

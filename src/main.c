@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 14:07:30 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/21 20:28:58 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/21 22:41:06 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int			main(int argc, char **argv)
 		error("No memory allocated for COMPLEX POINTERS");
 	init_flg(ftl->flg, argc, argv);
 	init_fractol(ftl, ftl->flg);
-	draw(ftl, -1);
+	draw(ftl, M_KEY);
 	input_hook(ftl);
 	mlx_loop(ftl->mlx_ptr);
 	return (0);

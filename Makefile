@@ -23,6 +23,7 @@ SRCNAME = main.c \
 		image.c \
 		init.c \
 		draw.c \
+		draw_ui.c \
 		fractol.c \
 		newton.c \
 		deal_key.c \

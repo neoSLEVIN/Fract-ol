@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/01 16:42:53 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/17 21:35:08 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/21 22:15:25 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ void			max_iter(t_flg *flg, int ac, char **av, int i)
 		err_usage("Incorrect use of the iteration flag\nTry '--max-iter 100'",
 			av[0], flg->help) : 0;
 	len = ft_strlen(av[i + 1]);
-	if (len < 1 || len > 4)
+	if (len < 2 || len > 4)
 		err_usage("Incorrect use of the iteration flag", av[0], flg->help);
 	flg->iter = ft_atoi(av[i + 1]);
-	if (flg->iter < 2 || flg->iter > 2000 || (flg->iter < 10 && len != 1) ||
-		(flg->iter > 9 && flg->iter < 100 && len != 2) ||
+	if (flg->iter < 20 || flg->iter > 2000 ||
+		(flg->iter > 19 && flg->iter < 100 && len != 2) ||
 		(flg->iter > 99 && flg->iter < 1000 && len != 3) ||
 		(flg->iter > 999 && len != 4))
-		err_usage("Range for iteration must be in [2...2000] inclusive",
+		err_usage("Range for iteration must be in [20...2000] inclusive",
 				av[0], flg->help);
 }
 
@@ -47,12 +47,12 @@ void			size(t_flg *flg, int ac, char **av, int i)
 		err_usage("Incorrect use of the size flag\nTry '--size 500'",
 			av[0], flg->help) : 0;
 	len = ft_strlen(av[i + 1]);
-	if (len < 3 || len > 4)
+	if (len != 3)
 		err_usage("Incorrect use of the size flag\nTry '-s 500'",
 			av[0], flg->help);
 	flg->size = ft_atoi(av[i + 1]);
-	if (flg->size < 150 || flg->size > 1500 || (flg->size < 1000 && len != 3))
-		err_usage("Range for size must be in [150...1500]", av[0],
+	if (flg->size < 100 || flg->size > 500)
+		err_usage("Range for size must be in [100...500]", av[0],
 			flg->help);
 }
 

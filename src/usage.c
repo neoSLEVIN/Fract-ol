@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 17:35:54 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/18 08:20:15 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/21 22:16:06 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		list_of_fractol(char *app_name)
 	ft_putendl(" [OPTION ARGS]... FRACTOL\n");
 	ft_putendl("FRACTOL argument is case-INsensitive.");
 	ft_putendl("List of fractals:\n  Mandelbrot\n  Julia\n  Burning_Ship");
-	ft_putendl("  Mandelbar\n  Celtic\n  Newton");
+	ft_putendl("  Mandelbar\n  Celtic\n  Newton\n");
 }
 
 static void	usage4(char *app_name)
@@ -56,8 +56,8 @@ static void	usage3(char *app_name)
 	ft_putendl("      --help\t\tDisplay this help and exit.\n");
 	ft_putstr("In the examples shown standard values that are set without ");
 	ft_putendl("options.\n");
-	ft_putstr("Gradient values are set for colors from 100(max iteration) to ");
-	ft_putstr("0(min iteration)\nin descending order. For simplicity, the ");
+	ft_putstr("Gradient values are set for colors from 1000(max iteration) to");
+	ft_putstr(" 0(min iteration)\nin descending order. For simplicity, the ");
 	ft_putendl("first and last values do not need to be");
 	ft_putendl("entered in the options.\n");
 	ft_putendl("HEX standard for input:");
@@ -111,16 +111,16 @@ int			usage(char *app_name)
 	ft_putendl("\t\t\tHint: 0x7 is same as 0x777 and same as 0x777777");
 	ft_putendl("\t\t\tExample: --color 0x0 0x888 0xffffff\n");
 	ft_putendl("  -g, --gradient\tChange the value of the gradient.");
-	ft_putendl("\t\t\tARG(1): integer in range [99...1] inclusive.");
-	ft_putendl("\t\t\tExample: --gradient 50\n");
+	ft_putendl("\t\t\tARG(1): integer in range [999...1] inclusive.");
+	ft_putendl("\t\t\tExample: --gradient 500\n");
 	ft_putendl("  -m, --max-iter\tChange the value of the max iterations.");
-	ft_putendl("\t\t\tARG(1): integer in range [2...2000] inclusive.");
+	ft_putendl("\t\t\tARG(1): integer in range [20...2000] inclusive.");
 	ft_putendl("\t\t\tExample: --max-iter 100\n");
-	ft_putendl("  -p, --power\tChange the value of the z-power.");
+	ft_putendl("  -p, --power\t\tChange the value of the z-power.");
 	ft_putendl("\t\t\tARG(1): integer in range [2...99] inclusive.");
 	ft_putendl("\t\t\tExample: --power 2\n");
-	ft_putendl("  -s, --size\t\tResize the window.");
-	ft_putendl("\t\t\tARG(1): integer in range [150...1500] inclusive, the");
+	ft_putendl("  -s, --size\t\tResize the image.");
+	ft_putendl("\t\t\tARG(1): integer in range [100...500] inclusive, the");
 	ft_putendl("\t\t\t  argument is for width and height at the same time.");
 	ft_putendl("\t\t\tExample: --size 500\n");
 	usage2(app_name);

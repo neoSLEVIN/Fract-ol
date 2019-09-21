@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 16:24:17 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/21 20:51:27 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/21 23:10:01 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	init_mem(t_mem *mem)
 	mem->no_hook = 0;
 	mem->center = 0;
 	mem->color = 0;
-	mem->side = 1;
+	mem->side = 0;
 	mem->ui = 0;
 }
 
@@ -80,8 +80,8 @@ static void	init_root(t_root *root, int	cnt, t_grad *grad)
 	int	i;
 
 	i = -1;
-	root->cnt = cnt;
-	root->damping = set_complex(0.534675346, 0);
+	root->cnt = cnt > 5 ? 5 : cnt;
+	root->damping = set_complex(1.5, 0);
 	hex_to_rgb("0ff", &root->cols[0]);
 	hex_to_rgb("0", &root->cols[1]);
 	hex_to_rgb("ff0", &root->cols[2]);

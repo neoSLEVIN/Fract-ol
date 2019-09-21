@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 23:44:35 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/18 04:02:41 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/21 22:32:54 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ static void	print_cmd3(t_frac *ftl)
 	if (ftl->pow != 2)
 	{
 		ft_putstr(" -p ");
-		ft_putnbr(ftl->pow);
+		if (ftl->type == NEWTON && ftl->pow >= 5)
+			ft_putnbr(5);
+		else
+			ft_putnbr(ftl->pow);
 	}
 	ft_putstr(" ");
 	print_fractol(ftl->type);

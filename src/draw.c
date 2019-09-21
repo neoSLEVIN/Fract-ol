@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 19:10:02 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/21 21:04:31 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/21 23:25:49 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,27 +99,28 @@ static void	draw_border(t_frac *ftl)
 
 void		draw(t_frac *ftl, int key)
 {
-	ftl->mem.side ? draw_side(ftl) : 0;
+	ftl->mem.side && key != TAB ? draw_side(ftl) : 0;
 	if (!ftl->mem.side && key == M_KEY)
 		mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr,
 								ftl->black_img->img_ptr, 500, 500);
 	draw_lines(ftl);
 	init_edge(ftl);
-	ftl->type == MANDELBROT ? mandelbrot(ftl, ftl->img) : 0;
-	ftl->type == JULIA ? julia(ftl, ftl->img) : 0;
-	ftl->type == BURNING_SHIP ? burning_ship(ftl, ftl->img) : 0;
-	ftl->type == MANDELBAR ? mandelbar(ftl, ftl->img) : 0;
-	ftl->type == CELTIC ? celtic(ftl, ftl->img) : 0;
-	ftl->type == NEWTON ? newton(ftl, ftl->img) : 0;
-	if (key == INC_IMG || key == DEC_IMG)
-		mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr,
-								ftl->black_img->img_ptr, 500, 0);
+	if (key != TAB)
+	{
+		ftl->type == MANDELBROT ? mandelbrot(ftl, ftl->img) : 0;
+		ftl->type == JULIA ? julia(ftl, ftl->img) : 0;
+		ftl->type == BURNING_SHIP ? burning_ship(ftl, ftl->img) : 0;
+		ftl->type == MANDELBAR ? mandelbar(ftl, ftl->img) : 0;
+		ftl->type == CELTIC ? celtic(ftl, ftl->img) : 0;
+		ftl->type == NEWTON ? newton(ftl, ftl->img) : 0;
+	}
+	key == INC_IMG || key == DEC_IMG ? mlx_put_image_to_window(ftl->mlx_ptr,
+		ftl->win_ptr, ftl->black_img->img_ptr, 500, 0) : 0;
 	mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr, ftl->img->img_ptr,
 							ftl->img->pos.x, ftl->img->pos.y);
 	if (ftl->size < 500 && (key == M_KEY || key == INC_IMG || key == DEC_IMG))
 		draw_border(ftl);
-	if (ftl->mem.center)
-		mlx_pixel_put(ftl->mlx_ptr, ftl->win_ptr,
-						(double)ftl->size / 2 + SCREEN,
-						(double)ftl->size / 2, 0x00FF0000);
+	ftl->mem.center ? mlx_pixel_put(ftl->mlx_ptr, ftl->win_ptr,
+		(double)ftl->size / 2 + SCREEN, (double)ftl->size / 2, 0x00FF0000) : 0;
+	draw_ui(ftl);
 }
