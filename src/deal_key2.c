@@ -6,16 +6,32 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 07:09:12 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/22 15:17:57 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/23 00:31:06 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static void	switch_color(t_frac *ftl)
+static void	change_power(t_frac *ftl, int key)
 {
-	ftl->flg->flag ^= F_COL;
-	set_grad_colors(ftl, ftl->flg);
+	if (key == MINUS_KEY && ftl->pow > 2)
+	{
+		if (ftl->root.cnt == ftl->pow)
+		{
+			--ftl->root.cnt;
+			init_root_pos(&ftl->root, ftl->root.cnt);
+		}
+		--ftl->pow;
+	}
+	else if (key == PLUS_KEY)
+	{
+		if (ftl->root.cnt < 5)
+		{
+			++ftl->root.cnt;
+			init_root_pos(&ftl->root, ftl->root.cnt);
+		}
+		++ftl->pow;
+	}
 }
 
 static void	choose_number(t_frac *ftl, int key)
@@ -52,16 +68,12 @@ static void	shift_fractol(t_frac *ftl, int key)
 	i = -1;
 	key == F_KEY ? --ftl->type : ++ftl->type;
 	key == F_KEY ? --ftl->img->type : ++ftl->img->type;
-	if (ftl->type == CNT_OF_TYPES)
-	{
-		ftl->type = MANDELBROT;
-		ftl->img->type = MANDELBROT;
-	}
-	if (ftl->type > CNT_OF_TYPES)
-	{
-		ftl->type = CNT_OF_TYPES - 1;
-		ftl->img->type = CNT_OF_TYPES - 1;
-	}
+	ftl->type == CNT_OF_TYPES ? ftl->type = MANDELBROT : 0;
+	ftl->type == CNT_OF_TYPES ? ftl->img->type = MANDELBROT : 0;
+	ftl->type > CNT_OF_TYPES ? ftl->type = CNT_OF_TYPES - 1 : 0;
+	ftl->type > CNT_OF_TYPES ? ftl->img->type = CNT_OF_TYPES - 1 : 0;
+	if (ftl->type == NEWTON && ftl->mem.color > ftl->root.cnt)
+		ftl->mem.color = 0;
 	while (++i < 5)
 		if (ftl->side_imgs[i].type == ftl->type)
 		{
@@ -103,10 +115,13 @@ static void	deal_key3(t_frac *ftl, int key)
 
 void		deal_key2(t_frac *ftl, int key)
 {
-	if (key == TAB)
-		ftl->mem.ui ^= 1;
+	if (key == PLUS_KEY || key == MINUS_KEY)
+		change_power(ftl, key);
 	else if (key == DOT)
-		switch_color(ftl);
+	{
+		ftl->flg->flag ^= F_COL;
+		set_grad_colors(ftl, ftl->flg);
+	}
 	else if (key == F_KEY || key == G_KEY)
 		shift_fractol(ftl, key);
 	else if ((key == L_BRACKET || key == R_BRACKET) && ftl->type == NEWTON)

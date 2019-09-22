@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 23:15:58 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/21 23:03:32 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/23 00:23:48 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,6 @@ void	newton(t_frac *ftl, t_img *img)
 	int			i;
 
 	clean_image(img);
-	if (ftl->pow != ftl->root.cnt && ftl->pow <= 5)
-	{
-		ftl->root.cnt = ftl->pow > 5 ? 5 : ftl->pow;
-		init_root_pos(&ftl->root, ftl->root.cnt);
-	}
 	pos.y = -1;
 	while (++pos.y < img->size)
 	{

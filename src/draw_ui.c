@@ -6,11 +6,40 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 21:50:21 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/22 22:17:52 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/23 00:01:11 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+void	draw_current(t_frac *ftl, int *y, char *str)
+{
+	char	*temp;
+
+	if (!(str = ft_strnew(16)))
+		error("No memory allocated for UI");
+	ft_strcpy(str, ftl->type == NEWTON ? "Current root: " : "Current color: ");
+	if (!(temp = ft_itoa(ftl->mem.color)))
+		error("No memory allocated for UI");
+	ft_strcat(str, temp);
+	ft_strdel(&temp);
+	draw_str(ftl, 5, y, str);
+	if (ftl->type == JULIA || ftl->type == NEWTON)
+	{
+		ft_strcpy(str, "Zoom: ");
+		ft_strcat(str, ftl->mem.mouse_zoom ? "On" : "Off");
+		draw_str(ftl, 5, y, str);
+		ft_strcpy(str, ftl->type == JULIA ? "Auto K: " : "Auto Root: ");
+		ft_strcat(str, ftl->mem.mouse_hook ? "On" : "Off");
+		draw_str(ftl, 5, y, str);
+	}
+	if (ftl->type == JULIA)
+	{
+		*y += 20;
+		draw_str(ftl, 5, y, "K:");
+		draw_complex(ftl, &ftl->k, 10, y);
+	}
+}
 
 static void	draw_keys3(t_frac *ftl)
 {
@@ -59,9 +88,9 @@ static void	draw_keys2(t_frac *ftl)
 	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 200 + LM, 0x00cccccc,
 			"Output cmd: O;");
 	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 220 + LM, 0x00cccccc,
-			"Roots(max 5)/Power:");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 20, 240 + LM, 0x00cccccc,
-			"+ -;");
+			"Roots(max 5): + -;");
+	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 240 + LM, 0x00cccccc,
+			"Power: + -;");
 	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 260 + LM, 0x00cccccc,
 			"Switch colors:");
 	draw_keys3(ftl);
@@ -102,7 +131,7 @@ void		draw_ui(t_frac *ftl)
 	int		y;
 
 	str = NULL;
-	y = 60;
+	y = 50;
 	mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr,
 							ftl->black_img->img_ptr, -1, 0);
 	mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr,

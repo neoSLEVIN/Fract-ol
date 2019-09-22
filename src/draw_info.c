@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.c                                            :+:      :+:    :+:   */
+/*   draw_info.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 21:40:25 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/22 22:33:32 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/22 23:46:12 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	draw_color(t_frac *ftl, t_rgb *color, int x, int y)
 	ft_strdel(&str);
 }
 
-static void	draw_complex(t_frac *ftl, t_complex *complex, int x, int *y)
+void		draw_complex(t_frac *ftl, t_complex *complex, int x, int *y)
 {
 	char	*str;
 	char	*temp;
@@ -67,9 +67,9 @@ static void	draw_root(t_frac *ftl, t_complex *root, int i, int *y)
 	str[0] = i + '1';
 	str[1] = ')';
 	str[2] = '\0';
-	draw_str(ftl, 270, y, str);
+	draw_str(ftl, 10, y, str);
 	*y -= 20;
-	draw_complex(ftl, root, 290, y);
+	draw_complex(ftl, root, 200, y);
 	*y += 20;
 }
 
@@ -92,11 +92,11 @@ static void	draw_info2(t_frac *ftl, int i, int *y, char *str)
 		draw_str(ftl, 5, y, "Roots:");
 		draw_str(ftl, 10, y, "Color:");
 		*y -= 20;
-		draw_str(ftl, 270, y, "Number:");
+		draw_str(ftl, 200, y, "Number:");
 		while (++i < ftl->root.cnt)
 		{
 			draw_root(ftl, &ftl->root.roots[i], i, y);
-			draw_color(ftl, &ftl->root.cols[i], 10, *y - 60);
+			draw_color(ftl, &ftl->root.cols[i], 30, *y - 60);
 		}
 	}
 }
@@ -110,21 +110,21 @@ void		draw_info(t_frac *ftl, char *str, int *y)
 	*y -= 20;
 	if (!(str = ft_itoa(ftl->iter)))
 		error("No memory allocated for UI");
-	draw_str(ftl, 170, y, str);
+	draw_str(ftl, 165, y, str);
 	ft_strdel(&str);
-	if (ftl->type == JULIA)
-	{
-		draw_str(ftl, 5, y, "K:");
-		draw_complex(ftl, &ftl->k, 10, y);
-		*y += 20;
-	}
-	draw_str(ftl, 5, y, ftl->type == NEWTON ? "Roots:" : "Power:");
-	if (!(str = ft_itoa(ftl->type == NEWTON ? ftl->root.cnt : ftl->pow)))
-		error("No memory allocated for UI");
+	draw_str(ftl, 5, y, "Power:");
 	*y -= 20;
+	if (!(str = ft_itoa(ftl->pow)))
+		error("No memory allocated for UI");
 	draw_str(ftl, 75, y, str);
 	ft_strdel(&str);
-	*y += 20;
+	draw_str(ftl, 5, y, "Roots:");
+	*y -= 20;
+	if (!(str = ft_itoa(ftl->root.cnt)))
+		error("No memory allocated for UI");
+	draw_str(ftl, 75, y, str);
+	ft_strdel(&str);
 	draw_current(ftl, y, str);
+	*y += 20;
 	draw_info2(ftl, -1, y, str);
 }

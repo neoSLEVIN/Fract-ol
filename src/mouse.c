@@ -17,6 +17,8 @@ static int			change_fractol(t_frac *ftl, int i)
 	ftl->img->type = ftl->side_imgs[i].type;
 	ftl->side_imgs[i].type = ftl->type;
 	ftl->type = ftl->img->type;
+	if (ftl->type == NEWTON && ftl->mem.color > ftl->root.cnt)
+		ftl->mem.color = 0;
 	draw(ftl, -3);
 	return (0);
 }
