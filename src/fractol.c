@@ -80,8 +80,8 @@ void	burning_ship(t_frac *ftl, t_img *img)
 			set_complex_p(c.re, c.im, &z);
 			i = -1;
 			while (cp_abs_sq(&z) <= 4 && ++i < ftl->iter)
-				cp_plus(&c, cp_rev_im(cp_abs_im(cp_pow(&z, ftl->pow,
-					&ftl->cp[0]), &z), &z), &z);
+				cp_plus(&c, cp_rev_im(cp_pow(cp_abs_im(cp_abs_re(&z, &z), &z),
+						ftl->pow, &ftl->cp[0]), &z), &z);
 			i = i / ftl->iter;
 			plot(img, &pos, get_grad_color(&ftl->grad, &i));
 		}

@@ -129,5 +129,6 @@ void			print_fractol(t_type type);
 void			print_itoa16(short num, _Bool full);
 void			plot(t_img *img, t_point *coord, t_rgb *color);
 long long		ft_atoll(char * num, size_t len);
+char			*ft_dtoa(double num);
 
 #endif

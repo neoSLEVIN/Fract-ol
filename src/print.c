@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 21:40:25 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/22 18:35:11 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/22 21:10:57 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,71 +40,40 @@ static void	draw_color(t_frac *ftl, t_rgb *color, int x, int y)
 	ft_strdel(&str);
 }
 
-char		*ft_dtoa(double num)
+static void	draw_complex(t_frac *ftl, t_complex *complex, int x, int *y)
 {
 	char	*str;
 	char	*temp;
-	int		i;
 
-	i = 0;
-	if (!(str = ft_strnew(19)))
-		error("No memory allocated for string");
-	if (!(temp = ft_itoa((int)num)))
-		error("No memory allocated for string");
-	i += (int)ft_strlen(temp);
-	ft_strcpy(&str[i], temp);
+	if (!(str = ft_strnew(50)))
+		error("No memory allocated for UI");
+	ft_strcat(str, "Re: ");
+	temp = ft_dtoa(complex->re);
+	ft_strcat(str, temp);
 	ft_strdel(&temp);
-	num = fabs((num - (int)num)) * 100000000;
-	if (!(temp = ft_itoa((int)num)))
-		error("No memory allocated for string");
-	num = (num - (int)num) * 10000000;
-	if ((int)num != 0)
-	{
-		str[i++] = '.';
-		ft_strncpy(&str[i], "00000000", (size_t)(8 - ft_strlen(temp)));
-		ft_strcpy(&str[i + (8 - ft_strlen(temp))], temp);
-		i += 8;
-		ft_strdel(&temp);
-		if (!(temp = ft_itoa((int)num)))
-			error("No memory allocated for string");
-	}
-	if (*temp == '0')
-	{
-		ft_strdel(&temp);
-		return (str);
-	}
-	(int)num == 0 ? str[i++] = '.' : 0;
-	ft_strncpy(&str[i], "00000000", (size_t)((int)num == 0 ? 8 : 7) - ft_strlen(temp));
-	ft_strcpy(&str[i + (((int)num == 0 ? 8 : 7) - ft_strlen(temp))], temp);
+	draw_str(ftl, x, y, str);
+	ft_strcpy(str, "Im: ");
+	temp = ft_dtoa(complex->im);
+	ft_strcat(str, temp);
 	ft_strdel(&temp);
-	return (str);
+	draw_str(ftl, x, y, str);
+	ft_strdel(&str);
 }
 
 static void	draw_root(t_frac *ftl, t_complex *root, int i, int *y)
 {
-	char	*str;
-	char	*temp;
+	char	str[2];
 
-	if (!(str = ft_strnew(25)))
-		error("No memory allocated for UI");
 	str[0] = i + '1';
-	ft_strcat(str, ") Re: ");
-	temp = ft_dtoa(root->re);
-	ft_strcat(str, temp);
-	ft_strdel(&temp);
-	draw_str(ftl, 10, y, str);
-	ft_strcpy(str, "   Im: ");
-	temp = ft_dtoa(root->im);
-	ft_strcat(str, temp);
-	ft_strdel(&temp);
-	draw_str(ftl, 10, y, str);
-	ft_strdel(&str);
+	str[1] = ')';
+	draw_str(ftl, 5, y, str);
+	*y -= 20;
+	draw_complex(ftl, root, 10, y);
+	*y += 20;
 }
 
-static void	draw_info2(t_frac *ftl, int i, int *y)
+static void	draw_info2(t_frac *ftl, int i, int *y, char *str)
 {
-	char	*str;
-
 	if (ftl->type != NEWTON)
 	{
 		draw_str(ftl, 5, y, "Grad:  Color:");
@@ -120,20 +89,27 @@ static void	draw_info2(t_frac *ftl, int i, int *y)
 	else
 	{
 		draw_str(ftl, 5, y, "Roots:");
+		draw_str(ftl, 10, y, "Number:");
+		*y -= 20;
+		draw_str(ftl, 300, y, "Color:");
 		while (++i < ftl->root.cnt)
 		{
 			draw_root(ftl, &ftl->root.roots[i], i, y);
-			draw_color(ftl, &ftl->root.cols[i], 200, *y - 40);
+			draw_color(ftl, &ftl->root.cols[i], 300, *y - 60);
 		}
 	}
 }
 
 void		draw_info(t_frac *ftl)
 {
-	int	y;
+	int		y;
+	char	*str;
 
 	y = 60;
-	draw_info2(ftl, -1, &y);
+	str = NULL;
+	draw_str(ftl, 5, &y, "Center:");
+	draw_complex(ftl, &ftl->cam, 10, &y);
+	draw_info2(ftl, -1, &y, str);
 	ft_putstr("  Center:\n    Re: ");
 	print_double(ftl->cam.re);
 	ft_putstr("\n    Im: ");

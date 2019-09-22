@@ -10,6 +10,7 @@ BINDIR = ./bin/
 
 SRCNAME = main.c \
 		rgb.c \
+		ft_dtoa.c \
 		complex.c \
 		complex2.c \
 		complex_p.c \
