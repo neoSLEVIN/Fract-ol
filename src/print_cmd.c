@@ -6,11 +6,27 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 23:44:35 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/21 22:32:54 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/22 15:58:21 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+void		print_fractol(t_type type)
+{
+	if (type == MANDELBROT)
+		ft_putendl("Mandelbrot");
+	else if (type == JULIA)
+		ft_putendl("Julia");
+	else if (type == BURNING_SHIP)
+		ft_putendl("Burning_Ship");
+	else if (type == MANDELBAR)
+		ft_putendl("Mandelbar");
+	else if (type == CELTIC)
+		ft_putendl("Celtic");
+	else if (type == NEWTON)
+		ft_putendl("Newton");
+}
 
 static void	print_hex_colors(t_grad *grad)
 {

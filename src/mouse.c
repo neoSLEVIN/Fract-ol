@@ -17,7 +17,7 @@ static int			change_fractol(t_frac *ftl, int i)
 	ftl->img->type = ftl->side_imgs[i].type;
 	ftl->side_imgs[i].type = ftl->type;
 	ftl->type = ftl->img->type;
-	draw(ftl, -1);
+	draw(ftl, -3);
 	return (0);
 }
 

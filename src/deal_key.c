@@ -27,6 +27,9 @@ int			no_hook(void *param)
 		cnt = ftl->type == NEWTON ? ftl->root.cnt : ftl->grad.col_cnt;
 		while (++i < cnt)
 		{
+			colors[i].r < 10 ? colors[i].r = 511 - colors[i].r : 0;
+			colors[i].g < 10 ? colors[i].g = 511 - colors[i].g : 0;
+			colors[i].b < 10 ? colors[i].b = 511 - colors[i].b : 0;
 			colors[i].r = (int)(1.1 * colors[i].r) % 512;
 			colors[i].g = (int)(1.1 * colors[i].g) % 512;
 			colors[i].b = (int)(1.1 * colors[i].b) % 512;
@@ -96,8 +99,8 @@ int			deal_key(int key, void *param)
 	ftl = (t_frac*)param;
 	if (key == ESC)
 		red_x_button(ftl);
-	if (key == N_KEY || key == M_KEY)
-		(key == N_KEY) ? (ftl->mem.no_hook ^= 1) : (ftl->mem.side ^= 1);
+	if (key == P_KEY || key == M_KEY)
+		(key == P_KEY) ? (ftl->mem.no_hook ^= 1) : (ftl->mem.side ^= 1);
 	else if (key == SPACE)
 		ftl->mem.center ^= 1;
 	else if (key == L_SHIFT || key == L_CTRL)

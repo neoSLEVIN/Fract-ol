@@ -24,9 +24,9 @@
 # include "flag.h"
 # include "err_usg.h"
 /*
-# include "macoskeys.h"
-*/
 # include "linuxkeys.h"
+*/
+# include "macoskeys.h"
 #include <stdio.h>
 
 typedef struct	s_point
@@ -122,6 +122,7 @@ void			move_camera(t_frac *ftl, int key);
 void			draw(t_frac *ftl, int key);
 void			draw_ui(t_frac *ftl);
 void			draw_info(t_frac *ftl);
+void			draw_str(t_frac *ftl, int x, int *y, char *str);
 void			print_cmd(t_frac *ftl);
 void			print_double(double num);
 void			print_fractol(t_type type);

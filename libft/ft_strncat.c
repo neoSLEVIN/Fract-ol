@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 18:04:03 by cschoen           #+#    #+#             */
-/*   Updated: 2018/12/30 20:48:56 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/22 16:27:38 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_strncat(char *s1, char *s2, size_t n)
 {
-	char *start;
+	char	*start;
 
 	start = s1;
 	while (*s1)

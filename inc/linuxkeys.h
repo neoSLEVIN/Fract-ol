@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 13:27:25 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/22 02:08:22 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/22 14:19:19 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,11 @@
 # define D_KEY 100
 # define Q_KEY 113
 # define E_KEY 101
-# define N_KEY 110
+# define P_KEY 112
 # define M_KEY 109
 # define O_KEY 111
 # define F_KEY 102
 # define G_KEY 103
-# define C_KEY 99
-# define X_KEY 120
-# define Z_KEY 122
 # define ZERO_KEY 48
 # define ONE_KEY 49
 # define TWO_KEY 50

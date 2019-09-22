@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 07:09:12 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/22 01:50:19 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/22 15:17:57 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ static void	deal_key3(t_frac *ftl, int key)
 {
 	t_img	*temp;
 
-	if (key == X_KEY || key == FIVE_NUM || key == ENTER_NUM || key == ENTER)
+	if (key == FIVE_NUM || key == ENTER_NUM || key == ENTER)
 		move_std(ftl, key);
-	else if (key == Z_KEY || key == ZERO_NUM || key == ONE_NUM)
+	else if (key == ZERO_NUM || key == ONE_NUM)
 		zoom_std(ftl, key);
 	else if (is_move(key))
 		move_camera(ftl, key);
@@ -105,7 +105,7 @@ void		deal_key2(t_frac *ftl, int key)
 {
 	if (key == TAB)
 		ftl->mem.ui ^= 1;
-	else if (key == C_KEY || key == DOT)
+	else if (key == DOT)
 		switch_color(ftl);
 	else if (key == F_KEY || key == G_KEY)
 		shift_fractol(ftl, key);

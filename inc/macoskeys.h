@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 13:28:17 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/22 02:08:28 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/22 18:28:48 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define L_SHIFT 257
 # define R_SHIFT 258
 # define L_CTRL 256
-# define R_CTRL 259
+# define R_CTRL 269
 # define L_BRACKET 43
 # define R_BRACKET 47
 # define W_KEY 13
@@ -29,14 +29,11 @@
 # define D_KEY 2
 # define Q_KEY 12
 # define E_KEY 14
-# define N_KEY 45
+# define P_KEY 35
 # define M_KEY 46
 # define O_KEY 31
 # define F_KEY 3
 # define G_KEY 5
-# define C_KEY 8
-# define X_KEY 7
-# define Z_KEY 6
 # define ZERO_KEY 29
 # define ONE_KEY 18
 # define TWO_KEY 19
@@ -66,8 +63,8 @@
 # define UP 126
 # define RIGHT 124
 # define DOWN 125
-# define INC_IMG 116
-# define DEC_IMG 121
+# define INC_IMG 120
+# define DEC_IMG 122
 
 # define RIGHT_CLICK 2
 # define SCROLL_CLICK 3

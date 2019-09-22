@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 19:34:46 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/21 23:37:37 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/22 16:07:41 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,6 @@ void		print_itoa16(short num, _Bool full)
 		else
 			ft_putchar(num % 16 + 87);
 	}
-}
-
-void		print_fractol(t_type type)
-{
-	if (type == MANDELBROT)
-		ft_putendl("Mandelbrot");
-	else if (type == JULIA)
-		ft_putendl("Julia");
-	else if (type == BURNING_SHIP)
-		ft_putendl("Burning_Ship");
-	else if (type == MANDELBAR)
-		ft_putendl("Mandelbar");
-	else if (type == CELTIC)
-		ft_putendl("Celtic");
-	else if (type == NEWTON)
-		ft_putendl("Newton");
 }
 
 void		print_double(double num)
@@ -98,4 +82,10 @@ int			is_hex(char *hex)
 				(*(hex + i) >= 'a' && *(hex + i) <= 'f')))
 			return (0);
 	return ((!*(hex + i) && (i == 8 || i == 5 || i == 3)) ? 1 : 0);
+}
+
+void		draw_str(t_frac *ftl, int x, int *y, char *str)
+{
+	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, x, *y + LM, 0x00cccccc, str);
+	*y += 20;
 }

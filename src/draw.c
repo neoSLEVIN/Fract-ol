@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 19:10:02 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/22 02:52:47 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/22 15:45:13 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ void		draw(t_frac *ftl, int key)
 							ftl->img->pos.x, ftl->img->pos.y);
 	if (ftl->size < 500 && (key == M_KEY || key == INC_IMG || key == DEC_IMG))
 		draw_border(ftl);
-	ftl->mem.center ? mlx_pixel_put(ftl->mlx_ptr, ftl->win_ptr,
-		(double)ftl->size / 2 + SCREEN, (double)ftl->size / 2, 0x00FF0000) : 0;
-	ftl->mem.ui || key == TAB ? draw_ui(ftl) : 0;
+	if (ftl->mem.center)
+		mlx_pixel_put(ftl->mlx_ptr, ftl->win_ptr, 750, 250, 0x00FF0000);
+	if (ftl->mem.ui || key == TAB || key == F_KEY || key == G_KEY || key == -3)
+		draw_ui(ftl);
 }
