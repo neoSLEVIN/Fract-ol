@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 21:50:21 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/22 15:55:48 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/22 22:17:52 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	draw_keys3(t_frac *ftl)
 	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 500 + LM, 0x00cccccc,
 			"Change Image Size: F1 F2;");
 	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 540 + LM, 0x00cccccc,
-			"Exit: Esc;");
+			"Exit: Esc");
 }
 
 static void	draw_keys2(t_frac *ftl)
@@ -98,6 +98,11 @@ static void	draw_keys(t_frac *ftl)
 
 void		draw_ui(t_frac *ftl)
 {
+	char	*str;
+	int		y;
+
+	str = NULL;
+	y = 60;
 	mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr,
 							ftl->black_img->img_ptr, -1, 0);
 	mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr,
@@ -116,5 +121,5 @@ void		draw_ui(t_frac *ftl)
 			5, 2 + LM, 0x00cccccc, "Newton") : 0;
 	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 5, 25 + LM, 0x00cccccc,
 			ftl->mem.ui ? "TAB - switch to keys" : "TAB - switch to info");
-	ftl->mem.ui ? draw_info(ftl) : draw_keys(ftl);
+	ftl->mem.ui ? draw_info(ftl, str, &y) : draw_keys(ftl);
 }

@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 17:35:54 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/21 22:16:06 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/22 21:43:25 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,6 @@ static void	usage4(char *app_name)
 	ft_putendl("FRACTOL should be the last parameter.\n");
 	ft_putendl("Recommendation from the author:");
 	ft_putstr("  Try:\n    ");
-	ft_putstr(app_name);
-	ft_putstr(" -p 5 -X 9 0x32d2ba 809 0x060131 649 0x200737 519 0xf890bf 479");
-	ft_putstr(" 0x775fc8 470 0xb9de91 460 0x0552f2 450 0x9b8c33 0x8c2373 -m");
-	ft_putstr(" 180 -Re 0.000294206994828 -Im 1.183454787247950 -z 14 ");
-	ft_putstr("Burning_Ship\n\n    ");
 	ft_putstr(app_name);
 	ft_putstr(" -X 9 0x0a221a 900 0x330c33 800 0x44449b 700 0x1d1d1d 600 ");
 	ft_putstr("0x363636 500 0x47af77 400 0x6858a8 300 0x070807 0x0e110e ");

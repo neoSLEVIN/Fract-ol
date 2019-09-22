@@ -121,7 +121,7 @@ void			zoom_camera(t_frac *ftl, int key);
 void			move_camera(t_frac *ftl, int key);
 void			draw(t_frac *ftl, int key);
 void			draw_ui(t_frac *ftl);
-void			draw_info(t_frac *ftl);
+void			draw_info(t_frac *ftl, char *str, int *y);
 void			draw_str(t_frac *ftl, int x, int *y, char *str);
 void			print_cmd(t_frac *ftl);
 void			print_double(double num);

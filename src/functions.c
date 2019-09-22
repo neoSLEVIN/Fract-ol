@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 19:34:46 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/22 16:07:41 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/22 22:25:27 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,7 @@ void		print_double(double num)
 {
 	char	*s;
 
-	num < 0 ? ft_putstr("-") : 0;
-	num < 0 ? num *= -1 : 0;
-	ft_putnbr((int)num);
-	num = (num - (int)num) * 100000000;
-	if (!(s = ft_itoa((int)num)))
-		error("No memory allocated for print info.");
-	num = (num - (int)num) * 10000000;
-	if ((int)num != 0)
-	{
-		ft_putstr(".");
-		write(1, "00000000", (size_t)(8 - ft_strlen(s)));
-		ft_putstr(s);
-		ft_strdel(&s);
-		if (!(s = ft_itoa((int)num)))
-			error("No memory allocated for print info.");
-	}
-	if (ft_strlen(s) == 1 || *s == '0')
-		return (ft_strdel(&s));
-	(int)num == 0 ? ft_putstr(".") : 0;
-	write(1, "00000000", (size_t)(((int)num == 0 ? 8 : 7) - ft_strlen(s)));
+	s = ft_dtoa(num);
 	ft_putstr(s);
 	ft_strdel(&s);
 }

@@ -25,13 +25,13 @@ SRCNAME = main.c \
 		init.c \
 		draw.c \
 		draw_ui.c \
+		draw_info.c \
 		fractol.c \
 		newton.c \
 		deal_key.c \
 		deal_key2.c \
 		actions.c \
 		mouse.c \
-		print.c \
 		print_cmd.c
 OBJNAME = $(SRCNAME:.c=.o)
 OBJ = $(addprefix $(OBJDIR),$(OBJNAME))
