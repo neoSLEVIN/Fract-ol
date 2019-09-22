@@ -64,7 +64,7 @@ int					mouse_click(int button, int x, int y, void *param)
 
 	ftl = (t_frac*)param;
 	zoom = ZOOM * 1.5;
-	if (x > 500 && y > 500 && ftl->mem.side)
+	if (x >= 500 && y > 500 && ftl->mem.side)
 		return (change_fractol(ftl, (x - 500) / 100));
 	if (x < ftl->img->pos.x || x > ftl->img->pos.x + ftl->size ||
 		y < ftl->img->pos.y || y > ftl->img->pos.y + ftl->size)

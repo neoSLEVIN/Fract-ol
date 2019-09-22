@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 19:10:02 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/21 23:25:49 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/22 02:52:47 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,52 +24,31 @@ static void	init_edge(t_frac *ftl)
 
 static void	draw_side(t_frac *ftl)
 {
+	t_img	*side;
 	int	i;
 
 	i = -1;
+	side = ftl->side_imgs;
 	ftl->min = set_complex(-2.0, -2.0);
 	ftl->max = set_complex(2.0, 2.0);
 	ftl->step = set_complex(4.0 / (100 - 1), 4.0 / (100 - 1));
 	while (++i < 5)
-		if (ftl->side_imgs[i].type == JULIA)
-			julia(ftl, &ftl->side_imgs[i]);
-		else if (ftl->side_imgs[i].type == BURNING_SHIP)
-			burning_ship(ftl, &ftl->side_imgs[i]);
-		else if (ftl->side_imgs[i].type == MANDELBAR)
-			mandelbar(ftl, &ftl->side_imgs[i]);
-		else if (ftl->side_imgs[i].type == CELTIC)
-			celtic(ftl, &ftl->side_imgs[i]);
-		else if (ftl->side_imgs[i].type == NEWTON)
-			newton(ftl, &ftl->side_imgs[i]);
+		if (side[i].type == JULIA)
+			julia(ftl, &side[i]);
+		else if (side[i].type == BURNING_SHIP)
+			burning_ship(ftl, &side[i]);
+		else if (side[i].type == MANDELBAR)
+			mandelbar(ftl, &side[i]);
+		else if (side[i].type == CELTIC)
+			celtic(ftl, &side[i]);
+		else if (side[i].type == NEWTON)
+			newton(ftl, &side[i]);
 		else
-			mandelbrot(ftl, &ftl->side_imgs[i]);
+			mandelbrot(ftl, &side[i]);
 	i = -1;
 	while (++i < 5)
-		mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr,
-			ftl->side_imgs[i].img_ptr, ftl->side_imgs[i].pos.x,
-				ftl->side_imgs[i].pos.y);
-}
-
-static void	draw_lines(t_frac *ftl)
-{
-	int	x;
-	int	y;
-
-	x = 499;
-	y = -1;
-	while (++y <= 600)
-		mlx_pixel_put(ftl->mlx_ptr, ftl->win_ptr, x, y, 0x0000FF00);
-	y = 500;
-	while (++x <= 1000)
-		mlx_pixel_put(ftl->mlx_ptr, ftl->win_ptr, x, y, 0x0000FF00);
-	x = 600;
-	while (++y <= 600 && ftl->mem.side)
-	{
-			mlx_pixel_put(ftl->mlx_ptr, ftl->win_ptr, 600, y, 0x0000FF00);
-			mlx_pixel_put(ftl->mlx_ptr, ftl->win_ptr, 700, y, 0x0000FF00);
-			mlx_pixel_put(ftl->mlx_ptr, ftl->win_ptr, 800, y, 0x0000FF00);
-			mlx_pixel_put(ftl->mlx_ptr, ftl->win_ptr, 900, y, 0x0000FF00);
-	}
+		mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr, side[i].img_ptr,
+								side[i].pos.x, side[i].pos.y);
 }
 
 static void	draw_border(t_frac *ftl)
@@ -102,8 +81,7 @@ void		draw(t_frac *ftl, int key)
 	ftl->mem.side && key != TAB ? draw_side(ftl) : 0;
 	if (!ftl->mem.side && key == M_KEY)
 		mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr,
-								ftl->black_img->img_ptr, 500, 500);
-	draw_lines(ftl);
+								ftl->black_img->img_ptr, 500, 501);
 	init_edge(ftl);
 	if (key != TAB)
 	{
@@ -122,5 +100,5 @@ void		draw(t_frac *ftl, int key)
 		draw_border(ftl);
 	ftl->mem.center ? mlx_pixel_put(ftl->mlx_ptr, ftl->win_ptr,
 		(double)ftl->size / 2 + SCREEN, (double)ftl->size / 2, 0x00FF0000) : 0;
-	draw_ui(ftl);
+	ftl->mem.ui || key == TAB ? draw_ui(ftl) : 0;
 }

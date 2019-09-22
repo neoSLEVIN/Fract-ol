@@ -24,9 +24,9 @@
 # include "flag.h"
 # include "err_usg.h"
 /*
-# include "linuxkeys.h"
-*/
 # include "macoskeys.h"
+*/
+# include "linuxkeys.h"
 #include <stdio.h>
 
 typedef struct	s_point

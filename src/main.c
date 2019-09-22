@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 14:07:30 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/21 22:41:06 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/22 02:34:15 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,27 @@ void		set_grad_colors(t_frac *ftl, t_flg *flg)
 		}
 }
 
+static void	draw_lines(t_frac *ftl)
+{
+	int	x;
+	int	y;
+
+	x = 499;
+	y = -1;
+	while (++y <= 600)
+		mlx_pixel_put(ftl->mlx_ptr, ftl->win_ptr, x, y, 0x0000FF00);
+	y = 500;
+	while (++x <= 1000)
+		mlx_pixel_put(ftl->mlx_ptr, ftl->win_ptr, x, y, 0x0000FF00);
+	while (++y <= 600)
+	{
+		mlx_pixel_put(ftl->mlx_ptr, ftl->win_ptr, 599, y, 0x0000FF00);
+		mlx_pixel_put(ftl->mlx_ptr, ftl->win_ptr, 699, y, 0x0000FF00);
+		mlx_pixel_put(ftl->mlx_ptr, ftl->win_ptr, 799, y, 0x0000FF00);
+		mlx_pixel_put(ftl->mlx_ptr, ftl->win_ptr, 899, y, 0x0000FF00);
+	}
+}
+
 static void	input_hook(t_frac *ftl)
 {
 	mlx_mouse_hook(ftl->win_ptr, mouse_click, ftl);
@@ -72,7 +93,9 @@ int			main(int argc, char **argv)
 		error("No memory allocated for COMPLEX POINTERS");
 	init_flg(ftl->flg, argc, argv);
 	init_fractol(ftl, ftl->flg);
+	draw_lines(ftl);
 	draw(ftl, M_KEY);
+	draw_ui(ftl);
 	input_hook(ftl);
 	mlx_loop(ftl->mlx_ptr);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 16:24:17 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/21 23:10:01 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/22 02:18:00 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void		init_fractol(t_frac *ftl, t_flg *flg)
 	ftl->type = flg->type;
 	new_image(ftl, ftl->size);
 	new_black_image(ftl);
-	new_side_image(ftl, 100);
+	new_side_image(ftl, 99);
 	flg->flag = ((flg->flag & F_COL) || (flg->flag & F_GRD)) ? F_COL : 0;
 	set_grad_colors(ftl, flg);
 	ftl->iter = flg->iter;

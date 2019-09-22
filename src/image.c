@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 20:26:07 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/21 20:51:05 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/22 02:28:19 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ void	new_side_image(t_frac *ftl, int size)
 		side[i].data = mlx_get_data_addr(side[i].img_ptr, &side[i].bpp,
 									&side[i].size_line, &side[i].endian);
 		side[i].size = size;
-		side[i].pos.x = SCREEN + i * size;
-		side[i].pos.y = SCREEN;
+		side[i].pos.x = SCREEN + i * (size + 1);
+		side[i].pos.y = SCREEN + 1;
 		side[i].type = i + (i >= (int)ftl->type ? 1 : 0);
 	}
 }

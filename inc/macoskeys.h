@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 13:28:17 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/21 23:39:32 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/22 02:08:28 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,7 @@
 
 # define RIGHT_CLICK 2
 # define SCROLL_CLICK 3
+
+# define LM 0
 
 #endif
