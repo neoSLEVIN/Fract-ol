@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 20:26:07 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/22 02:28:19 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/23 05:39:45 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ void	new_black_image(t_frac *ftl)
 {
 	if (!(ftl->black_img = (t_img *)malloc(sizeof(t_img))))
 		error("No memory allocated for new image");
-	if (!(ftl->black_img->img_ptr = mlx_new_image(ftl->mlx_ptr, 500, 500)))
+	if (!(ftl->black_img->img_ptr = mlx_new_image(ftl->mlx_ptr, 500, 600)))
 		error("Failed to create a new image");
 	ftl->black_img->data = mlx_get_data_addr(ftl->black_img->img_ptr,
 					&ftl->black_img->bpp, &ftl->black_img->size_line,
 						&ftl->black_img->endian);
-	ftl->black_img->size = 500;
+	ftl->black_img->size = 0;
 	ftl->black_img->pos.x = 0;
 	ftl->black_img->pos.y = 0;
 	ftl->black_img->type = 0;

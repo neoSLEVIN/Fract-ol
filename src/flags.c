@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/01 16:42:53 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/21 22:15:25 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/23 07:03:44 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void			max_iter(t_flg *flg, int ac, char **av, int i)
 	if (len < 2 || len > 4)
 		err_usage("Incorrect use of the iteration flag", av[0], flg->help);
 	flg->iter = ft_atoi(av[i + 1]);
-	if (flg->iter < 20 || flg->iter > 2000 ||
+	if (flg->iter < 20 || flg->iter > 9999 ||
 		(flg->iter > 19 && flg->iter < 100 && len != 2) ||
 		(flg->iter > 99 && flg->iter < 1000 && len != 3) ||
 		(flg->iter > 999 && len != 4))
-		err_usage("Range for iteration must be in [20...2000] inclusive",
+		err_usage("Range for iteration must be in [20...9999] inclusive",
 				av[0], flg->help);
 }
 

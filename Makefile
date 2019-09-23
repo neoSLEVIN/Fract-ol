@@ -1,4 +1,4 @@
-OS = MACOS
+OS = LINUX
 COM = fast commit
 NAME = fractol
 

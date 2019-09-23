@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 19:10:02 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/23 00:29:35 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/23 07:02:00 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,14 @@ void		draw(t_frac *ftl, int key)
 	if (key != TAB)
 	{
 		ftl->type == MANDELBROT ? mandelbrot(ftl, ftl->img) : 0;
-		ftl->type == JULIA ? julia(ftl, ftl->img) : 0;
 		ftl->type == BURNING_SHIP ? burning_ship(ftl, ftl->img) : 0;
 		ftl->type == MANDELBAR ? mandelbar(ftl, ftl->img) : 0;
 		ftl->type == CELTIC ? celtic(ftl, ftl->img) : 0;
+		ftl->type == JULIA ? julia(ftl, ftl->img) : 0;
 		ftl->type == NEWTON ? newton(ftl, ftl->img) : 0;
 	}
 	key == INC_IMG || key == DEC_IMG ? mlx_put_image_to_window(ftl->mlx_ptr,
-		ftl->win_ptr, ftl->black_img->img_ptr, 500, 0) : 0;
+		ftl->win_ptr, ftl->black_img->img_ptr, 500, -100) : 0;
 	mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr, ftl->img->img_ptr,
 							ftl->img->pos.x, ftl->img->pos.y);
 	if (ftl->size < 500 && (key == M_KEY || key == INC_IMG || key == DEC_IMG))

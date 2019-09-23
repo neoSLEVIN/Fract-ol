@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 21:40:25 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/22 23:46:12 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/23 05:38:14 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,14 @@ static void	draw_info2(t_frac *ftl, int i, int *y, char *str)
 {
 	if (ftl->type != NEWTON)
 	{
-		draw_str(ftl, 5, y, "Grad:  Color:");
+		draw_str(ftl, 5, y, "Grad:");
+		*y -= 20;
+		draw_str(ftl, 80, y, "Color:");
 		while (++i < ftl->grad.col_cnt)
 		{
 			if (!(str = ft_itoa((int)(ftl->grad.range[i] * 1000))))
 				error("No memory allocated for UI");
-			draw_str(ftl, 10, y, str);
-			ft_strdel(&str);
+			ft_strdel(draw_str(ftl, 10, y, str));
 			draw_color(ftl, &ftl->grad.col[i], 80, *y - 20);
 		}
 	}
@@ -101,30 +102,24 @@ static void	draw_info2(t_frac *ftl, int i, int *y, char *str)
 	}
 }
 
-void		draw_info(t_frac *ftl, char *str, int *y)
+void		draw_info(t_frac *ftl, int *y, char *str, char *temp)
 {
 	draw_str(ftl, 5, y, "Center:");
 	draw_complex(ftl, &ftl->cam, 10, y);
 	*y += 20;
 	draw_str(ftl, 5, y, "Max iterations:");
 	*y -= 20;
-	if (!(str = ft_itoa(ftl->iter)))
-		error("No memory allocated for UI");
-	draw_str(ftl, 165, y, str);
-	ft_strdel(&str);
+	!(str = ft_itoa(ftl->iter)) ? error("No memory allocated for UI") : 0;
+	ft_strdel(draw_str(ftl, 165 - 4 * LM, y, str));
 	draw_str(ftl, 5, y, "Power:");
 	*y -= 20;
-	if (!(str = ft_itoa(ftl->pow)))
-		error("No memory allocated for UI");
-	draw_str(ftl, 75, y, str);
-	ft_strdel(&str);
+	!(str = ft_itoa(ftl->pow)) ? error("No memory allocated for UI") : 0;
+	ft_strdel(draw_str(ftl, 75 - 2 * LM, y, str));
 	draw_str(ftl, 5, y, "Roots:");
 	*y -= 20;
-	if (!(str = ft_itoa(ftl->root.cnt)))
-		error("No memory allocated for UI");
-	draw_str(ftl, 75, y, str);
-	ft_strdel(&str);
-	draw_current(ftl, y, str);
-	*y += 20;
+	!(str = ft_itoa(ftl->root.cnt)) ? error("No memory allocated for UI") : 0;
+	ft_strdel(draw_str(ftl, 75 - 2 * LM, y, str));
+	draw_current(ftl, y, str, temp);
+	ftl->type != NEWTON ? *y += 20 : 0;
 	draw_info2(ftl, -1, y, str);
 }

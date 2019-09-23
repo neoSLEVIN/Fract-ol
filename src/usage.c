@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 17:35:54 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/22 21:43:25 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/23 07:04:16 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ static void	usage4(char *app_name)
 	ft_putendl("FRACTOL should be the last parameter.\n");
 	ft_putendl("Recommendation from the author:");
 	ft_putstr("  Try:\n    ");
+	ft_putstr(app_name);
+	ft_putstr(" -s 130 -X 9 0x1c1c1c 900 0x95483f 800 0x42c4be ");
+	ft_putstr("700 0x768176 600 0x455a45 500 0x31fc9b 400 0x693a69 300 ");
+	ft_putstr("0x737313 0xa3a3a3 -m 140 -Re -1.789185422941828 ");
+	ft_putstr("-Im 0.000002485243125 -z 4 Mandelbrot\n\n    ");
 	ft_putstr(app_name);
 	ft_putstr(" -X 9 0x0a221a 900 0x330c33 800 0x44449b 700 0x1d1d1d 600 ");
 	ft_putstr("0x363636 500 0x47af77 400 0x6858a8 300 0x070807 0x0e110e ");
@@ -109,7 +114,7 @@ int			usage(char *app_name)
 	ft_putendl("\t\t\tARG(1): integer in range [999...1] inclusive.");
 	ft_putendl("\t\t\tExample: --gradient 500\n");
 	ft_putendl("  -m, --max-iter\tChange the value of the max iterations.");
-	ft_putendl("\t\t\tARG(1): integer in range [20...2000] inclusive.");
+	ft_putendl("\t\t\tARG(1): integer in range [20...9999] inclusive.");
 	ft_putendl("\t\t\tExample: --max-iter 100\n");
 	ft_putendl("  -p, --power\t\tChange the value of the z-power.");
 	ft_putendl("\t\t\tARG(1): integer in range [2...99] inclusive.");

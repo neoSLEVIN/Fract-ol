@@ -19,6 +19,8 @@ static int			change_fractol(t_frac *ftl, int i)
 	ftl->type = ftl->img->type;
 	if (ftl->type == NEWTON && ftl->mem.color > ftl->root.cnt)
 		ftl->mem.color = 0;
+	if (ftl->type != NEWTON && ftl->mem.color > ftl->grad.col_cnt)
+		ftl->mem.color = 0;
 	draw(ftl, -3);
 	return (0);
 }
@@ -48,7 +50,7 @@ static void			scroll(t_frac *ftl, _Bool up, t_complex shift, double zoom)
 		ftl->zoom *= up ? zoom : (1.0 / zoom);
 	}
 	else if (ftl->type == JULIA && !ftl->mem.mouse_zoom)
-		ftl->k = c_plus(ftl->cam, shift);
+		cp_plus(&ftl->cam, &shift, &ftl->k);
 	else if (ftl->type == NEWTON && !ftl->mem.mouse_zoom &&
 			ftl->mem.color > 0 && ftl->mem.color <= ftl->root.cnt)
 	{
@@ -74,7 +76,7 @@ int					mouse_click(int button, int x, int y, void *param)
 	if (button != RIGHT_CLICK && button != SCROLL_CLICK)
 		shift = init_shift(ftl, x, y);
 	if (button == 1)
-		ftl->cam = c_plus(ftl->cam, shift);
+		cp_plus(&ftl->cam, &shift, &ftl->cam);
 	else if (button == RIGHT_CLICK)
 		ftl->mem.mouse_hook ^= 1;
 	else if (button == SCROLL_CLICK)
@@ -98,7 +100,7 @@ int					mouse_move(int x, int y, void *param)
 	if (ftl->mem.mouse_hook && ftl->type == JULIA)
 	{
 		shift = init_shift(ftl, x, y);
-		ftl->k = c_plus(ftl->cam, shift);
+		cp_plus(&ftl->cam, &shift, &ftl->k);
 		draw(ftl, -1);
 	}
 	else if (ftl->mem.mouse_hook && ftl->type == NEWTON &&

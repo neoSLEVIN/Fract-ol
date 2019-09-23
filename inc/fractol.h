@@ -24,9 +24,9 @@
 # include "flag.h"
 # include "err_usg.h"
 /*
-# include "linuxkeys.h"
-*/
 # include "macoskeys.h"
+*/
+# include "linuxkeys.h"
 #include <stdio.h>
 
 typedef struct	s_point
@@ -102,10 +102,10 @@ void			new_black_image(t_frac *ftl);
 void			new_side_image(t_frac *ftl, int size);
 
 void			mandelbrot(t_frac *ftl, t_img *img);
-void			julia(t_frac *ftl, t_img *img);
 void			burning_ship(t_frac *ftl, t_img *img);
 void			mandelbar(t_frac *ftl, t_img *img);
 void			celtic(t_frac *ftl, t_img *img);
+void			julia(t_frac *ftl, t_img *img);
 void			newton(t_frac *ftl, t_img *img);
 
 int				is_move(int key);
@@ -121,10 +121,10 @@ void			zoom_camera(t_frac *ftl, int key);
 void			move_camera(t_frac *ftl, int key);
 void			draw(t_frac *ftl, int key);
 void			draw_ui(t_frac *ftl);
-void			draw_info(t_frac *ftl, char *str, int *y);
-void			draw_current(t_frac *ftl, int *y, char *str);
-void			draw_str(t_frac *ftl, int x, int *y, char *str);
+void			draw_info(t_frac *ftl, int *y, char *str, char *temp);
+void			draw_current(t_frac *ftl, int *y, char *str, char *temp);
 void			draw_complex(t_frac *ftl, t_complex *complex, int x, int *y);
+char			**draw_str(t_frac *ftl, int x, int *y, char *str);
 void			print_cmd(t_frac *ftl);
 void			print_double(double num);
 void			print_fractol(t_type type);

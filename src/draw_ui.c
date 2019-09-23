@@ -6,32 +6,31 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 21:50:21 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/23 00:01:11 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/23 07:01:03 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	draw_current(t_frac *ftl, int *y, char *str)
+void	draw_current(t_frac *ftl, int *y, char *str, char *temp)
 {
-	char	*temp;
-
-	if (!(str = ft_strnew(16)))
-		error("No memory allocated for UI");
+	!(str = ft_strnew(28)) ? error("No memory allocated for UI") : 0;
+	!(temp = ft_itoa(ftl->mem.color)) ? error("No memory allocated for UI") : 0;
 	ft_strcpy(str, ftl->type == NEWTON ? "Current root: " : "Current color: ");
-	if (!(temp = ft_itoa(ftl->mem.color)))
-		error("No memory allocated for UI");
-	ft_strcat(str, temp);
+	draw_str(ftl, 5, y, ft_strcat(str, temp));
 	ft_strdel(&temp);
-	draw_str(ftl, 5, y, str);
 	if (ftl->type == JULIA || ftl->type == NEWTON)
 	{
-		ft_strcpy(str, "Zoom: ");
-		ft_strcat(str, ftl->mem.mouse_zoom ? "On" : "Off");
+		ft_strcat(ft_strcpy(str, "Zoom: "), ftl->mem.mouse_zoom ? "On" : "Off");
 		draw_str(ftl, 5, y, str);
 		ft_strcpy(str, ftl->type == JULIA ? "Auto K: " : "Auto Root: ");
-		ft_strcat(str, ftl->mem.mouse_hook ? "On" : "Off");
-		draw_str(ftl, 5, y, str);
+		draw_str(ftl, 5, y, ft_strcat(str, ftl->mem.mouse_hook ? "On" : "Off"));
+	}
+	if (ftl->type == NEWTON)
+	{
+		temp = ft_dtoa(ftl->root.damping.re);
+		draw_str(ftl, 5, y, ft_strcat(ft_strcpy(str, "Bamping: "), temp));
+		ft_strdel(&temp);
 	}
 	if (ftl->type == JULIA)
 	{
@@ -39,116 +38,79 @@ void	draw_current(t_frac *ftl, int *y, char *str)
 		draw_str(ftl, 5, y, "K:");
 		draw_complex(ftl, &ftl->k, 10, y);
 	}
+	ft_strdel(&str);
 }
 
-static void	draw_keys3(t_frac *ftl)
+static void	draw_keys2(t_frac *ftl, int *y)
 {
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 20, 280 + LM, 0x00cccccc,
-			"Left Shift/Ctrl;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 300 + LM, 0x00cccccc,
-			"Choose color:");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 15, 320 + LM, 0x00cccccc,
-			"All: 0;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 15, 340 + LM, 0x00cccccc,
-			"Certain: 1-9;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 380 + LM, 0x00cccccc,
-			"Change RGB of color: Right Shift/Ctrl;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 400 + LM, 0x00cccccc,
-			"Change Red|Green|Blue of color: Q A|W S|E D;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 440 + LM, 0x00cccccc,
-			"Change Damping Number(NEWTON): < >;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 460 + LM, 0x00cccccc,
-			"Change Max Iterations(Color = 0): < >;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 480 + LM, 0x00cccccc,
-			"Change Gradient(Color [1-max color count]): < >;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 500 + LM, 0x00cccccc,
-			"Change Image Size: F1 F2;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 540 + LM, 0x00cccccc,
-			"Exit: Esc");
+	draw_str(ftl, 10, y, "Roots(max 5): + -;");
+	draw_str(ftl, 10, y, "Power: + -;");
+	draw_str(ftl, 10, y, "Switch colors:");
+	draw_str(ftl, 20, y, "Left Shift/Ctrl;");
+	draw_str(ftl, 10, y, "Choose color:");
+	draw_str(ftl, 15, y, "All: 0;");
+	draw_str(ftl, 15, y, "Certain: 1-9;");
+	*y += 20;
+	draw_str(ftl, 10, y, "Change RGB of color: Right Shift/Ctrl;");
+	draw_str(ftl, 10, y, "Change Red|Green|Blue of color: Q A|W S|E D;");
+	*y += 20;
+	draw_str(ftl, 10, y, "Change Damping Number(NEWTON): < >;");
+	draw_str(ftl, 10, y, "Change Max Iterations(Color = 0): < >;");
+	draw_str(ftl, 10, y, "Change Gradient(Color [1-max color count]): < >;");
+	draw_str(ftl, 10, y, "Change Image Size: F1 F2;");
+	*y += 20;
+	draw_str(ftl, 10, y, "Exit: Esc");
 }
 
-static void	draw_keys2(t_frac *ftl)
+static void	draw_keys(t_frac *ftl, int *y)
 {
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 210, 320 + LM, 0x00cccccc,
-			"Choose side fractal: LMC;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 5, 60 + LM, 0x00cccccc,
-			"KEYBOARD:");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 80 + LM, 0x00cccccc,
-			"Move: Arrows;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 100 + LM, 0x00cccccc,
-			"Fractals:");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 15, 120 + LM, 0x00cccccc,
-			"Prev/Next: F G;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 15, 140 + LM, 0x00cccccc,
-			"On/Off other: M;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 160 + LM, 0x00cccccc,
-			"Center: Space;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 180 + LM, 0x00cccccc,
-			"Psycho: P;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 200 + LM, 0x00cccccc,
-			"Output cmd: O;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 220 + LM, 0x00cccccc,
-			"Roots(max 5): + -;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 240 + LM, 0x00cccccc,
-			"Power: + -;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 10, 260 + LM, 0x00cccccc,
-			"Switch colors:");
-	draw_keys3(ftl);
-}
-
-static void	draw_keys(t_frac *ftl)
-{
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 205, 60 + LM, 0x00cccccc,
-			"NUMPAD:");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 210, 80 + LM, 0x00cccccc,
-			"Fast move: {2, 4, 6, 8};");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 210, 100 + LM, 0x00cccccc,
-			"Zoom: + -; Fast zoom: * /;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 210, 120 + LM, 0x00cccccc,
-			"Centralize(default/custom):");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 220, 140 + LM, 0x00cccccc,
-			"Zoom: 1 0; Camera: Enter 5;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 210, 160 + LM, 0x00cccccc,
-			"Color mode: dot;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 205, 200 + LM, 0x00cccccc,
-			"MOUSE:");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 210, 220 + LM, 0x00cccccc,
-			"Move dot to center: LMC;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 210, 240 + LM, 0x00cccccc,
-			"Zoom: Scroll;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 210, 260 + LM, 0x00cccccc,
-			"K(Julia)/Root(Newton):Scroll;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 210, 280 + LM, 0x00cccccc,
-			"Scroll mode: Scroll click;");
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 210, 300 + LM, 0x00cccccc,
-			"Auto K/Root: RMC;");
-	draw_keys2(ftl);
+	*y = 50;
+	draw_str(ftl, 205, y, "NUMPAD:");
+	draw_str(ftl, 210, y, "Fast move: {2, 4, 6, 8};");
+	draw_str(ftl, 210, y, "Zoom: + -; Fast zoom: * /;");
+	draw_str(ftl, 210, y, "Centralize(default/custom):");
+	draw_str(ftl, 210, y, "Zoom: 1 0; Camera: Enter 5;");
+	draw_str(ftl, 210, y, "Color mode: dot;");
+	*y += 20;
+	draw_str(ftl, 205, y, "MOUSE:");
+	draw_str(ftl, 210, y, "Move dot to center: LMC;");
+	draw_str(ftl, 210, y, "Zoom: Scroll;");
+	draw_str(ftl, 210, y, "K(Julia)/Root(Newton):Scroll;");
+	draw_str(ftl, 210, y, "Scroll mode: Scroll click;");
+	draw_str(ftl, 210, y, "Auto K/Root: RMC;");
+	draw_str(ftl, 210, y, "Choose side fractal: LMC;");
+	*y = 50;
+	draw_str(ftl, 5, y, "KEYBOARD:");
+	draw_str(ftl, 10, y, "Move: Arrows;");
+	draw_str(ftl, 10, y, "Fractals:");
+	draw_str(ftl, 15, y, "Prev/Next: F G;");
+	draw_str(ftl, 15, y, "On/Off other: M;");
+	draw_str(ftl, 10, y, "Center: Space;");
+	draw_str(ftl, 10, y, "Psycho: P;");
+	draw_str(ftl, 10, y, "Output cmd: O;");
+	draw_keys2(ftl, y);
 }
 
 void		draw_ui(t_frac *ftl)
 {
 	char	*str;
+	char	*temp;
 	int		y;
 
 	str = NULL;
-	y = 50;
+	temp = NULL;
+	y = 5;
 	mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr,
 							ftl->black_img->img_ptr, -1, 0);
-	mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr,
-							ftl->black_img->img_ptr, -1, 500);
-	ftl->type == MANDELBROT ? mlx_string_put(ftl->mlx_ptr, ftl->win_ptr,
-			5, 2 + LM, 0x00cccccc, "Mandelbrot") : 0;
-	ftl->type == JULIA ? mlx_string_put(ftl->mlx_ptr, ftl->win_ptr,
-			5, 2 + LM, 0x00cccccc, "Julia") : 0;
-	ftl->type == BURNING_SHIP ? mlx_string_put(ftl->mlx_ptr, ftl->win_ptr,
-			5, 2 + LM, 0x00cccccc, "Burning Ship") : 0;
-	ftl->type == MANDELBAR ? mlx_string_put(ftl->mlx_ptr, ftl->win_ptr,
-			5, 2 + LM, 0x00cccccc, "Mandelbar") : 0;
-	ftl->type == CELTIC ? mlx_string_put(ftl->mlx_ptr, ftl->win_ptr,
-			5, 2 + LM, 0x00cccccc, "Celtic") : 0;
-	ftl->type == NEWTON ? mlx_string_put(ftl->mlx_ptr, ftl->win_ptr,
-			5, 2 + LM, 0x00cccccc, "Newton") : 0;
-	mlx_string_put(ftl->mlx_ptr, ftl->win_ptr, 5, 25 + LM, 0x00cccccc,
-			ftl->mem.ui ? "TAB - switch to keys" : "TAB - switch to info");
-	ftl->mem.ui ? draw_info(ftl, str, &y) : draw_keys(ftl);
+	ftl->type == MANDELBROT ? draw_str(ftl, 5, &y, "Mandelbrot") : 0;
+	ftl->type == BURNING_SHIP ? draw_str(ftl, 5, &y, "Burning Ship") : 0;
+	ftl->type == MANDELBAR ? draw_str(ftl, 5, &y, "Mandelbar") : 0;
+	ftl->type == CELTIC ? draw_str(ftl, 5, &y, "Celtic") : 0;
+	ftl->type == JULIA ? draw_str(ftl, 5, &y, "Julia") : 0;
+	ftl->type == NEWTON ? draw_str(ftl, 5, &y, "Newton") : 0;
+	y = 25;
+	draw_str(ftl, 5, &y, ftl->mem.ui ?
+		"TAB - switch to keys" : "TAB - switch to info");
+	y = 50;
+	ftl->mem.ui ? draw_info(ftl, &y, str, temp) : draw_keys(ftl, &y);
 }

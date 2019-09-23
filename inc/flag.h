@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 15:22:49 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/19 06:48:06 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/23 06:43:33 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@
 typedef enum	e_type
 {
 	MANDELBROT,
-	JULIA,
 	BURNING_SHIP,
 	MANDELBAR,
 	CELTIC,
+	JULIA,
 	NEWTON,
 	CNT_OF_TYPES
 }				t_type;

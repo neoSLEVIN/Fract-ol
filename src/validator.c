@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 17:38:25 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/18 04:20:46 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/23 07:02:38 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ static void	fractal(t_flg *flg, char *fractal, char *app_name)
 		fractal[i] = ft_tolower(fractal[i]);
 	if (!ft_strcmp(fractal, "mandelbrot"))
 		flg->type = MANDELBROT;
-	else if (!ft_strcmp(fractal, "julia"))
-		flg->type = JULIA;
 	else if (!ft_strcmp(fractal, "burning_ship"))
 		flg->type = BURNING_SHIP;
 	else if (!ft_strcmp(fractal, "mandelbar"))
 		flg->type = MANDELBAR;
 	else if (!ft_strcmp(fractal, "celtic"))
 		flg->type = CELTIC;
+	else if (!ft_strcmp(fractal, "julia"))
+		flg->type = JULIA;
 	else if (!ft_strcmp(fractal, "newton"))
 		flg->type = NEWTON;
 	else
