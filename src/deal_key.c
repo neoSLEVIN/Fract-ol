@@ -97,10 +97,8 @@ int			deal_key(int key, void *param)
 	t_frac	*ftl;
 
 	ftl = (t_frac*)param;
-	if (key == ESC)
-		red_x_button(ftl);
-	else if (key == TAB)
-		ftl->mem.ui ^= 1;
+	key == ESC ? red_x_button(ftl) : 0;
+	key == TAB ? ftl->mem.ui ^= 1 : 0;
 	if (key == P_KEY || key == M_KEY)
 		(key == P_KEY) ? (ftl->mem.no_hook ^= 1) : (ftl->mem.side ^= 1);
 	else if (key == SPACE)
@@ -109,7 +107,9 @@ int			deal_key(int key, void *param)
 		shift_color(ftl->type == NEWTON ? ftl->root.cols : ftl->grad.col,
 			ftl->type == NEWTON ? ftl->root.cnt : ftl->grad.col_cnt, key);
 	else if (key == O_KEY)
-		print_cmd(ftl);
+		(ftl->type != NEWTON && fabs(ftl->k.re) < 10 && fabs(ftl->k.im) < 10 &&
+		fabs(ftl->cam.re) < 10 && fabs(ftl->cam.im) < 10) ? print_cmd(ftl) :
+		ft_putendl("Can't help you, sorry :(\n");
 	else if (is_color(key) && ftl->type == NEWTON)
 		change_color(ftl->root.cols, ftl->root.cnt, ftl->mem.color, key);
 	else if (is_color(key))

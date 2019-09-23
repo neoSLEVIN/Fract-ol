@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 23:44:35 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/23 07:00:19 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/23 23:50:21 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,22 +73,22 @@ static void	print_cmd2(t_frac *ftl)
 		ft_putstr(" -m ");
 		ft_putnbr(ftl->iter);
 	}
-	if (ftl->cam.re != 0)
+	if (ftl->cam.re != 0 && fabs(ftl->cam.re) <= 10)
 	{
 		ft_putstr(" -Re ");
 		print_double(ftl->cam.re);
 	}
-	if (ftl->cam.im != 0)
+	if (ftl->cam.im != 0 && fabs(ftl->cam.im) <= 10)
 	{
 		ft_putstr(" -Im ");
 		print_double(ftl->cam.im);
 	}
-	if (ftl->k.re != -0.79 && ftl->type == JULIA)
+	if (ftl->k.re != -0.79 && ftl->type == JULIA && fabs(ftl->k.re) <= 10)
 	{
 		ft_putstr(" -k-Re ");
 		print_double(ftl->k.re);
 	}
-	if (ftl->k.im != 0.15 && ftl->type == JULIA)
+	if (ftl->k.im != 0.15 && ftl->type == JULIA && fabs(ftl->k.im) <= 10)
 	{
 		ft_putstr(" -k-Im ");
 		print_double(ftl->k.im);

@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 07:09:12 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/23 03:45:00 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/24 00:26:42 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void		deal_key2(t_frac *ftl, int key)
 	{
 		ftl->root.damping.re += key == L_BRACKET ? -0.05 : 0.05;
 		ftl->root.damping.re < 0.6 ? ftl->root.damping.re = 0.6 : 0;
-		ftl->root.damping.re > 1.9 ? ftl->root.damping.re = 1.9 : 0;
+		ftl->root.damping.re > 1.85 ? ftl->root.damping.re = 1.85 : 0;
 	}
 	else if (ftl->mem.color == 0 && (key == L_BRACKET || key == R_BRACKET))
 	{

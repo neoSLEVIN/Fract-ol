@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/22 19:54:06 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/22 20:24:56 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/24 00:22:57 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,10 @@ char		*ft_dtoa(double num)
 
 	if (!(str = ft_strnew(30)))
 		error("No memory allocated for string");
+	if (num <= -10)
+		return (ft_strcpy(str, "Small double"));
+	if (num >= 10)
+		return (ft_strcpy(str, "Big double"));
 	str[0] = num < 0 ? '-' : ' ';
 	num < 0 ? num *= -1 : 0;
 	if (!(temp = ft_itoa((int)num)))

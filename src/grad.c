@@ -22,8 +22,9 @@ void			change_grad(t_grad *grad, int color, int left)
 		grad->range[color] += RANGE;
 }
 
-static t_rgb	*true_color(t_rgb col1, t_rgb col2, double *d_r, t_rgb *temp)
+t_rgb			*true_color(t_rgb col1, t_rgb col2, double *d_r, t_rgb *temp)
 {
+	*d_r > 1 ? *d_r = 1 : 0;
 	col1.r > 255 ? col1.r = 511 - col1.r : 0;
 	col1.g > 255 ? col1.g = 511 - col1.g : 0;
 	col1.b > 255 ? col1.b = 511 - col1.b : 0;

@@ -18,6 +18,7 @@
 # define COLOR 8
 # define EPS 1e-4
 # define SCREEN 500
+# define N_ITER 40
 
 # include <mlx.h>
 # include <math.h>
