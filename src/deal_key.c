@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 22:26:06 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/05 22:28:32 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/24 22:38:25 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	is_color(int key)
 			key == Q_KEY || key == E_KEY || key == R_SHIFT || key == R_CTRL);
 }
 
-static void change_color(t_rgb *colors, int cnt, int color, int key)
+static void	change_color(t_rgb *colors, int cnt, int color, int key)
 {
 	int	i;
 	int	max;
@@ -69,7 +69,7 @@ static void change_color(t_rgb *colors, int cnt, int color, int key)
 	}
 }
 
-static void shift_color(t_rgb *colors, int cnt, int key)
+static void	shift_color(t_rgb *colors, int cnt, int key)
 {
 	t_rgb	temp;
 	int		i;
@@ -109,7 +109,7 @@ int			deal_key(int key, void *param)
 	else if (key == O_KEY)
 		(ftl->type != NEWTON && fabs(ftl->k.re) < 10 && fabs(ftl->k.im) < 10 &&
 		fabs(ftl->cam.re) < 10 && fabs(ftl->cam.im) < 10) ? print_cmd(ftl) :
-		ft_putendl("Can't help you, sorry :(\n");
+		ft_putendl("Can't help you, sorry :(\nAsk the developer.\n");
 	else if (is_color(key) && ftl->type == NEWTON)
 		change_color(ftl->root.cols, ftl->root.cnt, ftl->mem.color, key);
 	else if (is_color(key))

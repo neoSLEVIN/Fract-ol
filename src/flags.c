@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/01 16:42:53 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/23 07:03:44 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/24 22:58:50 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void			size(t_flg *flg, int ac, char **av, int i)
 		err_usage("Incorrect use of the size flag\nTry '-s 500'",
 			av[0], flg->help);
 	flg->size = ft_atoi(av[i + 1]);
-	if (flg->size < 100 || flg->size > 500)
-		err_usage("Range for size must be in [100...500]", av[0],
+	if (flg->size < 100 || flg->size > 500 || flg->size % 10)
+		err_usage("Range for size must be in [100...500] multiple of 10", av[0],
 			flg->help);
 }
 

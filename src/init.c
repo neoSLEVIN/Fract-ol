@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 16:24:17 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/22 02:18:00 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/24 22:56:10 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ void		init_flg(t_flg *flg, int ac, char **av)
 
 static void	init_mem(t_mem *mem)
 {
-	mem->zoom = 1;
 	mem->cam = set_complex(0, 0);
 	mem->mouse_hook = 0;
 	mem->mouse_zoom = 0;
 	mem->no_hook = 0;
 	mem->center = 0;
 	mem->color = 0;
+	mem->zoom = 1;
 	mem->side = 0;
 	mem->ui = 0;
 }
@@ -75,7 +75,7 @@ void		init_root_pos(t_root *root, int cnt)
 	}
 }
 
-static void	init_root(t_root *root, int	cnt, t_grad *grad)
+static void	init_root(t_root *root, int cnt, t_grad *grad)
 {
 	int	i;
 

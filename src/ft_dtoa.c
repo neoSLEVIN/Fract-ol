@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/22 19:54:06 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/24 00:22:57 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/24 21:12:49 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,14 @@ static void	clear_zero(char *str)
 	size_t	len;
 
 	len = ft_strlen(str);
-	while (--len)
+	while (len)
+	{
+		--len;
 		if (str[len] == '0')
 			str[len] = '\0';
 		else
 			break ;
+	}
 }
 
 static void	ft_dtoa2(char *str, char *temp, int num)

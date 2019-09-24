@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/08 02:44:31 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/17 15:48:01 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/24 21:25:05 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,3 @@ int	err_usage(char *err_msg, char *app_name, _Bool full)
 	}
 	return (full ? usage(app_name) : lite_usage(app_name, 0));
 }
-

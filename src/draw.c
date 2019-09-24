@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 19:10:02 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/23 07:02:00 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/24 21:23:19 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	init_edge(t_frac *ftl)
 static void	draw_side(t_frac *ftl)
 {
 	t_img	*side;
-	int	i;
+	int		i;
 
 	i = -1;
 	side = ftl->side_imgs;

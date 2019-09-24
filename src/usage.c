@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 17:35:54 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/23 07:04:16 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/24 23:06:34 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,9 @@ int			usage(char *app_name)
 	ft_putendl("\t\t\tARG(1): integer in range [2...99] inclusive.");
 	ft_putendl("\t\t\tExample: --power 2\n");
 	ft_putendl("  -s, --size\t\tResize the image.");
-	ft_putendl("\t\t\tARG(1): integer in range [100...500] inclusive, the");
-	ft_putendl("\t\t\t  argument is for width and height at the same time.");
+	ft_putstr("\t\t\tARG(1): integer in range [100...500] inclusive ");
+	ft_putstr("multiple\n\t\t\t  of 10, the argument is for width and");
+	ft_putendl(" height at the\n\t\t\t  same time.");
 	ft_putendl("\t\t\tExample: --size 500\n");
 	usage2(app_name);
 	exit(1);

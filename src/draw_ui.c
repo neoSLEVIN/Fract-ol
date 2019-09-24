@@ -6,13 +6,13 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 21:50:21 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/23 07:01:03 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/24 21:25:32 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	draw_current(t_frac *ftl, int *y, char *str, char *temp)
+void		draw_current(t_frac *ftl, int *y, char *str, char *temp)
 {
 	!(str = ft_strnew(28)) ? error("No memory allocated for UI") : 0;
 	!(temp = ft_itoa(ftl->mem.color)) ? error("No memory allocated for UI") : 0;

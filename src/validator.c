@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 17:38:25 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/23 07:02:38 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/24 21:26:24 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	fractal(t_flg *flg, char *fractal, char *app_name)
 		lite_usage(app_name, 1);
 }
 
-static void power(t_flg *flg, int ac, char **av, int i)
+static void	power(t_flg *flg, int ac, char **av, int i)
 {
 	size_t	len;
 

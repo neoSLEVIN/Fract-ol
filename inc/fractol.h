@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 13:50:13 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/05 22:53:31 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/24 22:54:48 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,9 @@
 # include "flag.h"
 # include "err_usg.h"
 /*
-# include "macoskeys.h"
-*/
 # include "linuxkeys.h"
-#include <stdio.h>
+*/
+# include "macoskeys.h"
 
 typedef struct	s_point
 {
@@ -77,6 +76,7 @@ typedef struct	s_fractol
 	t_img		*img;
 	t_img		*black_img;
 	t_img		*side_imgs;
+	t_img		*th_img;
 	t_type		type;
 	t_grad		grad;
 	t_root		root;
@@ -122,16 +122,16 @@ void			zoom_camera(t_frac *ftl, int key);
 void			move_camera(t_frac *ftl, int key);
 void			draw(t_frac *ftl, int key);
 void			draw_ui(t_frac *ftl);
+void			draw_str(t_frac *ftl, int x, int *y, char *str);
 void			draw_info(t_frac *ftl, int *y, char *str, char *temp);
 void			draw_current(t_frac *ftl, int *y, char *str, char *temp);
 void			draw_complex(t_frac *ftl, t_complex *complex, int x, int *y);
-char			**draw_str(t_frac *ftl, int x, int *y, char *str);
 void			print_cmd(t_frac *ftl);
 void			print_double(double num);
 void			print_fractol(t_type type);
 void			print_itoa16(short num, _Bool full);
 void			plot(t_img *img, t_point *coord, t_rgb *color);
-long long		ft_atoll(char * num, size_t len);
+long long		ft_atoll(char *num, size_t len);
 char			*ft_dtoa(double num);
 
 #endif
