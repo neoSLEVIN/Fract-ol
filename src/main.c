@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 14:07:30 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/22 13:41:43 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/28 00:09:59 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int			main(int argc, char **argv)
 		error("No memory allocated for FRACTOL");
 	if (!(ftl->flg = (t_flg*)malloc(sizeof(t_flg))))
 		error("No memory allocated for FLAGS");
-	if (!(ftl->cp = (t_complex*)malloc(sizeof(t_complex) * 2)))
+	if (!(ftl->cp = (t_complex*)malloc(sizeof(t_complex) * 50 * (T_CNT + 1))))
 		error("No memory allocated for COMPLEX POINTERS");
 	init_flg(ftl->flg, argc, argv);
 	init_fractol(ftl, ftl->flg);

@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 20:19:49 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/24 21:21:25 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/28 00:16:00 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_rgb			*true_color(t_rgb col1, t_rgb col2, double *d_r, t_rgb *temp)
 	return (temp);
 }
 
-t_rgb			*get_grad_color(t_grad *grad, double *t)
+t_rgb			*get_grad_color(t_grad *grad, double *t, int id)
 {
 	double	d_r;
 	int		part;
@@ -55,5 +55,6 @@ t_rgb			*get_grad_color(t_grad *grad, double *t)
 	}
 	d_r = (*t - grad->range[part]) /
 		(grad->range[part - 1] - grad->range[part]);
-	return (true_color(grad->col[part], grad->col[part - 1], &d_r, &grad->tmp));
+	return (true_color(grad->col[part], grad->col[part - 1], &d_r,
+						&grad->tmp[id]));
 }

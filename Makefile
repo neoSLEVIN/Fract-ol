@@ -1,4 +1,4 @@
-OS = MACOS
+OS = LINUX
 COM = fast commit
 NAME = fractol
 
@@ -24,6 +24,7 @@ SRCNAME = main.c \
 		image.c \
 		init.c \
 		draw.c \
+		draw_fractol.c \
 		draw_ui.c \
 		draw_info.c \
 		fractol.c \
@@ -39,7 +40,7 @@ OBJ = $(addprefix $(OBJDIR),$(OBJNAME))
 LFTINIT = -I $(LFTDIR) -L $(LFTDIR) -lft
 MLXINIT = -I /usr/local/include -L /usr/local/lib -lmlx
 
-LINUX = -lXext -lX11 -lm
+LINUX = -lXext -lX11 -lm -lpthread
 MACOS = -framework OpenGL -framework AppKit
 WFLAGS = -Wall -Wextra -Werror
 

@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 20:26:07 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/23 05:39:45 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/28 00:42:48 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ void	new_image(t_frac *ftl, int size)
 	ftl->img->pos.x = SCREEN + (SCREEN - size) / 2;
 	ftl->img->pos.y = (SCREEN - size) / 2;
 	ftl->img->type = ftl->type;
+	ftl->img->y_lines = PIX_CNT / size;
+	ftl->img->t_max = size % ftl->img->y_lines ?
+						size / ftl->img->y_lines + 1 : size / ftl->img->y_lines;
 }
 
 void	new_black_image(t_frac *ftl)
@@ -39,6 +42,8 @@ void	new_black_image(t_frac *ftl)
 	ftl->black_img->pos.x = 0;
 	ftl->black_img->pos.y = 0;
 	ftl->black_img->type = 0;
+	ftl->black_img->y_lines = 0;
+	ftl->black_img->t_max = 0;
 }
 
 void	new_side_image(t_frac *ftl, int size)
@@ -60,5 +65,8 @@ void	new_side_image(t_frac *ftl, int size)
 		side[i].pos.x = SCREEN + i * (size + 1);
 		side[i].pos.y = SCREEN + 1;
 		side[i].type = i + (i >= (int)ftl->type ? 1 : 0);
+		side[i].y_lines = PIX_CNT / size;
+		side[i].t_max = size % side[i].y_lines ?
+						size / side[i].y_lines + 1 : size / side[i].y_lines;
 	}
 }

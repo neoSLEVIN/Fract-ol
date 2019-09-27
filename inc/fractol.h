@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 13:50:13 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/24 22:54:48 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/28 00:58:40 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,18 @@
 # define EPS 1e-4
 # define SCREEN 500
 # define N_ITER 40
+# define T_CNT 50
+# define PIX_CNT 5000
 
 # include <mlx.h>
+# include <pthread.h>
 # include <math.h>
 # include "flag.h"
 # include "err_usg.h"
 /*
-# include "linuxkeys.h"
-*/
 # include "macoskeys.h"
+*/
+# include "linuxkeys.h"
 
 typedef struct	s_point
 {
@@ -43,6 +46,8 @@ typedef struct	s_img
 	int			size_line;
 	int			endian;
 	int			size;
+	int			y_lines;
+	int			t_max;
 	t_point		pos;
 	t_type		type;
 }				t_img;
@@ -73,25 +78,33 @@ typedef struct	s_fractol
 	void		*mlx_ptr;
 	void		*win_ptr;
 	int			size;
+	int			iter;
+	int			pow;
+	t_flg		*flg;
+	t_mem		mem;
 	t_img		*img;
 	t_img		*black_img;
 	t_img		*side_imgs;
-	t_img		*th_img;
 	t_type		type;
 	t_grad		grad;
 	t_root		root;
 	double		zoom;
-	int			iter;
-	int			pow;
-	t_flg		*flg;
+	t_complex	*cp;
 	t_complex	min;
 	t_complex	max;
-	t_complex	step;
 	t_complex	cam;
+	t_complex	step;
 	t_complex	k;
-	t_mem		mem;
-	t_complex	*cp;
 }				t_frac;
+
+typedef struct	s_thread
+{
+	t_frac		*ftl;
+	int			ftl_id;
+	int			img_id;
+	int			y_min;
+	int			y_max;
+}				t_thread;
 
 void			init_flg(t_flg *flg, int ac, char **av);
 void			init_fractol(t_frac *ftl, t_flg *flg);
@@ -102,12 +115,14 @@ void			new_image(t_frac *ftl, int size);
 void			new_black_image(t_frac *ftl);
 void			new_side_image(t_frac *ftl, int size);
 
-void			mandelbrot(t_frac *ftl, t_img *img);
-void			burning_ship(t_frac *ftl, t_img *img);
-void			mandelbar(t_frac *ftl, t_img *img);
-void			celtic(t_frac *ftl, t_img *img);
-void			julia(t_frac *ftl, t_img *img);
-void			newton(t_frac *ftl, t_img *img);
+void			mandelbrot(t_frac *ftl, int ftl_id, t_point line, t_img *img);
+void			burning_ship(t_frac *ftl, int ftl_id, t_point line, t_img *img);
+void			mandelbar(t_frac *ftl, int ftl_id, t_point line, t_img *img);
+void			celtic(t_frac *ftl, int ftl_id, t_point line, t_img *img);
+void			julia(t_frac *ftl, int ftl_id, t_point line, t_img *img);
+void			newton(t_frac *ftl, int ftl_id, t_point line, t_img *img);
+
+void			clean_image(t_img *img);
 
 int				is_move(int key);
 int				is_hex(char *hex);
@@ -123,6 +138,7 @@ void			move_camera(t_frac *ftl, int key);
 void			draw(t_frac *ftl, int key);
 void			draw_ui(t_frac *ftl);
 void			draw_str(t_frac *ftl, int x, int *y, char *str);
+void			draw_fractol(t_frac *ftl, t_img *img, int img_id);
 void			draw_info(t_frac *ftl, int *y, char *str, char *temp);
 void			draw_current(t_frac *ftl, int *y, char *str, char *temp);
 void			draw_complex(t_frac *ftl, t_complex *complex, int x, int *y);

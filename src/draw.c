@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 19:10:02 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/24 21:23:19 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/28 00:57:08 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,13 @@ static void	draw_side(t_frac *ftl)
 	t_img	*side;
 	int		i;
 
-	i = -1;
 	side = ftl->side_imgs;
 	ftl->min = set_complex(-2.0, -2.0);
 	ftl->max = set_complex(2.0, 2.0);
 	ftl->step = set_complex(4.0 / (100 - 1), 4.0 / (100 - 1));
+	i = -1;
 	while (++i < 5)
-		if (side[i].type == JULIA)
-			julia(ftl, &side[i]);
-		else if (side[i].type == BURNING_SHIP)
-			burning_ship(ftl, &side[i]);
-		else if (side[i].type == MANDELBAR)
-			mandelbar(ftl, &side[i]);
-		else if (side[i].type == CELTIC)
-			celtic(ftl, &side[i]);
-		else if (side[i].type == NEWTON)
-			newton(ftl, &side[i]);
-		else
-			mandelbrot(ftl, &side[i]);
+		draw_fractol(ftl, &side[i], i);
 	i = -1;
 	while (++i < 5)
 		mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr, side[i].img_ptr,
@@ -78,22 +67,17 @@ static void	draw_border(t_frac *ftl)
 
 void		draw(t_frac *ftl, int key)
 {
-	ftl->mem.side && key != TAB ? draw_side(ftl) : 0;
+	if (ftl->mem.side && key != TAB)
+		draw_side(ftl);
 	if (!ftl->mem.side && key == M_KEY)
 		mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr,
 								ftl->black_img->img_ptr, 500, 501);
 	init_edge(ftl);
 	if (key != TAB)
-	{
-		ftl->type == MANDELBROT ? mandelbrot(ftl, ftl->img) : 0;
-		ftl->type == BURNING_SHIP ? burning_ship(ftl, ftl->img) : 0;
-		ftl->type == MANDELBAR ? mandelbar(ftl, ftl->img) : 0;
-		ftl->type == CELTIC ? celtic(ftl, ftl->img) : 0;
-		ftl->type == JULIA ? julia(ftl, ftl->img) : 0;
-		ftl->type == NEWTON ? newton(ftl, ftl->img) : 0;
-	}
-	key == INC_IMG || key == DEC_IMG ? mlx_put_image_to_window(ftl->mlx_ptr,
-		ftl->win_ptr, ftl->black_img->img_ptr, 500, -100) : 0;
+		draw_fractol(ftl, ftl->img, -1);
+	if (key == INC_IMG || key == DEC_IMG)
+		mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr,
+								ftl->black_img->img_ptr, 500, -100);
 	mlx_put_image_to_window(ftl->mlx_ptr, ftl->win_ptr, ftl->img->img_ptr,
 							ftl->img->pos.x, ftl->img->pos.y);
 	if (ftl->size < 500 && (key == M_KEY || key == INC_IMG || key == DEC_IMG))
