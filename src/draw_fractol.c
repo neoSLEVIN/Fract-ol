@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 00:19:35 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/28 14:50:32 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/28 15:47:03 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,7 @@ void		draw_fractol(t_frac *ftl, t_img *img, int img_id)
 	t_thread	fr[img->t_max];
 	int			i;
 
-/*	if (ftl->type == NEWTON && img_id == -1)
-	{
-		t_point t = {0, ftl->size};
-		newton(ftl, 0, t, img);
-	}
-	else
-	{
-*/
-	img->type == NEWTON ? clean_image(img) : 0;
+//	img->type == NEWTON ? clean_image(img) : 0;
 	i = -1;
 	while(++i < img->t_max)
 	{
@@ -67,5 +59,4 @@ void		draw_fractol(t_frac *ftl, t_img *img, int img_id)
 	while (i--)
 		if (pthread_join(t[i], NULL))
 			error("Bad pthread_join return value");
-//	}
 }

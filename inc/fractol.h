@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 13:50:13 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/28 14:34:45 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/28 16:23:48 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,6 @@ void			julia(t_frac *ftl, int ftl_id, t_point limits, t_img *img);
 void			newton(t_frac *ftl, int ftl_id, t_point limits, t_img *img);
 void			burning_ship(t_frac *ftl, int ftl_id, t_point limits,
 							t_img *img);
-
-void			clean_image(t_img *img);
 
 int				is_move(int key);
 int				is_hex(char *hex);

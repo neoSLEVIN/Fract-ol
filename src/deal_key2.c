@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/18 07:09:12 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/24 22:38:18 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/28 16:44:33 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ static void	shift_fractol(t_frac *ftl, int key)
 	i = -1;
 	key == F_KEY ? --ftl->type : ++ftl->type;
 	key == F_KEY ? --ftl->img->type : ++ftl->img->type;
-	ftl->type == CNT_OF_TYPES ? ftl->type = MANDELBROT : 0;
 	ftl->type == CNT_OF_TYPES ? ftl->img->type = MANDELBROT : 0;
-	ftl->type > CNT_OF_TYPES ? ftl->type = CNT_OF_TYPES - 1 : 0;
+	ftl->type == CNT_OF_TYPES ? ftl->type = MANDELBROT : 0;
 	ftl->type > CNT_OF_TYPES ? ftl->img->type = CNT_OF_TYPES - 1 : 0;
+	ftl->type > CNT_OF_TYPES ? ftl->type = CNT_OF_TYPES - 1 : 0;
 	if (ftl->type == NEWTON && ftl->mem.color > ftl->root.cnt)
 		ftl->mem.color = 0;
 	if (ftl->type != NEWTON && ftl->mem.color > ftl->grad.col_cnt)

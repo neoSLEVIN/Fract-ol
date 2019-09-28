@@ -6,21 +6,21 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 23:15:58 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/28 14:48:29 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/28 15:51:35 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	clean_image(t_img *img)
+void	clean_image(t_img *img, t_point limits)
 {
 	int	x;
 	int	y;
 	int	*data;
 
 	data = (int*)img->data;
-	y = -1;
-	while (++y < img->size)
+	y = limits.x - 1;
+	while (++y < limits.y)
 	{
 		x = -1;
 		while (++x < img->size)
@@ -80,6 +80,7 @@ void		newton(t_frac *ftl, int ftl_id, t_point limits, t_img *img)
 	double		i;
 
 	n.ftl_id = ftl_id;
+	clean_image(img, limits);
 	n.pos.y = limits.x - 1;
 	while (++n.pos.y < limits.y)
 	{
