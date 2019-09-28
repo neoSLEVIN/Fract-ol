@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 13:50:13 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/28 00:58:40 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/28 12:02:10 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,13 @@ void			new_image(t_frac *ftl, int size);
 void			new_black_image(t_frac *ftl);
 void			new_side_image(t_frac *ftl, int size);
 
-void			mandelbrot(t_frac *ftl, int ftl_id, t_point line, t_img *img);
-void			burning_ship(t_frac *ftl, int ftl_id, t_point line, t_img *img);
-void			mandelbar(t_frac *ftl, int ftl_id, t_point line, t_img *img);
-void			celtic(t_frac *ftl, int ftl_id, t_point line, t_img *img);
-void			julia(t_frac *ftl, int ftl_id, t_point line, t_img *img);
-void			newton(t_frac *ftl, int ftl_id, t_point line, t_img *img);
+void			mandelbrot(t_frac *ftl, int ftl_id, t_point limits, t_img *img);
+void			mandelbar(t_frac *ftl, int ftl_id, t_point limits, t_img *img);
+void			celtic(t_frac *ftl, int ftl_id, t_point limits, t_img *img);
+void			julia(t_frac *ftl, int ftl_id, t_point limits, t_img *img);
+void			newton(t_frac *ftl, int ftl_id, t_point limits, t_img *img);
+void			burning_ship(t_frac *ftl, int ftl_id, t_point limits,
+							t_img *img);
 
 void			clean_image(t_img *img);
 

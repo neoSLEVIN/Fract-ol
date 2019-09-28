@@ -6,21 +6,21 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 21:52:12 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/28 01:11:32 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/28 12:05:03 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	mandelbrot(t_frac *ftl, int ftl_id, t_point line, t_img *img)
+void	mandelbrot(t_frac *ftl, int ftl_id, t_point limits, t_img *img)
 {
 	t_complex	c;
 	t_complex	z;
 	t_point		pos;
 	double		i;
 
-	pos.y = line.x - 1;
-	while (++pos.y < line.y)
+	pos.y = limits.x - 1;
+	while (++pos.y < limits.y)
 	{
 		c.im = ftl->max.im - pos.y * ftl->step.im + ftl->cam.im;
 		pos.x = -1;
@@ -37,15 +37,15 @@ void	mandelbrot(t_frac *ftl, int ftl_id, t_point line, t_img *img)
 	}
 }
 
-void	julia(t_frac *ftl, int ftl_id, t_point line, t_img *img)
+void	julia(t_frac *ftl, int ftl_id, t_point limits, t_img *img)
 {
 	t_complex	c;
 	t_complex	z;
 	t_point		pos;
 	double		i;
 
-	pos.y = line.x - 1;
-	while (++pos.y < line.y)
+	pos.y = limits.x - 1;
+	while (++pos.y < limits.y)
 	{
 		c.im = ftl->max.im - pos.y * ftl->step.im + ftl->cam.im;
 		pos.x = -1;
@@ -61,16 +61,16 @@ void	julia(t_frac *ftl, int ftl_id, t_point line, t_img *img)
 		}
 	}
 }
-/*
-void	burning_ship(t_frac *ftl, int ftl_id, t_point line, t_img *img)
+
+void	burning_ship(t_frac *ftl, int ftl_id, t_point limits, t_img *img)
 {
 	t_complex	c;
 	t_complex	z;
 	t_point		pos;
 	double		i;
 
-	pos.y = -1;
-	while (++pos.y < img->size)
+	pos.y = limits.x - 1;
+	while (++pos.y < limits.y)
 	{
 		c.im = ftl->max.im - pos.y * ftl->step.im + ftl->cam.im;
 		pos.x = -1;
@@ -81,14 +81,15 @@ void	burning_ship(t_frac *ftl, int ftl_id, t_point line, t_img *img)
 			i = -1;
 			while (cp_abs_sq(&z) <= 4 && ++i < ftl->iter)
 				cp_plus(&c, cp_rev_im(cp_pow(cp_abs_im(cp_abs_re(&z, &z), &z),
-						ftl->pow, &ftl->cp[0]), &z), &z);
+						ftl->pow, &ftl->cp[ftl_id]), &z), &z);
 			i = i / ftl->iter;
-			plot(img, &pos, get_grad_color(&ftl->grad, &i));
+			plot(img, &pos, get_grad_color(&ftl->grad, &i, ftl_id));
 		}
 	}
 }
+/*
 
-void	mandelbar(t_frac *ftl, int ftl_id, t_point line, t_img *img)
+void	mandelbar(t_frac *ftl, int ftl_id, t_point limits, t_img *img)
 {
 	t_complex	c;
 	t_complex	z;
@@ -114,7 +115,7 @@ void	mandelbar(t_frac *ftl, int ftl_id, t_point line, t_img *img)
 	}
 }
 
-void	celtic(t_frac *ftl, int ftl_id, t_point line, t_img *img)
+void	celtic(t_frac *ftl, int ftl_id, t_point limits, t_img *img)
 {
 	t_complex	c;
 	t_complex	z;

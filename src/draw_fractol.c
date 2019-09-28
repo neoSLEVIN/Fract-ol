@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 00:19:35 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/28 01:03:39 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/28 12:05:51 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,14 @@ static void	*choose_fractol(void *thr)
 	min_max.y = th->y_max;
 	if (img->type == MANDELBROT)
 		mandelbrot(th->ftl, th->ftl_id, min_max, img);
-/*	else if (img->type == BURNING_SHIP)
+	else if (img->type == BURNING_SHIP)
 		burning_ship(th->ftl, th->ftl_id, min_max, img);
+/*
 	else if (img->type == MANDELBAR)
 		mandelbar(th->ftl, th->ftl_id, min_max, img);
 	else if (img->type == CELTIC)
-		celtic(th->ftl, th->ftl_id, min_max, img);*/
+		celtic(th->ftl, th->ftl_id, min_max, img);
+*/
 	else if (img->type == JULIA)
 		julia(th->ftl, th->ftl_id, min_max, img);
 //	else if (img->type == NEWTON)
