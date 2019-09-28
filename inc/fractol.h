@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 13:50:13 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/28 12:02:10 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/28 14:34:45 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@
 # include "flag.h"
 # include "err_usg.h"
 /*
-# include "macoskeys.h"
-*/
 # include "linuxkeys.h"
+*/
+# include "macoskeys.h"
 
 typedef struct	s_point
 {
@@ -72,6 +72,14 @@ typedef struct	s_root
 	t_complex	roots[5];
 	t_rgb		cols[5];
 }				t_root;
+
+typedef struct	s_newton
+{
+	t_complex	c1;
+	t_complex	c2;
+	t_point		pos;
+	int			ftl_id;
+}				t_newton;
 
 typedef struct	s_fractol
 {

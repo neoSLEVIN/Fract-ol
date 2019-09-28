@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 23:15:58 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/28 00:43:31 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/28 14:48:29 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	clean_image(t_img *img)
 			data[y * img->size + x] = 0;
 	}
 }
-/*
-static void	func(t_complex *z, t_complex *f, t_complex *df, t_frac *ftl, t_img *img)
+
+static void	func(t_complex *z, t_newton *f_df, t_frac *ftl, int ftl_id)
 {
 	t_complex	r;
 	t_complex	l;
@@ -39,63 +39,59 @@ static void	func(t_complex *z, t_complex *f, t_complex *df, t_frac *ftl, t_img *
 	cp_minus(z, &ftl->root.roots[1], &l);
 	while (++i < ftl->root.cnt - 1)
 	{
-		cp_mult(cp_minus(z, &ftl->root.roots[i + 1], &ftl->cp[img->t_max * 3 + img->t_id]),
-				cp_plus(&l, &r, &ftl->cp[img->t_max + img->t_id]), &l);
-		cp_mult(&r, cp_minus(z, &ftl->root.roots[i], &ftl->cp[img->t_max * 2 + img->t_id]), &r);
+		cp_mult(cp_minus(z, &ftl->root.roots[i + 1],
+			&ftl->cp[T_CNT * 3 + ftl_id]), cp_plus(&l, &r,
+			&ftl->cp[T_CNT * 2 + ftl_id]), &l);
+		cp_mult(&r, cp_minus(z, &ftl->root.roots[i],
+			&ftl->cp[T_CNT + ftl_id]), &r);
 	}
-	cp_plus(&l, &r, df);
-	cp_minus(z, &ftl->root.roots[ftl->root.cnt - 1], f);
-	cp_mult(&r, f, f);
+	cp_plus(&l, &r, &f_df->c2);
+	cp_minus(z, &ftl->root.roots[ftl->root.cnt - 1], &f_df->c1);
+	cp_mult(&r, &f_df->c1, &f_df->c1);
 }
 
-static void	newton_iter(t_frac *ftl, t_complex *z, t_point *pos, t_img *img, double *i)
+static void	newton_iter(t_frac *ftl, t_newton *n, t_img *img, double *i)
 {
-	t_complex	f;
-	t_complex	df;
+	t_newton	f_df;
 	t_complex	z0;
 	int			r;
 
 	r = -1;
-	func(z, &f, &df, ftl, img);
-	cp_minus(z, cp_divide(cp_mult(&ftl->root.damping, &f, &z0), &df, &z0), &z0);
-	if (cp_abs_sq(cp_minus(&z0, z, &ftl->cp[img->t_max * 5 + img->t_id])) < EPS)
+	func(&n->c2, &f_df, ftl, n->ftl_id);
+	cp_minus(&n->c2, cp_divide(cp_mult(&ftl->root.damping, &f_df.c1, &z0),
+								&f_df.c2, &z0), &z0);
+	if (cp_abs_sq(cp_minus(&z0, &n->c2, &ftl->cp[T_CNT * 5 + n->ftl_id])) < EPS)
 		while (++r < ftl->root.cnt)
 			if (cp_abs_sq(cp_minus(&z0, &ftl->root.roots[r],
-								   &ftl->cp[img->t_max * 4 + img->t_id])) < EPS ||
-				(int)*i == N_ITER)
+				&ftl->cp[T_CNT * 4 + n->ftl_id])) < EPS || (int)*i == N_ITER)
 			{
 				*i = *i / N_ITER;
-				plot(img, pos, true_color(ftl->root.cols[r],
-									set_rgb(0, 0, 0), i, &ftl->grad.tmp[img->t_id - 1]));
+				plot(img, &n->pos, true_color(ftl->root.cols[r],
+					set_rgb(0, 0, 0), i, &ftl->grad.tmp[n->ftl_id]));
 				*i = N_ITER;
 				return ;
 			}
-	*z = z0;
+	n->c2 = z0;
 }
 
-void	*newton(void *th_img)
+void		newton(t_frac *ftl, int ftl_id, t_point limits, t_img *img)
 {
-	t_img	*img;
-	t_complex	c;
-	t_complex	z;
-	t_point		pos;
+	t_newton	n;
 	double		i;
 
-	img = (t_img*)th_img;
-	pos.y = img->y_min - 1;
-	while (++pos.y < img->y_max)
+	n.ftl_id = ftl_id;
+	n.pos.y = limits.x - 1;
+	while (++n.pos.y < limits.y)
 	{
-		c.im = ((t_frac*)img->ftl)->max.im - pos.y * ((t_frac*)img->ftl)->step.im + ((t_frac*)img->ftl)->cam.im;
-		pos.x = -1;
-		while (++pos.x < img->size)
+		n.c1.im = ftl->max.im - n.pos.y * ftl->step.im + ftl->cam.im;
+		n.pos.x = -1;
+		while (++n.pos.x < img->size)
 		{
-			c.re = ((t_frac*)img->ftl)->min.re + pos.x * ((t_frac*)img->ftl)->step.re + ((t_frac*)img->ftl)->cam.re;
-			set_complex_p(c.re, c.im, &z);
+			n.c1.re = ftl->min.re + n.pos.x * ftl->step.re + ftl->cam.re;
+			set_complex_p(n.c1.re, n.c1.im, &n.c2);
 			i = -1;
 			while (++i < N_ITER)
-				newton_iter(((t_frac *)img->ftl), &z, &pos, img, &i);
+				newton_iter(ftl, &n, img, &i);
 		}
 	}
-	return (th_img);
 }
-*/

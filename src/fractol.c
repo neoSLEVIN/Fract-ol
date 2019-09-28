@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 21:52:12 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/28 12:05:03 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/09/28 14:01:21 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	burning_ship(t_frac *ftl, int ftl_id, t_point limits, t_img *img)
 		}
 	}
 }
-/*
 
 void	mandelbar(t_frac *ftl, int ftl_id, t_point limits, t_img *img)
 {
@@ -96,8 +95,8 @@ void	mandelbar(t_frac *ftl, int ftl_id, t_point limits, t_img *img)
 	t_point		pos;
 	double		i;
 
-	pos.y = -1;
-	while (++pos.y < img->size)
+	pos.y = limits.x - 1;
+	while (++pos.y < limits.y)
 	{
 		c.im = ftl->max.im - pos.y * ftl->step.im + ftl->cam.im;
 		pos.x = -1;
@@ -108,9 +107,9 @@ void	mandelbar(t_frac *ftl, int ftl_id, t_point limits, t_img *img)
 			i = -1;
 			while (cp_abs_sq(&z) <= 4 && ++i < ftl->iter)
 				cp_plus(&c, cp_rev_im(cp_pow(&z, ftl->pow,
-							&ftl->cp[0]), &z), &z);
+							&ftl->cp[ftl_id]), &z), &z);
 			i = i / ftl->iter;
-			plot(img, &pos, get_grad_color(&ftl->grad, &i));
+			plot(img, &pos, get_grad_color(&ftl->grad, &i, ftl_id));
 		}
 	}
 }
@@ -122,8 +121,8 @@ void	celtic(t_frac *ftl, int ftl_id, t_point limits, t_img *img)
 	t_point		pos;
 	double		i;
 
-	pos.y = -1;
-	while (++pos.y < img->size)
+	pos.y = limits.x - 1;
+	while (++pos.y < limits.y)
 	{
 		c.im = ftl->max.im - pos.y * ftl->step.im + ftl->cam.im;
 		pos.x = -1;
@@ -134,10 +133,9 @@ void	celtic(t_frac *ftl, int ftl_id, t_point limits, t_img *img)
 			i = -1;
 			while (cp_abs_sq(&z) <= 4 && ++i < ftl->iter)
 				cp_plus(&c, cp_rev_im(cp_abs_re(cp_pow(&z, ftl->pow,
-					&ftl->cp[0]), &z), &z), &z);
+					&ftl->cp[ftl_id]), &z), &z), &z);
 			i = i / ftl->iter;
-			plot(img, &pos, get_grad_color(&ftl->grad, &i));
+			plot(img, &pos, get_grad_color(&ftl->grad, &i, ftl_id));
 		}
 	}
 }
-*/
