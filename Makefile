@@ -1,6 +1,11 @@
-OS = MACOS
-COM = fast commit
 NAME = fractol
+
+C = fast commit
+ifeq ($(shell uname),Linux)
+	OS = LINUX
+else
+	OS = MACOS
+endif
 
 LFTDIR = ./libft/
 INCDIR = ./inc/
@@ -70,6 +75,6 @@ git: fclean
 	git status
 	git add *
 	git status
-	git commit -m "$(COM)"
+	git commit -m "$(C)"
 	git status
 	git push

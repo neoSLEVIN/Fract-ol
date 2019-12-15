@@ -6,7 +6,7 @@
 /*   By: cschoen <cschoen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 13:50:13 by cschoen           #+#    #+#             */
-/*   Updated: 2019/09/28 16:23:48 by cschoen          ###   ########.fr       */
+/*   Updated: 2019/12/16 00:14:03 by cschoen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,14 @@
 # include "flag.h"
 # include "err_usg.h"
 /*
-# include "linuxkeys.h"
+** __linux__, __linux, linux are pre-defined macroses for linux
+** __APPLE__, __MACH__ are pre-defined macroses for MACOS X
 */
-# include "macoskeys.h"
+# if defined (__linux__) || defined (__linux) || defined (linux)
+#  include "linuxkeys.h"
+# elif defined (__APPLE__) || defined (__MACH__)
+#  include "macoskeys.h"
+# endif
 
 typedef struct	s_point
 {
